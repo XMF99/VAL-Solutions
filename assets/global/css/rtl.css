@@ -1,0 +1,239 @@
+/*========================= rtl start =========================*/
+
+/*===================== section-heading start=====================*/
+.about-area .section-heading {
+  text-align: right !important;
+}
+
+/* =====================section-heading end===================== */
+/* =============header rtl start ============= */
+.header-login {
+  padding-right: unset;
+  padding-left: 24px;
+}
+
+.nav-item {
+  padding-right: unset;
+  padding-left: 10px;
+}
+/* =============header rtl ends ============= */
+
+/*================ about start ================*/
+.about__content {
+  padding-left: unset !important;
+}
+
+@media screen and (max-width: 575px) {
+  .cta-content {
+    padding-right: 40px;
+  }
+}
+/*================ about ends ================*/
+/*================ faq start ================*/
+.faq-item__content {
+  padding-left: unset;
+  padding-right: 12px;
+}
+
+.faq-contact__left .content {
+  padding-left: unset;
+  padding-right: 20px;
+}
+/*================ faq ends ================*/
+/*================ cta start ================*/
+.cta-content {
+  padding: 100px 60px 100px 0px !important;
+}
+.cta-wrapper .cta-shape {
+  right: unset !important;
+  left: 0 !important;
+  transform: rotateY(185deg);
+}
+
+.cta-thumb img {
+  transform: rotateY(173deg);
+}
+
+.cta-wrapper::before {
+  left: unset;
+  right: 20px;
+}
+
+@media screen and (max-width: 1199px) {
+  .cta-content {
+    padding: 70px 30px 70px 30px !important;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .cta-wrapper .cta-shape {
+    max-width: 400px;
+    bottom: -50px !important;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .cta-content {
+    padding: 50px 24px 50px 24px !important;
+  }
+}
+
+/*================ cta ends ================*/
+/*================ footer start ================*/
+.footer-contact-menu__item-content {
+  padding-left: unset;
+  padding-right: 15px;
+}
+
+.footer-contact-menu {
+  padding-right: unset;
+  padding-left: 32px;
+}
+
+.social-list {
+  padding-right: unset;
+  padding-left: 32px;
+}
+
+@media screen and (max-width: 992px) {
+  .footer-bottom__menu ul {
+    padding-right: unset;
+  }
+
+  .social-list__item:last-child {
+    margin-right: 10px !important;
+  }
+}
+
+/*================ footer ends ================*/
+
+/* =======================user-dashboard stat======================= */
+/*============================= sidebar =============================*/
+.dashboard
+  .dashboard__sidebar-inner
+  .dashboard-nav__items.has-dropdown
+  > .dashboard-nav__link::after {
+  right: unset !important;
+  left: 5px !important;
+}
+
+.dashboard .dashboard__sidebar {
+  left: unset;
+  right: 0;
+}
+
+@media screen and (max-width: 1199px) {
+  .dashboard .dashboard__sidebar {
+    position: absolute;
+    left: unset;
+    right: -100%;
+  }
+}
+
+/*============================= sidebar =============================*/
+/*============================= user-dashboard__body =============================*/
+.dashboard__area {
+  margin-left: unset !important;
+  margin-right: var(--sidebar) !important;
+}
+
+@media screen and (max-width: 1199px) {
+  .dashboard__area {
+    margin-right: unset !important;
+  }
+}
+.dashboard .dashboard__sidebar.show-sidebar {
+  left: unset;
+  right: 0;
+  z-index: 99999;
+}
+
+.search-instruction {
+  right: unset !important;
+  left: 10px !important;
+}
+
+.widget-four-shape:before,
+.widget-four-shape:after {
+  right: unset !important;
+  left: -72px !important;
+}
+
+.widget-four-shape:after {
+  right: unset !important;
+  left: -53px !important;
+}
+
+.widget-inner {
+  height: 100% !important;
+  padding-right: unset !important;
+  padding-left: var(--padding-gap, 24px) !important;
+  padding: 24px !important;
+}
+
+.table thead tr th:last-child {
+  text-align: left;
+}
+
+.table thead tr th:first-child {
+  text-align: right !important;
+}
+
+.form--switch .form-check-input:checked[type="checkbox"] {
+  margin-right: 1px !important;
+}
+
+.form-control[type="file"]:not(:disabled):not([readonly]) {
+  padding-right: 10px;
+}
+
+.table tbody tr td:first-child {
+  text-align: right;
+}
+
+.empty-message-row {
+  text-align: center !important;
+}
+
+/*============================= user-dashboard__body =============================*/
+/* =======================user-dashboard end======================= */
+
+/*========================= admin-dashboard =========================*/
+.widget-two::before {
+  left: unset;
+  right: 0px;
+}
+
+.gateway-status {
+  right: unset;
+  left: 16px;
+}
+.extention-status {
+  right: unset !important;
+  left: 16px;
+}
+
+.template-card__icon {
+  margin-right: unset;
+  margin-left: 16px;
+}
+.alert__content {
+  padding-left: unset;
+  padding-right: 16px;
+}
+
+.notify-status {
+  max-width: 114px;
+}
+
+.testimonial-item__details {
+    padding-left: 0px;
+    padding-right: 10px;
+}
+
+.pricing-card-info{
+  padding-right: 0px !important;
+
+}
+/*========================= admin-dashboard =========================*/
+/*========================= rtl start =========================*/

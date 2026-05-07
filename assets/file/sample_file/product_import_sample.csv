@@ -1,0 +1,6 @@
+name,product_code,category,brand,unit,description,sku,base_price,profit_margin,tax_name,tax_type,tax_percentage,discount_type,discount_value,alert_quantity
+Samsung Galaxy A55,PRD-1001,Smartphones,Samsung,pcs,5G smartphone with 128GB storage,SAM-A55-128,32000,20,VAT,inclusive,15,fixed,10,5
+HP LaserJet Pro MFP 4103fdw,PRD-1002,Printers,HP,pcs,Wireless multifunction office printer,HP-LJ-4103,42000,30,VAT,exclusive,15,fixed,15,2
+Logitech MX Master 3S,,Computer Accessories,Logitech,pcs,Advanced wireless productivity mouse,,8500,50,,,,,,10
+Apple AirPods Pro 2nd Gen,PRD-1004,Audio Devices,Apple,pcs,Noise cancelling wireless earbuds,APP-APP2,26000,60,VAT,inclusive,15,percentage,21,4
+Dell 24-inch Full HD Monitor,PRD-1005,Monitors,Dell,pcs,24-inch IPS business display,DEL-24FHD,16500,10,VAT,exclusive,15,percentage,9,6
