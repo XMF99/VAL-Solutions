@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Traits\SupportTicketManager;
 
 class TicketController extends Controller
@@ -11,9 +10,13 @@ class TicketController extends Controller
 
     public function __construct()
     {
+        $this->layout = 'frontend';
+        $this->redirectLink = 'ticket.view';
         $this->userType     = 'user';
         $this->column       = 'user_id';
         $this->user = auth()->user();
-        $this->apiRequest = true;
+        if ($this->user) {
+            $this->layout = 'master';
+        }
     }
 }
