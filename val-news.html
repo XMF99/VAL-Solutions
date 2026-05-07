@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأخبار — VAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: linear-gradient(180deg, #DBEAFE 0%, #E0F2FE 25%, #F0F9FF 60%, #F8FAFC 100%);
+  background-attachment: fixed;
+  color: #0F172A;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+@keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes border-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.bg-decoration { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+.bg-circle-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent); top: -100px; left: -100px; animation: float-slow 20s ease-in-out infinite; }
+.bg-circle-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(125, 211, 252, 0.2), transparent); top: 30%; right: -50px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; font-family: inherit; cursor: pointer; border: none; transition: all 0.3s ease; white-space: nowrap; position: relative; overflow: hidden; }
+.btn-animated { position: relative; background: #0F172A; color: #ffffff; z-index: 1; border: 2px solid transparent; }
+.btn-animated::before { content: ''; position: absolute; inset: -2px; border-radius: 12px; background: conic-gradient(from 0deg, #3B82F6, #06B6D4, #0EA5E9, #38BDF8, #3B82F6); z-index: -2; animation: border-rotate 4s linear infinite; }
+.btn-animated::after { content: ''; position: absolute; inset: 2px; border-radius: 10px; background: #0F172A; z-index: -1; }
+.btn-animated:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25); }
+.btn-animated.light { color: #0F172A; }
+.btn-animated.light::after { background: #ffffff; }
+
+.navbar { position: sticky; top: 0; z-index: 100; background: rgba(240, 249, 255, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(15, 23, 42, 0.06); }
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+.logo svg { width: 70px; height: 20px; fill: #0F172A; }
+.nav-menu { display: flex; gap: 28px; list-style: none; }
+.nav-menu a { font-size: 14px; color: #0F172A; font-weight: 500; transition: color 0.2s; position: relative; }
+.nav-menu a::after { content: ''; position: absolute; bottom: -4px; right: 0; width: 0; height: 2px; background: linear-gradient(90deg, #1E40AF, #0EA5E9); transition: width 0.3s ease; }
+.nav-menu a:hover { color: #1E40AF; }
+.nav-menu a:hover::after { width: 100%; }
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.lang-switch { display: flex; background: rgba(15, 23, 42, 0.05); border-radius: 8px; padding: 3px; }
+.lang-switch button { background: transparent; border: none; color: rgba(15, 23, 42, 0.6); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+.lang-switch button.active { background: #ffffff; color: #0F172A; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.mobile-toggle { display: none; background: none; border: none; color: #0F172A; cursor: pointer; font-size: 22px; }
+
+.page-header { padding: 80px 0 40px; text-align: center; position: relative; z-index: 1; }
+.page-header .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #1E40AF; background: rgba(255,255,255,0.7); border: 1px solid rgba(30, 64, 175, 0.15); padding: 7px 18px; border-radius: 100px; font-weight: 600; margin-bottom: 24px; }
+.page-header h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 900; line-height: 1.2; margin-bottom: 18px; }
+.page-header .gradient-text { background: linear-gradient(90deg, #1E40AF 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.page-header p { font-size: 17px; color: rgba(15, 23, 42, 0.65); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+.filter-bar { display: flex; justify-content: center; gap: 8px; margin-top: 32px; flex-wrap: wrap; padding: 0 16px; }
+.filter-btn { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(15, 23, 42, 0.08); color: rgba(15, 23, 42, 0.7); padding: 8px 18px; border-radius: 100px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+.filter-btn.active, .filter-btn:hover { background: #0F172A; color: #ffffff; border-color: #0F172A; }
+
+.featured-section { padding: 40px 0 30px; position: relative; z-index: 1; }
+.featured-card { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 1100px; margin: 0 auto; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 24px; overflow: hidden; opacity: 0; animation: fade-up 0.6s ease 0.1s forwards; box-shadow: 0 8px 32px rgba(15, 23, 42, 0.06); }
+.featured-card:hover { transform: translateY(-4px); transition: transform 0.3s; }
+
+.featured-visual { background: linear-gradient(160deg, #1E40AF 0%, #0369A1 100%); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 300px; position: relative; overflow: hidden; }
+.featured-visual::before { content: ''; position: absolute; top: -50%; right: -30%; width: 80%; height: 200%; background: radial-gradient(circle, rgba(110, 231, 183, 0.2), transparent); }
+.featured-label { position: relative; font-size: 11px; color: #BAE6FD; font-weight: 700; letter-spacing: 2px; margin-bottom: 12px; }
+.featured-headline { position: relative; font-size: clamp(28px, 4vw, 42px); font-weight: 900; color: #ffffff; text-align: center; line-height: 1.2; }
+
+.featured-content { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+.article-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.article-tag { font-size: 11px; color: #1E40AF; background: rgba(30, 64, 175, 0.08); padding: 4px 12px; border-radius: 100px; font-weight: 700; }
+.article-date { font-size: 12px; color: rgba(15, 23, 42, 0.55); }
+.featured-content h2 { font-size: 24px; font-weight: 900; line-height: 1.3; margin-bottom: 12px; }
+.featured-content p { font-size: 14px; color: rgba(15, 23, 42, 0.65); margin-bottom: 20px; line-height: 1.7; }
+.read-link { font-size: 14px; color: #1E40AF; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+.read-link:hover { gap: 10px; }
+
+.news-section { padding: 40px 0 80px; position: relative; z-index: 1; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
+
+.news-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 20px; overflow: hidden; transition: all 0.3s ease; opacity: 0; animation: fade-up 0.6s ease forwards; }
+.news-card:nth-child(1) { animation-delay: 0.1s; }
+.news-card:nth-child(2) { animation-delay: 0.2s; }
+.news-card:nth-child(3) { animation-delay: 0.3s; }
+.news-card:nth-child(4) { animation-delay: 0.4s; }
+.news-card:nth-child(5) { animation-delay: 0.5s; }
+.news-card:nth-child(6) { animation-delay: 0.6s; }
+.news-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(30, 64, 175, 0.1); background: rgba(255,255,255,0.95); }
+
+.news-visual { background: linear-gradient(135deg, #DBEAFE 0%, #BAE6FD 100%); padding: 32px 24px; min-height: 160px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+.news-visual.gradient-1 { background: linear-gradient(135deg, #DBEAFE 0%, #BAE6FD 100%); }
+.news-visual.gradient-2 { background: linear-gradient(135deg, #E0F2FE 0%, #BFDBFE 100%); }
+.news-visual.gradient-3 { background: linear-gradient(135deg, #DBEAFE 0%, #C7D2FE 100%); }
+.news-visual.gradient-4 { background: linear-gradient(135deg, #BAE6FD 0%, #DBEAFE 100%); }
+.news-visual.gradient-5 { background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%); }
+.news-visual.gradient-6 { background: linear-gradient(135deg, #C7D2FE 0%, #DBEAFE 100%); }
+
+.visual-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: #1E40AF; margin-bottom: 12px; }
+.visual-text { font-size: 13px; color: #1E40AF; font-weight: 700; letter-spacing: 1px; }
+
+.news-content { padding: 24px; }
+.news-content h3 { font-size: 17px; font-weight: 800; line-height: 1.4; margin-bottom: 10px; color: #0F172A; }
+.news-content p { font-size: 14px; color: rgba(15, 23, 42, 0.6); line-height: 1.7; margin-bottom: 14px; }
+
+.newsletter-section { margin: 60px auto; max-width: 1100px; padding: 60px 32px; background: linear-gradient(135deg, rgba(30, 64, 175, 0.08), rgba(14, 165, 233, 0.05)); backdrop-filter: blur(10px); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 28px; text-align: center; position: relative; z-index: 1; }
+.newsletter-section h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 900; margin-bottom: 12px; }
+.newsletter-section p { font-size: 15px; color: rgba(15, 23, 42, 0.7); margin-bottom: 24px; }
+.newsletter-form { display: flex; gap: 8px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; }
+.newsletter-form input { flex: 1; min-width: 200px; padding: 14px 18px; border: 1.5px solid rgba(15, 23, 42, 0.1); border-radius: 12px; font-family: inherit; font-size: 14px; background: rgba(255,255,255,0.9); }
+.newsletter-form input:focus { outline: none; border-color: #1E40AF; }
+.newsletter-form button { padding: 14px 28px; background: #0F172A; color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+.newsletter-form button:hover { background: #1E40AF; transform: translateY(-1px); }
+
+.footer { background: linear-gradient(180deg, #0F172A 0%, #000000 100%); padding: 60px 0 24px; color: #ffffff; position: relative; z-index: 2; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-brand .logo svg { fill: #ffffff; }
+.footer-brand p { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 14px; max-width: 280px; line-height: 1.7; }
+.footer-col h5 { font-size: 12px; font-weight: 800; color: #6EE7B7; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col li { padding: 6px 0; }
+.footer-col a { font-size: 14px; color: rgba(255,255,255,0.75); }
+.footer-col a:hover { color: #6EE7B7; }
+.footer-bottom { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.5); text-align: center; }
+
+@media (max-width: 768px) {
+  .nav-menu { display: none; }
+  .mobile-toggle { display: block; }
+  .nav-menu.show { display: flex; position: absolute; top: 100%; right: 0; left: 0; flex-direction: column; background: #ffffff; padding: 20px 24px; gap: 16px; }
+  .featured-card { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+  .lang-switch { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-decoration bg-circle-1"></div>
+<div class="bg-decoration bg-circle-2"></div>
+
+<nav class="navbar">
+  <div class="container nav-wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 629 181"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+    </a>
+    <ul class="nav-menu" id="nav-menu">
+      <li><a href="/">الرئيسية</a></li>
+      <li><a href="/features">المميزات</a></li>
+      <li><a href="/pricing-plan">الأسعار</a></li>
+      <li><a href="/blogs">الأخبار</a></li>
+      <li><a href="/contact">تواصل</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button class="active" onclick="changeLang('ar')">عربي</button>
+        <button onclick="changeLang('en')">EN</button>
+      </div>
+      <a href="/admin" class="btn btn-animated light">دخول التاجر</a>
+      <a href="/pricing-plan" class="btn btn-animated">اشترك معنا</a>
+      <button class="mobile-toggle" onclick="document.getElementById('nav-menu').classList.toggle('show')">☰</button>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="container">
+    <span class="badge">آخر المستجدّات</span>
+    <h1>أخبار <span class="gradient-text">VAL</span> والقطاع</h1>
+    <p>تابع آخر التحديثات، نصائح الأعمال، وأخبار قطاع التجزئة في المملكة العربيّة السعوديّة.</p>
+    <div class="filter-bar">
+      <button class="filter-btn active">الكل</button>
+      <button class="filter-btn">تحديثات المنصّة</button>
+      <button class="filter-btn">نصائح الأعمال</button>
+      <button class="filter-btn">قصص نجاح</button>
+      <button class="filter-btn">أخبار القطاع</button>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section">
+  <div class="container">
+    <div class="featured-card">
+      <div class="featured-visual">
+        <span class="featured-label">المقال المميّز</span>
+        <h2 class="featured-headline">إطلاق VAL رسمياً<br>في السوق السعودي</h2>
+      </div>
+      <div class="featured-content">
+        <div class="article-meta">
+          <span class="article-tag">إعلان</span>
+          <span class="article-date">٧ مايو ٢٠٢٦</span>
+          <span class="article-date">· ٣ دقائق قراءة</span>
+        </div>
+        <h2>VAL تطلق منصّتها الجديدة لتمكين تجّار التجزئة</h2>
+        <p>منصّة VAL السحابيّة تنطلق رسمياً في السوق السعودي بحلول متكاملة لإدارة المتاجر من الكاشير ونقطة البيع إلى الطلبات عبر واتساب والمتاجر الإلكترونيّة.</p>
+        <a href="#" class="read-link">اقرأ المقال كاملاً ←</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="news-section">
+  <div class="container">
+    <div class="news-grid">
+
+      <article class="news-card">
+        <div class="news-visual gradient-1">
+          <div class="visual-icon">Φ</div>
+          <span class="visual-text">FATOORA · ZATCA</span>
+        </div>
+        <div class="news-content">
+          <div class="article-meta">
+            <span class="article-tag">تحديث</span>
+            <span class="article-date">٥ مايو ٢٠٢٦</span>
+          </div>
+          <h3>دعم كامل للفوترة الإلكترونيّة المرحلة الثانية</h3>
+          <p>أصبحت VAL متوافقة بالكامل مع متطلّبات هيئة الزكاة للفوترة الإلكترونيّة المرحلة الثانية.</p>
+          <a href="#" class="read-link">اقرأ المزيد ←</a>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-visual gradient-2">
+          <div class="visual-icon">📱</div>
+          <span class="visual-text">WHATSAPP</span>
+        </div>
+        <div class="news-content">
+          <div class="article-meta">
+            <span class="article-tag">ميزة جديدة</span>
+            <span class="article-date">٢ مايو ٢٠٢٦</span>
+          </div>
+          <h3>الطلبات عبر واتساب: تجربة شراء سلسة</h3>
+          <p>اعرض منتجاتك واستقبل طلبات عملائك مباشرة من واتساب. سهولة في التواصل، سرعة في البيع.</p>
+          <a href="#" class="read-link">اقرأ المزيد ←</a>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-visual gradient-3">
+          <div class="visual-icon">📊</div>
+          <span class="visual-text">REPORTS</span>
+        </div>
+        <div class="news-content">
+          <div class="article-meta">
+            <span class="article-tag">دليل</span>
+            <span class="article-date">٢٨ أبريل ٢٠٢٦</span>
+          </div>
+          <h3>كيف تستخدم التقارير لزيادة مبيعاتك ٤٠٪؟</h3>
+          <p>تعلّم قراءة تقارير VAL الذكيّة واتّخذ قرارات مبنيّة على بيانات حقيقيّة لمتجرك.</p>
+          <a href="#" class="read-link">اقرأ المزيد ←</a>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-visual gradient-4">
+          <div class="visual-icon">🏪</div>
+          <span class="visual-text">SUCCESS</span>
+        </div>
+        <div class="news-content">
+          <div class="article-meta">
+            <span class="article-tag">قصة نجاح</span>
+            <span class="article-date">٢٥ أبريل ٢٠٢٦</span>
+          </div>
+          <h3>متجر "الأناقة" — من محلّ صغير إلى ٥ فروع</h3>
+          <p>تعرّف على رحلة متجر الأناقة في النموّ من محلّ واحد إلى سلسلة من ٥ فروع باستخدام VAL.</p>
+          <a href="#" class="read-link">اقرأ المزيد ←</a>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-visual gradient-5">
+          <div class="visual-icon">💳</div>
+          <span class="visual-text">PAYMENTS</span>
+        </div>
+        <div class="news-content">
+          <div class="article-meta">
+            <span class="article-tag">شراكة</span>
+            <span class="article-date">٢٠ أبريل ٢٠٢٦</span>
+          </div>
+          <h3>VAL تتكامل مع مدى وآبل باي رسمياً</h3>
+          <p>اقبل المدفوعات من كل وسائل الدفع المعتمدة في السعوديّة بضغطة زرّ واحدة.</p>
+          <a href="#" class="read-link">اقرأ المزيد ←</a>
+        </div>
+      </article>
+
+      <article class="news-card">
+        <div class="news-visual gradient-6">
+          <div class="visual-icon">🚀</div>
+          <span class="visual-text">TIPS</span>
+        </div>
+        <div class="news-content">
+          <div class="article-meta">
+            <span class="article-tag">نصائح</span>
+            <span class="article-date">١٥ أبريل ٢٠٢٦</span>
+          </div>
+          <h3>٧ نصائح لزيادة ولاء عملاء متجرك</h3>
+          <p>استراتيجيات مجرّبة لبناء قاعدة عملاء أوفياء تتعامل مع متجرك بشكل متكرّر.</p>
+          <a href="#" class="read-link">اقرأ المزيد ←</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-section">
+  <h2>اشترك في النشرة البريديّة</h2>
+  <p>احصل على آخر الأخبار والنصائح مباشرة إلى بريدك الإلكتروني</p>
+  <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+    <input type="email" placeholder="أدخل بريدك الإلكتروني" required>
+    <button type="submit">اشترك</button>
+  </form>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 629 181"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+        </a>
+        <p>منصّة بيع متكاملة لإدارة المتاجر السعوديّة.</p>
+      </div>
+      <div class="footer-col">
+        <h5>المنتج</h5>
+        <ul>
+          <li><a href="/features">المميزات</a></li>
+          <li><a href="/pricing-plan">الأسعار</a></li>
+          <li><a href="/blogs">الأخبار</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>الشركة</h5>
+        <ul>
+          <li><a href="/contact">من نحن</a></li>
+          <li><a href="/blogs">الأخبار</a></li>
+          <li><a href="/contact">تواصل</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>الدعم</h5>
+        <ul>
+          <li><a href="/contact">تواصل</a></li>
+          <li><a href="#">الخصوصيّة</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© ٢٠٢٦ VAL — جميع الحقوق محفوظة</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function changeLang(lang) {
+  fetch('/change/' + lang).then(() => window.location.reload()).catch(() => { window.location.href = '/change/' + lang; });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+function handleNewsletter(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.textContent = 'جاري الاشتراك...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ تم الاشتراك';
+    btn.style.background = '#10B981';
+    setTimeout(() => {
+      e.target.reset();
+      btn.textContent = 'اشترك';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3000);
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
