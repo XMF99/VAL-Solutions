@@ -64,6 +64,11 @@ return Application::configure(basePath: dirname(__DIR__))
             ActiveTemplateMiddleware::class,
             SubstituteBindings::class,
             VerifyCsrfToken::class,
+                           $middleware->validateCsrfTokens(except: [
+        'webhook/whatsapp',
+        'webhook/whatsapp/*',
+        'webhook/moyasar',
+        'webhook/moyasar/*', 
         ]);
         $middleware->alias([
             'admin'       => RedirectIfNotAdmin::class,
