@@ -43,4 +43,10 @@ Route::controller('SiteController')->group(function () {
     Route::get('maintenance-mode', 'maintenance')->withoutMiddleware('maintenance')->name('maintenance');
     Route::get('/{slug}', 'pages')->name('pages');
     Route::get('/', 'index')->name('home');
+    /*
+|--------------------------------------------------------------------------
+| WhatsApp Store Module Routes
+|--------------------------------------------------------------------------
+*/
+require __DIR__ . '/whatsapp.php';
 });
