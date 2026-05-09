@@ -25,6 +25,14 @@ class WhatsappModuleServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/whatsapp.php');
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/whatsapp-upgrade.php');
+
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', \App\Http\Middleware\InjectWhatsappUpgradeUI::class);
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views/user/whatsapp', 'whatsapp');
+
         $this->registerUserRelations();
         $this->registerProductRelations();
         $this->registerCustomerRelations();

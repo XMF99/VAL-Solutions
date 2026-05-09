@@ -381,6 +381,45 @@
                     ]
                 }
             ]
+        },
+        {
+            "title": "WhatsApp Store",
+            "icon": "lab la-whatsapp",
+            "menu_active": [
+                "user.whatsapp.*"
+            ],
+            "submenu": [
+                {
+                    "title": "Dashboard",
+                    "icon": "las la-dot-circle",
+                    "route_name": "user.whatsapp.dashboard",
+                    "menu_active": "user.whatsapp.dashboard"
+                },
+                {
+                    "title": "Orders",
+                    "icon": "las la-dot-circle",
+                    "route_name": "user.whatsapp.orders.index",
+                    "menu_active": "user.whatsapp.orders.*"
+                },
+                {
+                    "title": "Catalog",
+                    "icon": "las la-dot-circle",
+                    "route_name": "user.whatsapp.catalog.index",
+                    "menu_active": "user.whatsapp.catalog.*"
+                },
+                {
+                    "title": "Settings",
+                    "icon": "las la-dot-circle",
+                    "route_name": "user.whatsapp.settings.edit",
+                    "menu_active": "user.whatsapp.settings.*"
+                },
+                {
+                    "title": "Connect WhatsApp",
+                    "icon": "las la-dot-circle",
+                    "route_name": "user.whatsapp.connect.show",
+                    "menu_active": "user.whatsapp.connect.*"
+                }
+            ]
         }
     ],
     "accounting": [
@@ -839,7 +878,6 @@
                         "brand setting"
                     ]
                 }
-              
             ]
         }
     ],
