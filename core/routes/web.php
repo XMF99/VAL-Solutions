@@ -47,6 +47,5 @@ Route::controller('SiteController')->group(function () {
 |--------------------------------------------------------------------------
 | WhatsApp Store Module Routes
 |--------------------------------------------------------------------------
-*/
-require __DIR__ . '/whatsapp.php';
+*/// require __DIR__ . '/whatsapp.php';   // مؤقّتاً معطّل
 });
