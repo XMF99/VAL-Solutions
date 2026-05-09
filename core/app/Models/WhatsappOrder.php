@@ -13,7 +13,7 @@ class WhatsappOrder extends Model
     protected $table = 'whatsapp_orders';
 
     protected $fillable = [
-        'company_id', 'order_number', 'customer_id', 'sale_id', 'whatsapp_customer_id',
+        'user_id', 'order_number', 'customer_id', 'sale_id', 'whatsapp_customer_id',
         'customer_name', 'customer_phone', 'customer_email', 'is_registered_customer',
         'order_type', 'delivery_address', 'delivery_lat', 'delivery_lng',
         'delivery_notes', 'delivery_area',
@@ -52,7 +52,7 @@ class WhatsappOrder extends Model
         'expected_delivery_at' => 'datetime',
     ];
 
-    // ─── Auto-generate order number on creation ───────────────
+    // ─── Auto-generate order number ───────────────────────────
 
     protected static function booted()
     {
@@ -65,9 +65,9 @@ class WhatsappOrder extends Model
 
     // ─── Relationships ─────────────────────────────────────────
 
-    public function company(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
     public function customer(): BelongsTo
@@ -107,7 +107,6 @@ class WhatsappOrder extends Model
         $this->status = $newStatus;
         $this->status_history = $history;
 
-        // Update timestamp based on status
         $timestampField = match($newStatus) {
             'confirmed' => 'confirmed_at',
             'preparing' => 'prepared_at',
@@ -124,8 +123,6 @@ class WhatsappOrder extends Model
 
         return $this->save();
     }
-
-    // ─── Convert to POS Sale ───────────────────────────────────
 
     public function isConvertedToSale(): bool
     {
@@ -153,9 +150,9 @@ class WhatsappOrder extends Model
         return $query->whereNotIn('status', ['completed', 'cancelled', 'refunded']);
     }
 
-    public function scopeForCompany($query, int $companyId)
+    public function scopeForUser($query, int $userId)
     {
-        return $query->where('company_id', $companyId);
+        return $query->where('user_id', $userId);
     }
 
     public function scopeToday($query)
@@ -163,4 +160,3 @@ class WhatsappOrder extends Model
         return $query->whereDate('created_at', today());
     }
 }
-
