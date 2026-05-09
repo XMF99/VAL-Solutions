@@ -6,14 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class WhatsappStoreSetting extends Model
 {
     protected $table = 'whatsapp_store_settings';
 
     protected $fillable = [
-        'company_id', 'store_slug', 'store_name', 'store_description',
+        'user_id', 'store_slug', 'store_name', 'store_description',
         'logo_url', 'cover_url', 'theme_color',
         'whatsapp_number', 'whatsapp_display_name', 'whatsapp_phone_id',
         'whatsapp_business_id', 'access_token', 'catalog_id', 'webhook_verify_token',
@@ -54,9 +53,9 @@ class WhatsappStoreSetting extends Model
 
     // ─── Relationships ─────────────────────────────────────────
 
-    public function company(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
     public function publishedProducts(): HasMany
@@ -66,12 +65,12 @@ class WhatsappStoreSetting extends Model
 
     public function orders(): HasMany
     {
-        return $this->hasMany(WhatsappOrder::class, 'company_id', 'company_id');
+        return $this->hasMany(WhatsappOrder::class, 'user_id', 'user_id');
     }
 
     public function customers(): HasMany
     {
-        return $this->hasMany(WhatsappCustomer::class, 'company_id', 'company_id');
+        return $this->hasMany(WhatsappCustomer::class, 'user_id', 'user_id');
     }
 
     // ─── Encryption Mutators ───────────────────────────────────
