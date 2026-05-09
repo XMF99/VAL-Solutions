@@ -64,12 +64,8 @@ return Application::configure(basePath: dirname(__DIR__))
             ActiveTemplateMiddleware::class,
             SubstituteBindings::class,
             VerifyCsrfToken::class,
-                           $middleware->validateCsrfTokens(except: [
-        'webhook/whatsapp',
-        'webhook/whatsapp/*',
-        'webhook/moyasar',
-        'webhook/moyasar/*', 
         ]);
+
         $middleware->alias([
             'admin'       => RedirectIfNotAdmin::class,
             'admin.guest' => RedirectIfAdmin::class,
@@ -91,9 +87,15 @@ return Application::configure(basePath: dirname(__DIR__))
             'one.time.password'    => OneTimePassword::class,
         ]);
 
-        $middleware->validateCsrfTokens(
-            except: ['user/deposit', 'ipn*']
-        );
+        // ─── CSRF Exceptions (الـ webhooks لا تحتاج CSRF token) ───
+        $middleware->validateCsrfTokens(except: [
+            'user/deposit',
+            'ipn*',
+            'webhook/whatsapp',
+            'webhook/whatsapp/*',
+            'webhook/moyasar',
+            'webhook/moyasar/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Exception $e, Request $request) {
