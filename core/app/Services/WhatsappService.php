@@ -1,9 +1,9 @@
-
 <?php
 
 namespace App\Services;
 
-use App\Models\Company;
+use App\Models\User;
+use App\Models\Customer;
 use App\Models\Sale;
 use App\Models\SaleDetails;
 use App\Models\WhatsappOrder;
@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
- * WhatsApp Service - المنطق المركزي للـ Module
+ * WhatsApp Service V2 - User namespace
  * 
  * المهام الرئيسيّة:
  * - تحويل WhatsApp Order → POS Sale
  * - مطابقة العملاء (Customer Matching)
  * - إرسال رسائل عبر Meta Cloud API
  * - تتبّع الإحصائيّات
+ * 
+ * المسار: core/app/Services/WhatsappService.php
  */
 class WhatsappService
 {
@@ -43,7 +45,7 @@ class WhatsappService
 
                 // 2. إنشاء Sale (الفاتورة في POS)
                 $sale = Sale::create([
-                    'company_id' => $order->company_id,
+                    'user_id' => $order->user_id,
                     'customer_id' => $customer?->id,
                     'sale_date' => now(),
                     'subtotal' => $order->subtotal,
@@ -58,7 +60,7 @@ class WhatsappService
                     'reference_number' => $order->order_number,
                 ]);
 
-                // 3. إنشاء تفاصيل الفاتورة (SaleDetails)
+                // 3. إنشاء تفاصيل الفاتورة
                 foreach ($order->items as $item) {
                     SaleDetails::create([
                         'sale_id' => $sale->id,
@@ -102,10 +104,9 @@ class WhatsappService
     /**
      * مطابقة عميل OvoSale أو إنشاء واحد جديد
      */
-    public function matchOrCreateCustomer(WhatsappOrder $order): mixed
+    public function matchOrCreateCustomer(WhatsappOrder $order): ?Customer
     {
-        $customerClass = '\App\Models\Customer';
-        if (!class_exists($customerClass)) {
+        if (!class_exists(Customer::class)) {
             return null;
         }
 
@@ -113,7 +114,7 @@ class WhatsappService
         $normalized = preg_replace('/\D/', '', $order->customer_phone);
         $lastNine = substr($normalized, -9);
 
-        $customer = $customerClass::where('company_id', $order->company_id)
+        $customer = Customer::where('user_id', $order->user_id)
             ->where(function ($q) use ($lastNine) {
                 $q->where('mobile', 'like', '%' . $lastNine)
                   ->orWhere('phone', 'like', '%' . $lastNine);
@@ -126,8 +127,8 @@ class WhatsappService
 
         // إنشاء عميل جديد
         try {
-            return $customerClass::create([
-                'company_id' => $order->company_id,
+            return Customer::create([
+                'user_id' => $order->user_id,
                 'name' => $order->customer_name,
                 'mobile' => $order->customer_phone,
                 'email' => $order->customer_email,
@@ -226,48 +227,49 @@ class WhatsappService
 
     /**
      * التحقّق من تفعيل الباقة الثالثة للتاجر
+     * 
+     * في OvoSale، نشيك على plan_id من User مباشرة
      */
-    public function hasWhatsappPlan(Company $company): bool
+    public function hasWhatsappPlan(User $user): bool
     {
-        // التحقّق من الباقة عبر علاقة PlanPurchase
-        $purchase = $company->planPurchases()
-            ->where('status', 'active')
-            ->where('end_date', '>=', now())
-            ->latest()
-            ->first();
-
-        if (!$purchase) {
+        // التحقّق من وجود باقة فعّالة
+        if (empty($user->plan_id)) {
             return false;
         }
 
-        // الباقة الثالثة (Premium) — id = 3
-        return $purchase->subscription_plan_id >= 3;
+        // التحقّق من تاريخ الانتهاء
+        if ($user->plan_expired_at && now()->greaterThan($user->plan_expired_at)) {
+            return false;
+        }
+
+        // الباقة الثالثة (Premium) — id >= 3
+        return $user->plan_id >= 3;
     }
 
     /**
      * إحصائيّات سريعة للوحة
      */
-    public function getDashboardStats(int $companyId): array
+    public function getDashboardStats(int $userId): array
     {
         $today = today();
         
         return [
-            'today_orders' => WhatsappOrder::where('company_id', $companyId)
+            'today_orders' => WhatsappOrder::where('user_id', $userId)
                 ->whereDate('created_at', $today)->count(),
             
-            'pending_orders' => WhatsappOrder::where('company_id', $companyId)
+            'pending_orders' => WhatsappOrder::where('user_id', $userId)
                 ->where('status', 'pending')->count(),
             
-            'today_revenue' => WhatsappOrder::where('company_id', $companyId)
+            'today_revenue' => WhatsappOrder::where('user_id', $userId)
                 ->whereDate('created_at', $today)
                 ->whereIn('status', ['confirmed', 'preparing', 'ready', 'completed'])
                 ->sum('total'),
             
-            'active_customers' => WhatsappCustomer::where('company_id', $companyId)
+            'active_customers' => WhatsappCustomer::where('user_id', $userId)
                 ->where('last_message_at', '>=', now()->subDays(30))
                 ->count(),
             
-            'total_messages_today' => WhatsappMessage::where('company_id', $companyId)
+            'total_messages_today' => WhatsappMessage::where('user_id', $userId)
                 ->whereDate('created_at', $today)->count(),
         ];
     }
