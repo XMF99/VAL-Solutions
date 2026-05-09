@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\Company;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Sale;
@@ -14,10 +14,10 @@ use App\Models\WhatsappMessage;
 use App\Models\WhatsappPublishedProduct;
 
 /**
- * WhatsApp Module - Service Provider
+ * WhatsApp Module - Service Provider V2
  * 
- * يضيف علاقات ودوال WhatsApp للموديلات الموجودة في OvoSale
- * بدون تعديل أيّ ملفّ موجود — كل شي هنا في مكان واحد
+ * يضيف علاقات WhatsApp لـ User بدل Company
+ * (في OvoSale، التاجر = User)
  * 
  * المسار: core/app/Providers/WhatsappModuleServiceProvider.php
  */
@@ -25,7 +25,7 @@ class WhatsappModuleServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->registerCompanyRelations();
+        $this->registerUserRelations();
         $this->registerProductRelations();
         $this->registerCustomerRelations();
         $this->registerSaleRelations();
@@ -33,44 +33,46 @@ class WhatsappModuleServiceProvider extends ServiceProvider
     }
 
     /**
-     * علاقات Company (التاجر)
+     * علاقات User (التاجر)
      * --------------------------------------------------
      * Usage:
-     *   $company->whatsappSetting           → الإعدادات
-     *   $company->whatsappOrders            → كل الطلبات
-     *   $company->whatsappCustomers         → كل العملاء
-     *   $company->whatsappPublishedProducts → المنتجات المنشورة
-     *   $company->whatsappMessages          → كل الرسائل
+     *   $user->whatsappSetting              → الإعدادات
+     *   $user->whatsappOrders               → كل الطلبات
+     *   $user->whatsappCustomers            → كل العملاء
+     *   $user->whatsappPublishedProducts    → المنتجات المنشورة
+     *   $user->whatsappMessages             → كل الرسائل
      */
-    private function registerCompanyRelations(): void
+    private function registerUserRelations(): void
     {
-        Company::resolveRelationUsing('whatsappSetting', function ($model) {
-            return $model->hasOne(WhatsappStoreSetting::class, 'company_id');
+        User::resolveRelationUsing('whatsappSetting', function ($model) {
+            return $model->hasOne(WhatsappStoreSetting::class, 'user_id');
         });
 
-        Company::resolveRelationUsing('whatsappOrders', function ($model) {
-            return $model->hasMany(WhatsappOrder::class, 'company_id');
+        User::resolveRelationUsing('whatsappOrders', function ($model) {
+            return $model->hasMany(WhatsappOrder::class, 'user_id');
         });
 
-        Company::resolveRelationUsing('whatsappCustomers', function ($model) {
-            return $model->hasMany(WhatsappCustomer::class, 'company_id');
+        User::resolveRelationUsing('whatsappCustomers', function ($model) {
+            return $model->hasMany(WhatsappCustomer::class, 'user_id');
         });
 
-        Company::resolveRelationUsing('whatsappPublishedProducts', function ($model) {
-            return $model->hasMany(WhatsappPublishedProduct::class, 'company_id');
+        User::resolveRelationUsing('whatsappPublishedProducts', function ($model) {
+            return $model->hasMany(WhatsappPublishedProduct::class, 'user_id');
         });
 
-        Company::resolveRelationUsing('whatsappMessages', function ($model) {
-            return $model->hasMany(WhatsappMessage::class, 'company_id');
+        User::resolveRelationUsing('whatsappMessages', function ($model) {
+            return $model->hasMany(WhatsappMessage::class, 'user_id');
         });
     }
 
     /**
-     * علاقات Product (المنتجات)
+     * علاقات Product
      * --------------------------------------------------
      * Usage:
-     *   $product->whatsappPublication       → السجل المنشور (إذا موجود)
+     *   $product->whatsappPublication       → السجل المنشور
      *   $product->isPublishedOnWhatsapp()   → boolean
+     *   $product->publishToWhatsapp()       → نشر
+     *   $product->unpublishFromWhatsapp()   → إخفاء
      */
     private function registerProductRelations(): void
     {
@@ -87,7 +89,7 @@ class WhatsappModuleServiceProvider extends ServiceProvider
         Product::macro('publishToWhatsapp', function (array $overrides = []) {
             /** @var \App\Models\Product $this */
             $publication = $this->whatsappPublication ?? new WhatsappPublishedProduct([
-                'company_id' => $this->company_id,
+                'user_id' => $this->user_id,
                 'product_id' => $this->id,
             ]);
             
@@ -113,12 +115,12 @@ class WhatsappModuleServiceProvider extends ServiceProvider
     }
 
     /**
-     * علاقات Customer (العميل)
+     * علاقات Customer
      * --------------------------------------------------
      * Usage:
-     *   $customer->whatsappProfile     → ملفّ العميل في الواتس اب
-     *   $customer->whatsappOrders      → طلباته من الواتس اب
-     *   $customer->isOnWhatsapp()      → boolean
+     *   $customer->whatsappProfile          → ملفّ العميل في الواتس اب
+     *   $customer->whatsappOrders           → طلباته من الواتس اب
+     *   $customer->isOnWhatsapp()           → boolean
      */
     private function registerCustomerRelations(): void
     {
@@ -137,11 +139,11 @@ class WhatsappModuleServiceProvider extends ServiceProvider
     }
 
     /**
-     * علاقات Sale (الطلب في POS)
+     * علاقات Sale
      * --------------------------------------------------
      * Usage:
-     *   $sale->whatsappOrder           → الطلب الأصلي من الواتس اب (إذا موجود)
-     *   $sale->isFromWhatsapp()        → boolean
+     *   $sale->whatsappOrder                → الطلب الأصلي من الواتس اب
+     *   $sale->isFromWhatsapp()             → boolean
      */
     private function registerSaleRelations(): void
     {
@@ -166,26 +168,25 @@ class WhatsappModuleServiceProvider extends ServiceProvider
      */
     private function registerHelperMacros(): void
     {
-        // Company helpers
-        Company::macro('hasWhatsappEnabled', function () {
-            /** @var \App\Models\Company $this */
+        User::macro('hasWhatsappEnabled', function () {
+            /** @var \App\Models\User $this */
             return $this->whatsappSetting 
                 && $this->whatsappSetting->is_active 
                 && $this->whatsappSetting->isConnected();
         });
 
-        Company::macro('whatsappStoreUrl', function () {
-            /** @var \App\Models\Company $this */
+        User::macro('whatsappStoreUrl', function () {
+            /** @var \App\Models\User $this */
             return $this->whatsappSetting?->publicStoreUrl();
         });
 
-        Company::macro('todayWhatsappOrdersCount', function () {
-            /** @var \App\Models\Company $this */
+        User::macro('todayWhatsappOrdersCount', function () {
+            /** @var \App\Models\User $this */
             return $this->whatsappOrders()->whereDate('created_at', today())->count();
         });
 
-        Company::macro('pendingWhatsappOrdersCount', function () {
-            /** @var \App\Models\Company $this */
+        User::macro('pendingWhatsappOrdersCount', function () {
+            /** @var \App\Models\User $this */
             return $this->whatsappOrders()->where('status', 'pending')->count();
         });
     }
