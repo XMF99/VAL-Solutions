@@ -12,7 +12,7 @@ class WhatsappCustomer extends Model
     protected $table = 'whatsapp_customers';
 
     protected $fillable = [
-        'company_id', 'customer_id',
+        'user_id', 'customer_id',
         'phone', 'name', 'email',
         'whatsapp_profile_name', 'whatsapp_profile_picture', 'whatsapp_id',
         'preferred_language', 'preferred_payment_method',
@@ -45,9 +45,9 @@ class WhatsappCustomer extends Model
 
     // ─── Relationships ─────────────────────────────────────────
 
-    public function company(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
     public function customer(): BelongsTo
@@ -73,13 +73,13 @@ class WhatsappCustomer extends Model
             return $this->customer;
         }
 
-        // Try matching by phone (normalize first)
         $normalized = preg_replace('/\D/', '', $this->phone);
+        $lastNine = substr($normalized, -9);
         
-        $customer = Customer::where('company_id', $this->company_id)
-            ->where(function ($q) use ($normalized) {
-                $q->where('mobile', 'like', '%' . substr($normalized, -9))
-                  ->orWhere('phone', 'like', '%' . substr($normalized, -9));
+        $customer = Customer::where('user_id', $this->user_id)
+            ->where(function ($q) use ($lastNine) {
+                $q->where('mobile', 'like', '%' . $lastNine)
+                  ->orWhere('phone', 'like', '%' . $lastNine);
             })
             ->first();
 
@@ -131,9 +131,9 @@ class WhatsappCustomer extends Model
 
     // ─── Scopes ────────────────────────────────────────────────
 
-    public function scopeForCompany($query, int $companyId)
+    public function scopeForUser($query, int $userId)
     {
-        return $query->where('company_id', $companyId);
+        return $query->where('user_id', $userId);
     }
 
     public function scopeBySegment($query, string $segment)
