@@ -1,48 +1,52 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Company\Whatsapp\DashboardController;
-use App\Http\Controllers\Company\Whatsapp\SettingsController;
-use App\Http\Controllers\Company\Whatsapp\OrdersController;
-use App\Http\Controllers\Company\Whatsapp\CatalogController;
-use App\Http\Controllers\Company\Whatsapp\ConnectController;
-use App\Http\Controllers\Webhook\WhatsappWebhookController;
+use App\Http\Controllers\User\Whatsapp\DashboardController;
+use App\Http\Controllers\User\Whatsapp\SettingsController;
+use App\Http\Controllers\User\Whatsapp\OrdersController;
+use App\Http\Controllers\User\Whatsapp\CatalogController;
+use App\Http\Controllers\User\Whatsapp\ConnectController;
 use App\Http\Controllers\Storefront\PublicStoreController;
 
 /*
 |--------------------------------------------------------------------------
-| WhatsApp Store Module Routes
+| WhatsApp Store Module Routes (V2 - User namespace)
 |--------------------------------------------------------------------------
 | 
 | المسار: core/routes/whatsapp.php
-| يُسجّل في core/routes/web.php بسطر واحد:
-|   Route::middleware(['web'])->group(base_path('core/routes/whatsapp.php'));
+| 
+| ⚠️ ملاحظة:
+| Webhook controllers (Meta + Moyasar) ستُضاف في Phase 4
+| الآن نركّز على لوحة التاجر + الـ Storefront
 |
 */
 
 
 /*
 |--------------------------------------------------------------------------
-| 1. Merchant Dashboard (لوحة التاجر داخل OvoSale)
+| 1. لوحة التاجر داخل OvoSale
 |--------------------------------------------------------------------------
-| Prefix: /company/whatsapp
-| Auth: company auth middleware
-| Plan Check: subscription plan = 3 (Premium)
+| URL Prefix:  /user/whatsapp
+| Auth:        Laravel auth + check.status + has.subscription
+| Plan check:  داخل BaseController (يفحص plan_id >= 3)
+|
+| ملاحظة: هذي routes تُحمّل عبر web.php فقط — بدون prefix إضافي
+| لذا نضيف /user يدوياً هنا (مطابق لـ user.php)
 */
 
-Route::middleware(['auth.company'])
-    ->prefix('company/whatsapp')
-    ->name('company.whatsapp.')
+Route::middleware(['web', 'auth', 'check.status', 'registration.complete'])
+    ->prefix('user/whatsapp')
+    ->name('user.whatsapp.')
     ->group(function () {
 
-        // النظرة العامّة (Dashboard)
+        // ─── Dashboard ────────────────────────────────────────
         Route::get('/', [DashboardController::class, 'index'])
             ->name('dashboard');
 
         Route::get('/stats/realtime', [DashboardController::class, 'realtimeStats'])
             ->name('stats.realtime');
 
-        // ─── الإعدادات ─────────────────────────────────────────
+        // ─── Settings ─────────────────────────────────────────
         Route::get('/settings', [SettingsController::class, 'edit'])
             ->name('settings.edit');
 
@@ -52,7 +56,7 @@ Route::middleware(['auth.company'])
         Route::post('/settings/test-message', [SettingsController::class, 'sendTestMessage'])
             ->name('settings.test');
 
-        // ─── ربط حساب الواتساب (Meta Onboarding) ──────────────
+        // ─── Connect (ربط Meta) ───────────────────────────────
         Route::get('/connect', [ConnectController::class, 'show'])
             ->name('connect.show');
 
@@ -68,7 +72,7 @@ Route::middleware(['auth.company'])
         Route::post('/disconnect', [ConnectController::class, 'disconnect'])
             ->name('disconnect');
 
-        // ─── الطلبات (WhatsApp Orders) ────────────────────────
+        // ─── Orders ───────────────────────────────────────────
         Route::get('/orders', [OrdersController::class, 'index'])
             ->name('orders.index');
 
@@ -90,7 +94,7 @@ Route::middleware(['auth.company'])
         Route::post('/orders/{order}/send-message', [OrdersController::class, 'sendMessage'])
             ->name('orders.message');
 
-        // ─── الكاتالوج (المنتجات المنشورة) ────────────────────
+        // ─── Catalog ──────────────────────────────────────────
         Route::get('/catalog', [CatalogController::class, 'index'])
             ->name('catalog.index');
 
@@ -118,11 +122,12 @@ Route::middleware(['auth.company'])
 |--------------------------------------------------------------------------
 | 2. Public Storefront (متجر التاجر العام)
 |--------------------------------------------------------------------------
-| Prefix: /store/{slug}
+| URL Prefix:  /store/{slug}
 | Public — no auth required
 */
 
-Route::prefix('store')
+Route::middleware(['web'])
+    ->prefix('store')
     ->name('storefront.')
     ->group(function () {
         Route::get('/{slug}', [PublicStoreController::class, 'show'])
@@ -138,37 +143,20 @@ Route::prefix('store')
 
 /*
 |--------------------------------------------------------------------------
-| 3. Meta Cloud API Webhook
+| 3. Webhook Routes — معطّلة الآن
 |--------------------------------------------------------------------------
-| URL: /webhook/whatsapp
-| Public — Meta sends here, we verify with token
-| ⚠️ مهمّ: مستثنى من CSRF (يُضاف لاحقاً في bootstrap/app.php)
+| ستُفعّل في Phase 4 بعد كتابة:
+| - WhatsappWebhookController (لـ Meta)
+| - MoyasarWebhookController (للدفع)
 */
 
-Route::prefix('webhook/whatsapp')
-    ->name('webhook.whatsapp.')
-    ->group(function () {
-        // GET للتحقّق من Meta عند الإعداد
-        Route::get('/', [WhatsappWebhookController::class, 'verify'])
-            ->name('verify');
-
-        // POST لاستلام الرسائل والأحداث
-        Route::post('/', [WhatsappWebhookController::class, 'handle'])
-            ->name('handle');
-    });
-
-
-/*
-|--------------------------------------------------------------------------
-| 4. Moyasar Payment Webhook
-|--------------------------------------------------------------------------
-| URL: /webhook/moyasar
-| Public — Moyasar sends payment events here
-*/
-
-Route::prefix('webhook/moyasar')
-    ->name('webhook.moyasar.')
-    ->group(function () {
-        Route::post('/', [\App\Http\Controllers\Webhook\MoyasarWebhookController::class, 'handle'])
-            ->name('handle');
-    });
+// Phase 4 - to be added later:
+// 
+// Route::middleware(['web'])->prefix('webhook/whatsapp')->name('webhook.whatsapp.')->group(function () {
+//     Route::get('/', [WhatsappWebhookController::class, 'verify'])->name('verify');
+//     Route::post('/', [WhatsappWebhookController::class, 'handle'])->name('handle');
+// });
+//
+// Route::middleware(['web'])->prefix('webhook/moyasar')->name('webhook.moyasar.')->group(function () {
+//     Route::post('/', [MoyasarWebhookController::class, 'handle'])->name('handle');
+// });
