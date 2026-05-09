@@ -11,7 +11,7 @@ class WhatsappPublishedProduct extends Model
     protected $table = 'whatsapp_published_products';
 
     protected $fillable = [
-        'company_id', 'product_id', 'whatsapp_setting_id',
+        'user_id', 'product_id', 'whatsapp_setting_id',
         'meta_product_retailer_id', 'meta_product_id', 'meta_catalog_id',
         'is_published', 'is_featured', 'display_order',
         'whatsapp_name', 'whatsapp_description',
@@ -41,22 +41,22 @@ class WhatsappPublishedProduct extends Model
         'last_ordered_at' => 'datetime',
     ];
 
-    // ─── Auto-generate retailer ID on create ──────────────────
+    // ─── Auto-generate retailer ID ────────────────────────────
 
     protected static function booted()
     {
         static::creating(function ($pp) {
             if (empty($pp->meta_product_retailer_id)) {
-                $pp->meta_product_retailer_id = 'ovo_' . $pp->company_id . '_prod_' . $pp->product_id;
+                $pp->meta_product_retailer_id = 'ovo_' . $pp->user_id . '_prod_' . $pp->product_id;
             }
         });
     }
 
     // ─── Relationships ─────────────────────────────────────────
 
-    public function company(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
     public function product(): BelongsTo
@@ -69,7 +69,7 @@ class WhatsappPublishedProduct extends Model
         return $this->belongsTo(WhatsappStoreSetting::class, 'whatsapp_setting_id');
     }
 
-    // ─── Effective Values (override or fallback to product) ───
+    // ─── Effective Values ──────────────────────────────────────
 
     public function getEffectiveNameAttribute(): string
     {
@@ -139,9 +139,9 @@ class WhatsappPublishedProduct extends Model
         return $query->where('is_published', true);
     }
 
-    public function scopeForCompany($query, int $companyId)
+    public function scopeForUser($query, int $userId)
     {
-        return $query->where('company_id', $companyId);
+        return $query->where('user_id', $userId);
     }
 
     public function scopeNeedsSync($query)
