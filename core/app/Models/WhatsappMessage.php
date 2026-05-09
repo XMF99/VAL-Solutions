@@ -11,7 +11,7 @@ class WhatsappMessage extends Model
     protected $table = 'whatsapp_messages';
 
     protected $fillable = [
-        'company_id', 'whatsapp_customer_id', 'conversation_id',
+        'user_id', 'whatsapp_customer_id', 'conversation_id',
         'direction', 'message_type',
         'meta_message_id', 'meta_phone_number_id', 'status',
         'content', 'media_url', 'media_mime_type', 'media_filename',
@@ -45,9 +45,9 @@ class WhatsappMessage extends Model
 
     // ─── Relationships ─────────────────────────────────────────
 
-    public function company(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
     public function whatsappCustomer(): BelongsTo
