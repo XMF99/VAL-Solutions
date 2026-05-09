@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class PublicStoreController extends Controller
 {
     /**
-     * صفحة المتجر العامّة - يصلها العميل عبر الرابط
+     * صفحة المتجر العامّة
      */
     public function show(string $slug)
     {
@@ -21,7 +21,7 @@ class PublicStoreController extends Controller
             ->where('is_active', true)
             ->firstOrFail();
 
-        $products = WhatsappPublishedProduct::where('company_id', $setting->company_id)
+        $products = WhatsappPublishedProduct::where('user_id', $setting->user_id)
             ->where('is_published', true)
             ->where('availability', 'in_stock')
             ->with('product')
@@ -33,7 +33,7 @@ class PublicStoreController extends Controller
     }
 
     /**
-     * AJAX: قائمة المنتجات (للبحث/الفلترة)
+     * AJAX: قائمة المنتجات
      */
     public function products(Request $request, string $slug)
     {
@@ -41,7 +41,7 @@ class PublicStoreController extends Controller
             ->where('is_active', true)
             ->firstOrFail();
 
-        $query = WhatsappPublishedProduct::where('company_id', $setting->company_id)
+        $query = WhatsappPublishedProduct::where('user_id', $setting->user_id)
             ->where('is_published', true)
             ->with('product');
 
@@ -69,7 +69,7 @@ class PublicStoreController extends Controller
     }
 
     /**
-     * إنشاء طلب من المتجر العام → يفتح واتساب
+     * إنشاء طلب → يفتح واتساب
      */
     public function checkout(Request $request, string $slug)
     {
@@ -91,7 +91,7 @@ class PublicStoreController extends Controller
 
         // جلب المنتجات + التحقّق من السعر
         $productIds = collect($validated['items'])->pluck('product_id');
-        $publishedProducts = WhatsappPublishedProduct::where('company_id', $setting->company_id)
+        $publishedProducts = WhatsappPublishedProduct::where('user_id', $setting->user_id)
             ->whereIn('product_id', $productIds)
             ->where('is_published', true)
             ->with('product')
@@ -139,7 +139,7 @@ class PublicStoreController extends Controller
 
         // إنشاء الطلب
         $order = WhatsappOrder::create([
-            'company_id' => $setting->company_id,
+            'user_id' => $setting->user_id,
             'customer_name' => $validated['customer_name'],
             'customer_phone' => preg_replace('/\D/', '', $validated['customer_phone']),
             'order_type' => $validated['order_type'] ?? 'delivery',
@@ -158,7 +158,7 @@ class PublicStoreController extends Controller
             'source' => 'web_storefront',
         ]);
 
-        // توليد رابط واتساب جاهز
+        // توليد رابط واتساب
         $service = app(\App\Services\WhatsappService::class);
         $whatsappUrl = $service->generateOrderWhatsappLink($order, $setting);
 
