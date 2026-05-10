@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المميزات — Val POS</title>
+<meta name="description" content="اكتشف كل مميزات Val POS: الكاشير، متجر واتساب، إدارة المخزون، التحليلات الذكيّة، والمزيد.">
+<meta name="theme-color" content="#fafaf7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+/* Page-specific: Features */
+.page-hero {
+  padding: 160px 5% 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 800px;
+  background:
+    radial-gradient(circle at 30% 40%, var(--primary-soft) 0%, transparent 60%),
+    radial-gradient(circle at 70% 60%, var(--yellow-soft) 0%, transparent 60%);
+  opacity: 0.6;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.page-hero-c { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+.page-hero h1 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2.5px;
+  margin-bottom: 22px;
+}
+[data-lang="en"] .page-hero h1 { font-family: 'Inter', sans-serif; }
+.page-hero p { font-size: 18px; color: var(--text-2); line-height: 1.7; max-width: 620px; margin: 0 auto; }
+
+/* Big feature blocks */
+.feature-detailed {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 60px;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 60px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.feature-detailed:hover { box-shadow: var(--shadow-lg); border-color: var(--primary); }
+.feature-detailed.reverse { grid-template-columns: 1.1fr 1fr; }
+.feature-detailed.reverse .fd-text { order: 2; }
+.feature-detailed.reverse .fd-img { order: 1; }
+
+.fd-bg-1 { position: absolute; top: -100px; right: -100px; width: 360px; height: 360px;
+  background: var(--primary-soft); border-radius: 50%; filter: blur(40px); opacity: 0.7; pointer-events: none; }
+.fd-bg-2 { background: var(--yellow-soft); }
+.fd-bg-3 { background: var(--cyan-soft); }
+.fd-bg-4 { background: var(--pink-soft); }
+
+.fd-icon-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 6px;
+  background: var(--primary-soft);
+  border: 1px solid var(--primary);
+  border-radius: var(--r-pill);
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+}
+[dir="rtl"] .fd-icon-pill { padding: 6px 6px 6px 14px; }
+.fd-icon-pill .icon {
+  width: 28px; height: 28px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+}
+.fd-icon-pill .icon svg { width: 14px; height: 14px; }
+.fd-icon-pill .label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.fd-text { position: relative; z-index: 1; }
+.fd-text h3 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+  margin-bottom: 18px;
+}
+[data-lang="en"] .fd-text h3 { font-family: 'Inter', sans-serif; }
+.fd-text > p { color: var(--text-2); font-size: 15px; line-height: 1.7; margin-bottom: 26px; }
+
+.fd-features {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 18px;
+  margin-bottom: 28px;
+}
+.fd-features li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: var(--text); font-weight: 600;
+  line-height: 1.5;
+}
+.fd-features li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  background: var(--primary);
+  border-radius: 50%;
+  margin-top: 2px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-size: 11px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.fd-img {
+  position: relative;
+  z-index: 1;
+}
+
+.img-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--primary-soft), var(--bg-2));
+  border: 2px dashed var(--border-2);
+  border-radius: var(--r-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.img-placeholder.loaded { border: none; padding: 0; background: transparent; }
+.img-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, var(--yellow-soft) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, var(--cyan-soft) 0%, transparent 50%);
+  opacity: 0.6;
+}
+.img-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; position: absolute; inset: 0; }
+.ph-icon {
+  width: 56px; height: 56px;
+  background: white;
+  border-radius: var(--r-md);
+  padding: 14px;
+  margin-bottom: 16px;
+  color: var(--primary-dark);
+  position: relative; z-index: 1;
+  box-shadow: var(--shadow-md);
+}
+.ph-name { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 800; color: var(--primary-dark); letter-spacing: 2px; margin-bottom: 8px; position: relative; z-index: 1; }
+.ph-desc { font-size: 13px; color: var(--text-2); margin-bottom: 8px; position: relative; z-index: 1; max-width: 280px; line-height: 1.5; }
+.ph-size { font-family: 'Inter', monospace; font-size: 11px; color: var(--text-3); background: white; padding: 4px 10px; border-radius: var(--r-pill); position: relative; z-index: 1; border: 1px solid var(--border); }
+
+/* Capabilities grid */
+.caps-section { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.caps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.cap-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 32px 28px;
+  transition: all 0.3s;
+}
+.cap-card:hover { transform: translateY(-3px); border-color: var(--primary); background: var(--primary-soft); }
+.cap-icon {
+  width: 48px; height: 48px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  color: var(--primary-dark);
+}
+.cap-card h4 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+[data-lang="en"] .cap-card h4 { font-family: 'Inter', sans-serif; }
+.cap-card p { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+
+/* CTA Banner */
+.cta-banner {
+  background: var(--text);
+  color: white;
+  border-radius: var(--r-xl);
+  padding: 80px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(167, 139, 250, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(251, 191, 36, 0.2) 0%, transparent 50%);
+}
+.cta-banner-c { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.cta-banner h3 { font-family: 'Cairo', sans-serif; font-size: clamp(30px, 4vw, 52px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 18px; }
+[data-lang="en"] .cta-banner h3 { font-family: 'Inter', sans-serif; }
+.cta-banner p { color: rgba(255, 255, 255, 0.7); font-size: 16px; margin-bottom: 28px; line-height: 1.6; }
+
+@media (max-width: 1024px) {
+  .feature-detailed, .feature-detailed.reverse { grid-template-columns: 1fr; gap: 36px; padding: 40px; }
+  .feature-detailed.reverse .fd-text { order: 1; }
+  .feature-detailed.reverse .fd-img { order: 2; }
+  .fd-features { grid-template-columns: 1fr; }
+  .caps-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .page-hero { padding: 130px 5% 60px; }
+  .page-hero h1 { font-size: 38px; letter-spacing: -1.5px; }
+  .feature-detailed { padding: 28px; }
+  .caps-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-c">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 130 32" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <path d="M4 8 L14 24 L24 8" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="14" cy="24" r="2.5" fill="#a78bfa"/>
+        <text x="32" y="22" font-family="Cairo, sans-serif" font-weight="900" font-size="16" fill="#1a1a1a" letter-spacing="-0.5">Val<tspan fill="#8b5cf6"> POS</tspan></text>
+      </svg>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+      <li><a href="/features.html" class="active" data-ar>المميزات</a><a href="/features.html" class="active" data-en>Features</a></li>
+      <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+      <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+      <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button data-lang-btn="ar" class="active">عربي</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="/user/login" class="btn btn-ghost" data-ar>دخول</a>
+      <a href="/user/login" class="btn btn-ghost" data-en>Login</a>
+      <a href="/user/register" class="btn btn-accent" data-ar>اشترك مجاناً</a>
+      <a href="/user/register" class="btn btn-accent" data-en>Get Started</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+    <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+    <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+    <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+    <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+  </ul>
+  <a href="/user/login" class="btn btn-ghost" data-ar>دخول التاجر</a>
+  <a href="/user/login" class="btn btn-ghost" data-en>Merchant Login</a>
+  <a href="/user/register" class="btn btn-accent" data-ar>اشترك مجاناً</a>
+  <a href="/user/register" class="btn btn-accent" data-en>Get Started Free</a>
+</div>
+
+<!-- ═══ PAGE HERO ═══ -->
+<section class="page-hero">
+  <div class="page-hero-c">
+    <div class="eyebrow" data-ar>المميزات الكاملة</div>
+    <div class="eyebrow" data-en>ALL FEATURES</div>
+    <h1 data-ar>كل ما تحتاجه<br>لإدارة <span class="h-grad">متجرك</span></h1>
+    <h1 data-en>Everything you need<br>to run your <span class="h-grad">store</span></h1>
+    <p data-ar>منصّة Val POS تجمع كل أدوات إدارة المتجر في مكان واحد — من الكاشير إلى المخزون إلى المبيعات عبر الواتساب.</p>
+    <p data-en>Val POS brings every store management tool into one place — from cashier to inventory to WhatsApp sales.</p>
+  </div>
+</section>
+
+<!-- ═══ FEATURE 1: CASHIER ═══ -->
+<section class="section" style="padding-top: 30px;">
+  <div class="section-c">
+    <div class="feature-detailed reveal">
+      <div class="fd-bg-1"></div>
+      <div class="fd-text">
+        <div class="fd-icon-pill">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="label" data-ar>الكاشير</div>
+          <div class="label" data-en>CASHIER</div>
+        </div>
+        <h3 data-ar>كاشير ذكي بالذكاء الاصطناعي</h3>
+        <h3 data-en>AI-powered smart cashier</h3>
+        <p data-ar>نظام كاشير سريع وسلس، يدعم Mada وApple Pay وVisa وSTC Pay. AI يحلّل بياناتك ويقترح أفضل المنتجات للترويج.</p>
+        <p data-en>A fast, smooth cashier system supporting Mada, Apple Pay, Visa, and STC Pay. AI analyzes your data and suggests top products to promote.</p>
+        <ul class="fd-features">
+          <li><span data-ar>طباعة حراريّة فوريّة</span><span data-en>Instant thermal printing</span></li>
+          <li><span data-ar>ZATCA Phase 2 تلقائي</span><span data-en>Auto ZATCA Phase 2</span></li>
+          <li><span data-ar>دعم Mada و Apple Pay</span><span data-en>Mada & Apple Pay support</span></li>
+          <li><span data-ar>عمل بدون إنترنت</span><span data-en>Works offline</span></li>
+          <li><span data-ar>ماسح باركود</span><span data-en>Barcode scanner</span></li>
+          <li><span data-ar>اقتراحات AI ذكيّة</span><span data-en>Smart AI suggestions</span></li>
+        </ul>
+        <a href="/user/register" class="btn btn-accent" style="padding: 12px 22px;">
+          <span data-ar>جرّب الكاشير مجاناً</span>
+          <span data-en>Try cashier free</span>
+        </a>
+      </div>
+      <div class="fd-img">
+        <div class="img-placeholder" data-src="/images/feature-cashier.jpg">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <div class="ph-name">CASHIER SCREEN</div>
+          <div class="ph-desc" data-ar>شاشة كاشير Val POS بمنتجات وزرّ دفع</div>
+          <div class="ph-desc" data-en>Val POS cashier screen with products</div>
+          <div class="ph-size">1200 × 900 · /images/feature-cashier.jpg</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FEATURE 2: WHATSAPP ═══ -->
+    <div class="feature-detailed reverse reveal">
+      <div class="fd-bg-1 fd-bg-2"></div>
+      <div class="fd-text">
+        <div class="fd-icon-pill" style="background: var(--yellow-soft); border-color: var(--yellow-dark);">
+          <div class="icon" style="background: var(--yellow-dark);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </div>
+          <div class="label" style="color: #b45309;" data-ar>متجر واتساب</div>
+          <div class="label" style="color: #b45309;" data-en>WHATSAPP STORE</div>
+        </div>
+        <h3 data-ar>اقبل الطلبات على الواتساب مباشرة</h3>
+        <h3 data-en>Receive orders directly on WhatsApp</h3>
+        <p data-ar>عميلك يطلب من واتساب، الطلب يدخل نظامك تلقائياً. روبوت ذكي يجاوب 24/7 ويحوّل المحادثات إلى مبيعات حقيقيّة.</p>
+        <p data-en>Customers order via WhatsApp, orders enter your system automatically. A smart bot replies 24/7 and converts chats into real sales.</p>
+        <ul class="fd-features">
+          <li><span data-ar>كتالوج تفاعلي بالصور</span><span data-en>Interactive catalog with images</span></li>
+          <li><span data-ar>ردّ آلي بـ AI</span><span data-en>AI auto-reply</span></li>
+          <li><span data-ar>دفع داخل المحادثة</span><span data-en>In-chat payment</span></li>
+          <li><span data-ar>ربط مع الكاشير</span><span data-en>Cashier integration</span></li>
+          <li><span data-ar>رسائل ترويجيّة</span><span data-en>Promo broadcasts</span></li>
+          <li><span data-ar>تتبّع الطلبات</span><span data-en>Order tracking</span></li>
+        </ul>
+        <a href="/user/register" class="btn btn-accent" style="padding: 12px 22px;">
+          <span data-ar>فعّل متجر واتساب</span>
+          <span data-en>Activate WhatsApp Store</span>
+        </a>
+      </div>
+      <div class="fd-img">
+        <div class="img-placeholder" data-src="/images/feature-whatsapp.jpg">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <div class="ph-name">WHATSAPP CHAT</div>
+          <div class="ph-desc" data-ar>محادثة واتساب لطلب من JoeSit</div>
+          <div class="ph-desc" data-en>WhatsApp chat showing JoeSit order</div>
+          <div class="ph-size">1200 × 900 · /images/feature-whatsapp.jpg</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FEATURE 3: INVENTORY ═══ -->
+    <div class="feature-detailed reveal">
+      <div class="fd-bg-1 fd-bg-3"></div>
+      <div class="fd-text">
+        <div class="fd-icon-pill" style="background: var(--cyan-soft); border-color: #06b6d4;">
+          <div class="icon" style="background: #06b6d4;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <div class="label" style="color: #0e7490;" data-ar>المخزون</div>
+          <div class="label" style="color: #0e7490;" data-en>INVENTORY</div>
+        </div>
+        <h3 data-ar>إدارة مخزون كاملة وذكيّة</h3>
+        <h3 data-en>Complete and smart inventory management</h3>
+        <p data-ar>تتبّع منتجاتك في كل الفروع، احصل على تنبيهات عند انخفاض الكميّات، وأجرِ جردك من جوّالك بكل سهولة.</p>
+        <p data-en>Track products across all branches, get alerts on low stock, and run inventory counts from your phone with ease.</p>
+        <ul class="fd-features">
+          <li><span data-ar>تنبيهات نقص الكميّة</span><span data-en>Low-stock alerts</span></li>
+          <li><span data-ar>جرد متعدّد الفروع</span><span data-en>Multi-branch counting</span></li>
+          <li><span data-ar>باركود تلقائي</span><span data-en>Auto-barcode</span></li>
+          <li><span data-ar>تقرير حركة المخزون</span><span data-en>Stock movement reports</span></li>
+          <li><span data-ar>طلبات شراء آليّة</span><span data-en>Automated reorders</span></li>
+          <li><span data-ar>ربط مع الموردين</span><span data-en>Supplier integration</span></li>
+        </ul>
+        <a href="/user/register" class="btn btn-accent" style="padding: 12px 22px;">
+          <span data-ar>جرّب إدارة المخزون</span>
+          <span data-en>Try inventory tools</span>
+        </a>
+      </div>
+      <div class="fd-img">
+        <div class="img-placeholder" data-src="/images/feature-inventory.jpg">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <div class="ph-name">INVENTORY DASHBOARD</div>
+          <div class="ph-desc" data-ar>لوحة إدارة المخزون بمنتجات وحالات</div>
+          <div class="ph-desc" data-en>Inventory dashboard with products and stock</div>
+          <div class="ph-size">1200 × 900 · /images/feature-inventory.jpg</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FEATURE 4: ANALYTICS ═══ -->
+    <div class="feature-detailed reverse reveal">
+      <div class="fd-bg-1 fd-bg-4"></div>
+      <div class="fd-text">
+        <div class="fd-icon-pill" style="background: var(--pink-soft); border-color: #ec4899;">
+          <div class="icon" style="background: #ec4899;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="label" style="color: #be185d;" data-ar>التحليلات</div>
+          <div class="label" style="color: #be185d;" data-en>ANALYTICS</div>
+        </div>
+        <h3 data-ar>تحليلات لحظيّة بـ AI</h3>
+        <h3 data-en>Real-time analytics with AI</h3>
+        <p data-ar>اعرف منتجاتك الأكثر مبيعاً، أوقات الذروة، وتوقّعات النموّ. لوحة تحكّم ذكيّة بألوان جذّابة تعرض البيانات اللي تهمّك.</p>
+        <p data-en>Know your best-selling products, peak hours, and growth forecasts. A smart, beautiful dashboard with the data that matters.</p>
+        <ul class="fd-features">
+          <li><span data-ar>تقارير لحظيّة</span><span data-en>Real-time reports</span></li>
+          <li><span data-ar>توقّعات بـ AI</span><span data-en>AI predictions</span></li>
+          <li><span data-ar>خريطة المبيعات</span><span data-en>Sales heatmap</span></li>
+          <li><span data-ar>مقارنة الفروع</span><span data-en>Branch comparison</span></li>
+          <li><span data-ar>منتجات الأكثر بيعاً</span><span data-en>Top sellers</span></li>
+          <li><span data-ar>ساعات الذروة</span><span data-en>Peak hours</span></li>
+        </ul>
+        <a href="/user/register" class="btn btn-accent" style="padding: 12px 22px;">
+          <span data-ar>اكتشف لوحة التحكّم</span>
+          <span data-en>Explore the dashboard</span>
+        </a>
+      </div>
+      <div class="fd-img">
+        <div class="img-placeholder" data-src="/images/feature-analytics.jpg">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <div class="ph-name">ANALYTICS</div>
+          <div class="ph-desc" data-ar>لوحة تحليلات Val POS بمخطّطات</div>
+          <div class="ph-desc" data-en>Analytics dashboard with charts</div>
+          <div class="ph-size">1200 × 900 · /images/feature-analytics.jpg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CAPABILITIES GRID ═══ -->
+<section class="section caps-section">
+  <div class="section-c">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>قدرات إضافيّة</div>
+      <div class="eyebrow" data-en>MORE CAPABILITIES</div>
+      <h2 class="h-display" data-ar>المزيد من الأدوات لنموّ متجرك</h2>
+      <h2 class="h-display" data-en>More tools to grow your store</h2>
+    </div>
+
+    <div class="caps-grid">
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+        <h4 data-ar>إدارة الموظّفين</h4>
+        <h4 data-en>Staff Management</h4>
+        <p data-ar>أضف موظّفينك، حدّد صلاحيّات، تابع أداءهم وعمولاتهم.</p>
+        <p data-en>Add staff, set permissions, track performance and commissions.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg></div>
+        <h4 data-ar>متعدّد الفروع</h4>
+        <h4 data-en>Multi-Branch</h4>
+        <p data-ar>أدر فروعك من مكان واحد بكامل التحكّم والوضوح.</p>
+        <p data-en>Manage all branches from one place with full control and clarity.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.5a8 8 0 0 1 16 0c0 7-8 11.5-8 11.5z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h4 data-ar>برنامج الولاء</h4>
+        <h4 data-en>Loyalty Program</h4>
+        <p data-ar>كافئ عملاءك بنقاط ومستويات لتعزيز ولائهم وتكرار الشراء.</p>
+        <p data-en>Reward your customers with points and tiers to boost loyalty.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <h4 data-ar>API مفتوح</h4>
+        <h4 data-en>Open API</h4>
+        <p data-ar>اربط Val POS مع سلّة، زد، Shopify، أو نظامك الخاص بسهولة.</p>
+        <p data-en>Connect Val POS with Salla, Zid, Shopify, or your custom system easily.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+        <h4 data-ar>طرق دفع متنوّعة</h4>
+        <h4 data-en>Multiple Payment Methods</h4>
+        <p data-ar>مدى، Apple Pay، Visa، Mastercard، STC Pay، نقدي.</p>
+        <p data-en>Mada, Apple Pay, Visa, Mastercard, STC Pay, cash.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h4 data-ar>تطبيق جوّال</h4>
+        <h4 data-en>Mobile App</h4>
+        <p data-ar>أدر متجرك من جوّالك في أي وقت ومن أي مكان.</p>
+        <p data-en>Manage your store from your phone anytime, anywhere.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H1l8-8 8 8h-8v10z"/></svg></div>
+        <h4 data-ar>عروض وخصومات</h4>
+        <h4 data-en>Promotions & Discounts</h4>
+        <p data-ar>أنشئ عروض مرنة بكوبونات وخصومات بنقرة واحدة.</p>
+        <p data-en>Create flexible promotions with coupons and discounts in one click.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h4 data-ar>دعم 24/7</h4>
+        <h4 data-en>24/7 Support</h4>
+        <p data-ar>فريق سعودي متاح على واتساب، الهاتف، والدردشة.</p>
+        <p data-en>Saudi team on WhatsApp, phone, and live chat.</p>
+      </div>
+      <div class="cap-card reveal">
+        <div class="cap-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h4 data-ar>أمان عالي</h4>
+        <h4 data-en>Enterprise Security</h4>
+        <p data-ar>تشفير كامل، PCI-DSS، نسخ احتياطي يومي، حماية بنكيّة.</p>
+        <p data-en>Full encryption, PCI-DSS, daily backups, bank-grade protection.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="section">
+  <div class="section-c">
+    <div class="cta-banner reveal">
+      <div class="cta-banner-c">
+        <h3 data-ar>جرّب Val POS مجاناً<br>لمدّة ١٤ يوم</h3>
+        <h3 data-en>Try Val POS free<br>for 14 days</h3>
+        <p data-ar>كل المميزات. بدون بطاقة ائتمان. بدون التزامات.</p>
+        <p data-en>All features. No credit card. No commitments.</p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a href="/user/register" class="btn btn-accent" style="padding: 14px 28px;">
+            <span data-ar>ابدأ الآن</span>
+            <span data-en>Start Now</span>
+          </a>
+          <a href="/contact.html" class="btn btn-ghost" style="padding: 14px 28px; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
+            <span data-ar>تحدّث مع المبيعات</span>
+            <span data-en>Talk to Sales</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-c">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 130 32" style="height:30px;" fill="none">
+            <path d="M4 8 L14 24 L24 8" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="14" cy="24" r="2.5" fill="#a78bfa"/>
+            <text x="32" y="22" font-family="Cairo, sans-serif" font-weight="900" font-size="18" fill="white">Val<tspan fill="#a78bfa"> POS</tspan></text>
+          </svg>
+        </a>
+        <p data-ar>منصّة سعوديّة متكاملة لإدارة المتاجر، الكاشير، والمبيعات عبر واتساب.</p>
+        <p data-en>Saudi all-in-one platform for managing stores, cashier, and WhatsApp sales.</p>
+        <div class="cert-badges">
+          <span class="cert-badge">PCI-DSS</span>
+          <span class="cert-badge">ZATCA ✓</span>
+          <span class="cert-badge">SAMA</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>المنتج</h4><h4 data-en>Product</h4>
+        <ul>
+          <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+          <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+          <li><a href="/features.html" data-ar>متجر واتساب</a><a href="/features.html" data-en>WhatsApp Store</a></li>
+          <li><a href="/api" data-ar>واجهة API</a><a href="/api" data-en>API</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>الشركة</h4><h4 data-en>Company</h4>
+        <ul>
+          <li><a href="/about" data-ar>من نحن</a><a href="/about" data-en>About</a></li>
+          <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+          <li><a href="/contact.html" data-ar>تواصل معنا</a><a href="/contact.html" data-en>Contact</a></li>
+          <li><a href="/careers" data-ar>الوظائف</a><a href="/careers" data-en>Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>قانوني</h4><h4 data-en>Legal</h4>
+        <ul>
+          <li><a href="/policy/terms" data-ar>الشروط والأحكام</a><a href="/policy/terms" data-en>Terms</a></li>
+          <li><a href="/policy/privacy" data-ar>سياسة الخصوصيّة</a><a href="/policy/privacy" data-en>Privacy</a></li>
+          <li><a href="/policy/refund" data-ar>سياسة الاسترداد</a><a href="/policy/refund" data-en>Refunds</a></li>
+          <li><a href="/policy/cookies" data-ar>الكوكيز</a><a href="/policy/cookies" data-en>Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-ar>© 2026 Val POS. جميع الحقوق محفوظة. صُنع في 🇸🇦 السعوديّة</p>
+      <p data-en>© 2026 Val POS. All rights reserved. Made in 🇸🇦 Saudi Arabia</p>
+      <div class="social">
+        <a href="#" aria-label="Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753c0-.249 1.51-2.772 1.818-4.013z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts.js"></script>
+</body>
+</html>

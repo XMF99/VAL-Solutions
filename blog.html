@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المدوّنة — Val POS</title>
+<meta name="description" content="مدوّنة Val POS — مقالات ودلائل ودراسات حالة لمساعدة التجّار السعوديّين على إدارة متاجرهم بنجاح.">
+<meta name="theme-color" content="#fafaf7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+/* Page-specific: Blog */
+.page-hero {
+  padding: 160px 5% 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero h1 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+[data-lang="en"] .page-hero h1 { font-family: 'Inter', sans-serif; }
+.page-hero h1 .accent {
+  background: linear-gradient(120deg, var(--primary) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.page-hero p { font-size: 18px; color: var(--text-2); max-width: 600px; margin: 0 auto; line-height: 1.65; }
+
+/* Category filter */
+.cat-filter {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.cat-btn {
+  padding: 9px 18px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all var(--t-base);
+  font-family: inherit;
+}
+.cat-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
+.cat-btn.active {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+/* Featured post */
+.featured-post {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 60px;
+  transition: all var(--t-base);
+  cursor: pointer;
+}
+.featured-post:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.featured-post .post-img {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, var(--primary-soft), var(--cyan-soft));
+  position: relative;
+  overflow: hidden;
+}
+.featured-post .post-content {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+.featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--yellow-soft);
+  color: #b45309;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 1px;
+  width: fit-content;
+}
+.post-meta {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 600;
+}
+.post-meta span { display: inline-flex; align-items: center; gap: 4px; }
+.post-meta .dot { width: 3px; height: 3px; background: var(--text-4); border-radius: 50%; }
+.featured-post h2 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  color: var(--text);
+}
+[data-lang="en"] .featured-post h2 { font-family: 'Inter', sans-serif; }
+.featured-post p { font-size: 15px; color: var(--text-2); line-height: 1.7; }
+.author-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.author-avatar-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+}
+.author-name { font-weight: 700; font-size: 13px; color: var(--text); }
+.author-role { font-size: 11px; color: var(--text-3); }
+
+/* Posts grid */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.post-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: all var(--t-base);
+  cursor: pointer;
+}
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+.post-card .post-img {
+  aspect-ratio: 16 / 10;
+  position: relative;
+  overflow: hidden;
+}
+.post-card .post-img.violet { background: linear-gradient(135deg, var(--primary-soft), var(--pink-soft)); }
+.post-card .post-img.yellow { background: linear-gradient(135deg, var(--yellow-soft), var(--orange-soft)); }
+.post-card .post-img.cyan { background: linear-gradient(135deg, var(--cyan-soft), var(--green-soft)); }
+.post-card .post-img.pink { background: linear-gradient(135deg, var(--pink-soft), var(--primary-soft)); }
+.post-card .post-img.green { background: linear-gradient(135deg, var(--green-soft), var(--cyan-soft)); }
+.post-card .post-img.orange { background: linear-gradient(135deg, var(--orange-soft), var(--yellow-soft)); }
+.img-placeholder-sm {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.img-placeholder-sm svg {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: var(--shadow-md);
+  color: var(--primary-dark);
+}
+.post-content-sm { padding: 24px; }
+.post-cat {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+.post-cat.guide { background: var(--primary-soft); color: var(--primary-dark); }
+.post-cat.case-study { background: var(--cyan-soft); color: #0e7490; }
+.post-cat.economy { background: var(--yellow-soft); color: #b45309; }
+.post-cat.tips { background: var(--pink-soft); color: #be185d; }
+.post-cat.news { background: var(--green-soft); color: #047857; }
+.post-cat.guide-en { background: var(--primary-soft); color: var(--primary-dark); }
+.post-card h3 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+[data-lang="en"] .post-card h3 { font-family: 'Inter', sans-serif; }
+.post-card p {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+/* Newsletter */
+.newsletter-section {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: var(--r-2xl);
+  padding: 70px 48px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.newsletter-section::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, var(--yellow) 0%, transparent 70%);
+  opacity: 0.4;
+  animation: blob 14s ease-in-out infinite;
+}
+.newsletter-section::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, var(--cyan) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: blob 16s ease-in-out infinite reverse;
+}
+.newsletter-c { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.newsletter-section h2 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+  color: white;
+}
+[data-lang="en"] .newsletter-section h2 { font-family: 'Inter', sans-serif; }
+.newsletter-section > p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  margin-bottom: 28px;
+}
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  max-width: 480px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 100px;
+  padding: 6px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+.newsletter-form input {
+  flex: 1;
+  padding: 12px 22px;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  background: transparent;
+  color: var(--text);
+}
+.newsletter-form button {
+  padding: 12px 24px;
+  background: var(--text);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all var(--t-base);
+  white-space: nowrap;
+}
+.newsletter-form button:hover { background: var(--primary); }
+.newsletter-perks {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+/* Topics */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 900px;
+  margin: 50px auto 0;
+}
+.topic-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--t-base);
+}
+.topic-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+.topic-icon { font-size: 30px; margin-bottom: 10px; }
+.topic-name { font-weight: 800; font-size: 14px; color: var(--text); font-family: 'Cairo', sans-serif; }
+[data-lang="en"] .topic-name { font-family: 'Inter', sans-serif; }
+.topic-count { font-size: 11px; color: var(--text-3); margin-top: 4px; font-family: 'Inter', sans-serif; font-weight: 600; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .featured-post { grid-template-columns: 1fr; }
+  .featured-post .post-content { padding: 32px; }
+  .posts-grid { grid-template-columns: repeat(2, 1fr); }
+  .topics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .posts-grid { grid-template-columns: 1fr; }
+  .newsletter-form { flex-direction: column; border-radius: 24px; padding: 12px; }
+  .newsletter-form input { padding: 10px 16px; }
+  .newsletter-section { padding: 50px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-c">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 130 32" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <path d="M4 8 L14 24 L24 8" stroke="#0a0a0a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="14" cy="24" r="2.5" fill="#a78bfa"/>
+        <text x="32" y="22" font-family="Cairo, sans-serif" font-weight="900" font-size="16" fill="#0a0a0a" letter-spacing="-0.5">Val<tspan fill="#a78bfa"> POS</tspan></text>
+      </svg>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+      <li><a href="/features" data-ar>المميزات</a><a href="/features" data-en>Features</a></li>
+      <li><a href="/pricing" data-ar>الأسعار</a><a href="/pricing" data-en>Pricing</a></li>
+      <li><a href="/blog" class="active" data-ar>المدوّنة</a><a href="/blog" class="active" data-en>Blog</a></li>
+      <li><a href="/contact" data-ar>تواصل</a><a href="/contact" data-en>Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button data-lang-btn="ar" class="active">عربي</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="/user/login" class="btn btn-ghost" data-ar>دخول</a>
+      <a href="/user/login" class="btn btn-ghost" data-en>Login</a>
+      <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+      <a href="/user/register" class="btn btn-violet" data-en>Get Started</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+    <li><a href="/features" data-ar>المميزات</a><a href="/features" data-en>Features</a></li>
+    <li><a href="/pricing" data-ar>الأسعار</a><a href="/pricing" data-en>Pricing</a></li>
+    <li><a href="/blog" data-ar>المدوّنة</a><a href="/blog" data-en>Blog</a></li>
+    <li><a href="/contact" data-ar>تواصل</a><a href="/contact" data-en>Contact</a></li>
+  </ul>
+  <a href="/user/login" class="btn btn-ghost" data-ar>دخول التاجر</a>
+  <a href="/user/login" class="btn btn-ghost" data-en>Merchant Login</a>
+  <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+  <a href="/user/register" class="btn btn-violet" data-en>Get Started Free</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="page-hero">
+  <div class="bg-grid"></div>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:0;right:-100px;"></div>
+  <div class="bg-blob cyan" style="width:300px;height:300px;bottom:-80px;left:-50px;"></div>
+
+  <div class="reveal" style="position: relative; z-index: 2;">
+    <div class="eyebrow" style="margin-bottom: 22px;" data-ar>المدوّنة والأخبار</div>
+    <div class="eyebrow" style="margin-bottom: 22px;" data-en>BLOG & NEWS</div>
+
+    <h1 data-ar>قصص ودلائل<br>لـ<span class="accent">تجارة ناجحة</span></h1>
+    <h1 data-en>Stories and guides<br>for <span class="accent">successful business</span></h1>
+
+    <p data-ar>مقالات ودلائل ودراسات حالة لمساعدتك على إدارة متجرك ونموّه في السوق السعودي.</p>
+    <p data-en>Articles, guides, and case studies to help you manage and grow your store in the Saudi market.</p>
+
+    <!-- Category filter -->
+    <div class="cat-filter">
+      <button class="cat-btn active">
+        <span data-ar>الكل</span><span data-en>All</span>
+      </button>
+      <button class="cat-btn">
+        <span data-ar>دلائل</span><span data-en>Guides</span>
+      </button>
+      <button class="cat-btn">
+        <span data-ar>قصص نجاح</span><span data-en>Case Studies</span>
+      </button>
+      <button class="cat-btn">
+        <span data-ar>اقتصاد</span><span data-en>Economy</span>
+      </button>
+      <button class="cat-btn">
+        <span data-ar>نصائح</span><span data-en>Tips</span>
+      </button>
+      <button class="cat-btn">
+        <span data-ar>أخبار</span><span data-en>News</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED POST ═══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-c">
+    <div class="featured-post reveal">
+      <div class="post-img">
+        <div class="img-placeholder-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="9" y1="13" x2="15" y2="13"/>
+            <line x1="9" y1="17" x2="15" y2="17"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-content">
+        <div class="featured-badge">
+          <span data-ar>⭐ مميّز</span>
+          <span data-en>⭐ FEATURED</span>
+        </div>
+        <div class="post-meta">
+          <span data-ar>دليل شامل</span>
+          <span data-en>GUIDE</span>
+          <span class="dot"></span>
+          <span data-ar>١٢ دقيقة قراءة</span>
+          <span data-en>12 min read</span>
+          <span class="dot"></span>
+          <span data-ar>٥ مايو ٢٠٢٦</span>
+          <span data-en>May 5, 2026</span>
+        </div>
+        <h2 data-ar>كل ما تحتاج تعرفه عن المرحلة الثانية من ZATCA</h2>
+        <h2 data-en>Everything you need to know about ZATCA Phase 2</h2>
+        <p data-ar>دليل شامل للتاجر السعودي حول متطلّبات الفاتورة الإلكترونيّة، كيف تتجنّب الغرامات، وأفضل الممارسات للتطبيق السلس في متجرك.</p>
+        <p data-en>Comprehensive guide for Saudi merchants on e-invoicing requirements, how to avoid fines, and best practices for smooth implementation in your store.</p>
+        <div class="author-row">
+          <div class="author-avatar-sm av-1">أح</div>
+          <div>
+            <div class="author-name" data-ar>أحمد الحربي</div>
+            <div class="author-name" data-en>Ahmed Alharbi</div>
+            <div class="author-role" data-ar>مؤسّس Val POS</div>
+            <div class="author-role" data-en>Founder, Val POS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ POSTS GRID ═══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-c">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>أحدث المقالات</div>
+      <div class="eyebrow" data-en>LATEST ARTICLES</div>
+      <h2 data-ar>أفكار جديدة كل أسبوع</h2>
+      <h2 data-en>Fresh insights every week</h2>
+    </div>
+
+    <div class="posts-grid">
+      <!-- Post 1 -->
+      <article class="post-card reveal">
+        <div class="post-img cyan">
+          <div class="img-placeholder-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="post-content-sm">
+          <span class="post-cat case-study" data-ar>قصّة نجاح</span>
+          <span class="post-cat case-study" data-en>CASE STUDY</span>
+          <h3 data-ar>كيف ضاعف مقهى JoeSit مبيعاته بـ متجر واتساب</h3>
+          <h3 data-en>How JoeSit Cafe doubled sales with WhatsApp Store</h3>
+          <p data-ar>قصّة حقيقيّة: من ٥٠ طلب يومياً إلى ١٢٠ طلب في ٦٠ يوم — بدون أيّ ميزانيّة إعلانيّة.</p>
+          <p data-en>True story: from 50 daily orders to 120 in 60 days — without any advertising budget.</p>
+          <div class="post-meta">
+            <span data-ar>٢٨ أبريل</span>
+            <span data-en>Apr 28</span>
+            <span class="dot"></span>
+            <span data-ar>٨ دقائق</span>
+            <span data-en>8 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 2 -->
+      <article class="post-card reveal" data-delay="100">
+        <div class="post-img yellow">
+          <div class="img-placeholder-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/>
+              <line x1="12" y1="6" x2="12" y2="18"/>
+            </svg>
+          </div>
+        </div>
+        <div class="post-content-sm">
+          <span class="post-cat economy" data-ar>اقتصاد</span>
+          <span class="post-cat economy" data-en>ECONOMY</span>
+          <h3 data-ar>التكنولوجيا الماليّة في السعوديّة: نموّ هائل في ٢٠٢٦</h3>
+          <h3 data-en>Saudi FinTech: tremendous growth in 2026</h3>
+          <p data-ar>كيف تواكب رؤية ٢٠٣٠ وتستفيد من الفرص الجديدة في القطاع المالي.</p>
+          <p data-en>How to keep up with Vision 2030 and seize new opportunities in finance.</p>
+          <div class="post-meta">
+            <span data-ar>٢٢ أبريل</span>
+            <span data-en>Apr 22</span>
+            <span class="dot"></span>
+            <span data-ar>١٠ دقائق</span>
+            <span data-en>10 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 3 -->
+      <article class="post-card reveal" data-delay="200">
+        <div class="post-img pink">
+          <div class="img-placeholder-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="post-content-sm">
+          <span class="post-cat tips" data-ar>نصائح</span>
+          <span class="post-cat tips" data-en>TIPS</span>
+          <h3 data-ar>٧ نصائح لإدارة مخزون متجرك بكفاءة</h3>
+          <h3 data-en>7 tips for managing your store inventory efficiently</h3>
+          <p data-ar>طرق ذكيّة لتقليل الفاقد، تحسين الطلبات، وزيادة هامش الربح.</p>
+          <p data-en>Smart ways to reduce waste, optimize orders, and boost profit margins.</p>
+          <div class="post-meta">
+            <span data-ar>١٥ أبريل</span>
+            <span data-en>Apr 15</span>
+            <span class="dot"></span>
+            <span data-ar>٦ دقائق</span>
+            <span data-en>6 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 4 -->
+      <article class="post-card reveal">
+        <div class="post-img green">
+          <div class="img-placeholder-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="post-content-sm">
+          <span class="post-cat guide" data-ar>دليل</span>
+          <span class="post-cat guide" data-en>GUIDE</span>
+          <h3 data-ar>دليلك الكامل لإطلاق متجر واتساب احترافي</h3>
+          <h3 data-en>Your complete guide to launching a professional WhatsApp store</h3>
+          <p data-ar>من تفعيل الحساب إلى استقبال أول طلب — كل الخطوات بالتفصيل.</p>
+          <p data-en>From account activation to receiving your first order — every step in detail.</p>
+          <div class="post-meta">
+            <span data-ar>١٠ أبريل</span>
+            <span data-en>Apr 10</span>
+            <span class="dot"></span>
+            <span data-ar>١٤ دقيقة</span>
+            <span data-en>14 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 5 -->
+      <article class="post-card reveal" data-delay="100">
+        <div class="post-img orange">
+          <div class="img-placeholder-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
+        </div>
+        <div class="post-content-sm">
+          <span class="post-cat case-study" data-ar>قصّة نجاح</span>
+          <span class="post-cat case-study" data-en>CASE STUDY</span>
+          <h3 data-ar>قهوة ٩٢: من فرع واحد إلى ٤ فروع في عام</h3>
+          <h3 data-en>Coffee 92: from 1 branch to 4 in a year</h3>
+          <p data-ar>كيف استخدمت سلسلة قهوة ٩٢ بيانات Val POS لتوسيع نشاطها.</p>
+          <p data-en>How Coffee 92 used Val POS data to scale their business.</p>
+          <div class="post-meta">
+            <span data-ar>٣ أبريل</span>
+            <span data-en>Apr 3</span>
+            <span class="dot"></span>
+            <span data-ar>٩ دقائق</span>
+            <span data-en>9 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Post 6 -->
+      <article class="post-card reveal" data-delay="200">
+        <div class="post-img violet">
+          <div class="img-placeholder-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="9" y1="9" x2="15" y2="9"/>
+              <line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+          </div>
+        </div>
+        <div class="post-content-sm">
+          <span class="post-cat news" data-ar>أخبار</span>
+          <span class="post-cat news" data-en>NEWS</span>
+          <h3 data-ar>إطلاق Apple Pay على شبكة مدى — ما يعنيه لتجارتك</h3>
+          <h3 data-en>Apple Pay on Mada — what it means for your business</h3>
+          <p data-ar>التعاون الجديد بين Apple ومدى، وكيف تستفيد منه عبر Val POS.</p>
+          <p data-en>The new Apple-Mada partnership and how to benefit through Val POS.</p>
+          <div class="post-meta">
+            <span data-ar>٢٨ مارس</span>
+            <span data-en>Mar 28</span>
+            <span class="dot"></span>
+            <span data-ar>٥ دقائق</span>
+            <span data-en>5 min read</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Load more -->
+    <div style="text-align: center; margin-top: 50px;">
+      <button class="btn btn-ghost btn-lg">
+        <span data-ar>تحميل المزيد</span>
+        <span data-en>Load More</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TOPICS ═══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-c">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>المواضيع</div>
+      <div class="eyebrow" data-en>TOPICS</div>
+      <h2 data-ar>تصفّح حسب الموضوع</h2>
+      <h2 data-en>Browse by topic</h2>
+    </div>
+
+    <div class="topics-grid reveal">
+      <div class="topic-card">
+        <div class="topic-icon">📊</div>
+        <div class="topic-name" data-ar>الكاشير</div>
+        <div class="topic-name" data-en>Cashier</div>
+        <div class="topic-count" data-ar>١٢ مقال</div>
+        <div class="topic-count" data-en>12 articles</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">💬</div>
+        <div class="topic-name" data-ar>متجر واتساب</div>
+        <div class="topic-name" data-en>WhatsApp</div>
+        <div class="topic-count" data-ar>٨ مقالات</div>
+        <div class="topic-count" data-en>8 articles</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">📦</div>
+        <div class="topic-name" data-ar>المخزون</div>
+        <div class="topic-name" data-en>Inventory</div>
+        <div class="topic-count" data-ar>١٥ مقال</div>
+        <div class="topic-count" data-en>15 articles</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">🧾</div>
+        <div class="topic-name" data-ar>ZATCA</div>
+        <div class="topic-name" data-en>ZATCA</div>
+        <div class="topic-count" data-ar>٧ مقالات</div>
+        <div class="topic-count" data-en>7 articles</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">📈</div>
+        <div class="topic-name" data-ar>التحليلات</div>
+        <div class="topic-name" data-en>Analytics</div>
+        <div class="topic-count" data-ar>٩ مقالات</div>
+        <div class="topic-count" data-en>9 articles</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">💳</div>
+        <div class="topic-name" data-ar>المدفوعات</div>
+        <div class="topic-name" data-en>Payments</div>
+        <div class="topic-count" data-ar>١١ مقال</div>
+        <div class="topic-count" data-en>11 articles</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">🏪</div>
+        <div class="topic-name" data-ar>الفروع</div>
+        <div class="topic-name" data-en>Branches</div>
+        <div class="topic-count" data-ar>٦ مقالات</div>
+        <div class="topic-count" data-en>6 articles</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">🎯</div>
+        <div class="topic-name" data-ar>التسويق</div>
+        <div class="topic-name" data-en>Marketing</div>
+        <div class="topic-count" data-ar>١٤ مقال</div>
+        <div class="topic-count" data-en>14 articles</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ NEWSLETTER ═══ -->
+<section class="section">
+  <div class="section-c">
+    <div class="newsletter-section reveal">
+      <div class="newsletter-c">
+        <h2 data-ar>اشترك في النشرة الأسبوعيّة</h2>
+        <h2 data-en>Subscribe to our weekly newsletter</h2>
+        <p data-ar>أحدث المقالات، نصائح للتجّار، وقصص نجاح حصريّة — تصلك كل أسبوع.</p>
+        <p data-en>Latest articles, merchant tips, and exclusive success stories — delivered weekly.</p>
+
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('شكراً! ✓');">
+          <input type="email" placeholder="بريدك الإلكتروني" data-placeholder-ar="بريدك الإلكتروني" data-placeholder-en="Your email" required>
+          <button type="submit">
+            <span data-ar>اشترك مجاناً</span>
+            <span data-en>Subscribe Free</span>
+          </button>
+        </form>
+
+        <div class="newsletter-perks">
+          <span><span data-ar>✓ نشرة أسبوعيّة فقط</span><span data-en>✓ Weekly only</span></span>
+          <span><span data-ar>✓ بدون رسائل مزعجة</span><span data-en>✓ No spam</span></span>
+          <span><span data-ar>✓ إلغاء بنقرة واحدة</span><span data-en>✓ Unsubscribe anytime</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:-100px;right:-100px;"></div>
+  <div class="footer-c">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 130 32" style="height:32px;" fill="none">
+            <path d="M4 8 L14 24 L24 8" stroke="#0a0a0a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="14" cy="24" r="2.5" fill="#a78bfa"/>
+            <text x="32" y="22" font-family="Cairo, sans-serif" font-weight="900" font-size="18" fill="#0a0a0a">Val<tspan fill="#a78bfa"> POS</tspan></text>
+          </svg>
+        </a>
+        <p data-ar>منصّة سعوديّة متكاملة لإدارة المتاجر، الكاشير، والمبيعات عبر واتساب.</p>
+        <p data-en>Saudi all-in-one platform for stores, cashier, and WhatsApp sales.</p>
+        <div class="cert-badges">
+          <span class="cert-badge">🔒 PCI-DSS</span>
+          <span class="cert-badge">✓ ZATCA</span>
+          <span class="cert-badge">🛡 SAMA</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>المنتج</h4>
+        <h4 data-en>Product</h4>
+        <ul>
+          <li><a href="/features" data-ar>المميزات</a><a href="/features" data-en>Features</a></li>
+          <li><a href="/pricing" data-ar>الأسعار</a><a href="/pricing" data-en>Pricing</a></li>
+          <li><a href="/features#whatsapp" data-ar>متجر واتساب</a><a href="/features#whatsapp" data-en>WhatsApp</a></li>
+          <li><a href="/api" data-ar>واجهة API</a><a href="/api" data-en>API</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>الشركة</h4>
+        <h4 data-en>Company</h4>
+        <ul>
+          <li><a href="/about" data-ar>من نحن</a><a href="/about" data-en>About</a></li>
+          <li><a href="/blog" data-ar>المدوّنة</a><a href="/blog" data-en>Blog</a></li>
+          <li><a href="/contact" data-ar>تواصل</a><a href="/contact" data-en>Contact</a></li>
+          <li><a href="/careers" data-ar>الوظائف</a><a href="/careers" data-en>Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>قانوني</h4>
+        <h4 data-en>Legal</h4>
+        <ul>
+          <li><a href="/policy/terms" data-ar>الشروط</a><a href="/policy/terms" data-en>Terms</a></li>
+          <li><a href="/policy/privacy" data-ar>الخصوصيّة</a><a href="/policy/privacy" data-en>Privacy</a></li>
+          <li><a href="/policy/refund" data-ar>سياسة الاسترداد</a><a href="/policy/refund" data-en>Refunds</a></li>
+          <li><a href="/policy/cookies" data-ar>الكوكيز</a><a href="/policy/cookies" data-en>Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-ar>© 2026 Val POS. جميع الحقوق محفوظة. صُنع في 🇸🇦 السعوديّة</p>
+      <p data-en>© 2026 Val POS. All rights reserved. Made in 🇸🇦 Saudi Arabia</p>
+      <div class="social">
+        <a href="#" aria-label="Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753c0-.249 1.51-2.772 1.818-4.013z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts.js"></script>
+</body>
+</html>

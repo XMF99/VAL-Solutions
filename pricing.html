@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأسعار — Val POS</title>
+<meta name="description" content="باقات Val POS — أسعار شفّافة بدون رسوم خفيّة. اختر الباقة المناسبة لك وابدأ بـ 14 يوم مجاناً.">
+<meta name="theme-color" content="#fafaf7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+/* Page-specific: Pricing */
+.page-hero {
+  padding: 160px 5% 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero h1 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+[data-lang="en"] .page-hero h1 { font-family: 'Inter', sans-serif; }
+.page-hero h1 .accent {
+  background: linear-gradient(120deg, var(--primary) 0%, var(--pink) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.page-hero p { font-size: 18px; color: var(--text-2); max-width: 600px; margin: 0 auto; line-height: 1.65; }
+
+/* Pricing toggle */
+.pricing-toggle {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+.toggle-pill {
+  display: flex;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px;
+  box-shadow: var(--shadow-sm);
+}
+.toggle-pill button {
+  padding: 11px 24px;
+  background: transparent;
+  color: var(--text-2);
+  border: none;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all var(--t-base);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.toggle-pill button.active {
+  background: var(--text);
+  color: white;
+}
+.toggle-pill .save-badge {
+  background: var(--yellow);
+  color: var(--text);
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Pricing Grid */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.price-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 40px 32px;
+  position: relative;
+  transition: all var(--t-base);
+}
+.price-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.price-card.featured {
+  background: linear-gradient(180deg, white 0%, var(--primary-soft) 100%);
+  border: 2px solid var(--primary);
+  transform: scale(1.04);
+  box-shadow: 0 30px 60px var(--primary-glow);
+}
+.price-card.featured:hover { transform: scale(1.04) translateY(-4px); }
+.popular-tag {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: white;
+  padding: 7px 18px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 20px var(--primary-glow);
+}
+.plan-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.plan-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  font-size: 26px;
+}
+.plan-icon.basic { background: var(--cyan-soft); }
+.plan-icon.pro { background: var(--primary-soft); }
+.plan-icon.enterprise { background: var(--yellow-soft); }
+.plan-tagline {
+  font-size: 13px;
+  color: var(--text-3);
+  margin-bottom: 24px;
+  min-height: 38px;
+}
+.plan-price {
+  font-family: 'Cairo', sans-serif;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+[data-lang="en"] .plan-price { font-family: 'Inter', sans-serif; }
+.plan-price .amount {
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: var(--text);
+}
+.plan-price .currency {
+  font-size: 16px;
+  color: var(--text-2);
+  font-weight: 700;
+}
+.plan-period {
+  color: var(--text-3);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+.plan-features {
+  list-style: none;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.plan-features li {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-2);
+  align-items: flex-start;
+}
+.plan-features li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  margin-top: 2px;
+  background: var(--primary-soft);
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-size: 11px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.plan-features li.disabled {
+  color: var(--text-4);
+  text-decoration: line-through;
+}
+.plan-features li.disabled::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='3'><line x1='18' y1='6' x2='6' y2='18'/><line x1='6' y1='6' x2='18' y2='18'/></svg>");
+  background-color: var(--bg-3);
+}
+.plan-features li strong { color: var(--text); font-weight: 800; }
+.plan-cta {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--r-md);
+  font-weight: 800;
+  font-size: 14px;
+  border: 1px solid var(--border-2);
+  background: white;
+  color: var(--text);
+  transition: all var(--t-base);
+  text-align: center;
+}
+.plan-cta:hover { background: var(--bg-2); border-color: var(--text-4); }
+.price-card.featured .plan-cta {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+.price-card.featured .plan-cta:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 10px 24px var(--primary-glow);
+}
+
+/* Comparison Table */
+.compare-section { background: var(--bg-soft); }
+.compare-table {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.compare-row {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+.compare-row:last-child { border-bottom: none; }
+.compare-row.header {
+  background: var(--bg-2);
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.compare-cell {
+  padding: 18px 20px;
+  border-inline-end: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.compare-cell:last-child { border-inline-end: none; }
+.compare-cell.feature-name { font-weight: 700; color: var(--text); }
+.compare-cell.center { justify-content: center; }
+.compare-row.featured-col .compare-cell:nth-child(3) {
+  background: var(--primary-soft);
+}
+.check-icon { color: var(--primary-dark); font-size: 18px; font-weight: 900; }
+.x-icon { color: var(--text-4); }
+
+/* Free Trial CTA */
+.trial-cta {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: var(--r-2xl);
+  padding: 70px 48px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.trial-cta::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--yellow) 0%, transparent 70%);
+  opacity: 0.4;
+  animation: blob 14s ease-in-out infinite;
+}
+.trial-cta-c { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+.trial-cta h2 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 18px;
+  color: white;
+}
+[data-lang="en"] .trial-cta h2 { font-family: 'Inter', sans-serif; }
+.trial-cta p {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 17px;
+  margin-bottom: 30px;
+}
+.trial-cta .btn { padding: 16px 32px; font-size: 15px; }
+.trial-cta .btn-primary { background: white; color: var(--primary-dark); }
+.trial-cta .btn-primary:hover { background: var(--yellow); color: var(--text); }
+.trial-perks {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+}
+.trial-perks span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* FAQ */
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.faq-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: all var(--t-base);
+}
+.faq-item.open {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+.faq-q {
+  width: 100%;
+  padding: 22px 26px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: start;
+  font-family: 'Cairo', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  gap: 16px;
+  cursor: pointer;
+}
+[data-lang="en"] .faq-q { font-family: 'Inter', sans-serif; }
+.faq-plus {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+  transition: transform var(--t-base), background var(--t-base);
+}
+.faq-plus svg { width: 14px; height: 14px; }
+.faq-item.open .faq-plus {
+  transform: rotate(45deg);
+  background: var(--primary);
+  color: white;
+}
+.faq-a { max-height: 0; overflow: hidden; transition: max-height var(--t-slow); }
+.faq-item.open .faq-a { max-height: 400px; }
+.faq-a-inner { padding: 0 26px 24px; color: var(--text-2); font-size: 15px; line-height: 1.75; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pricing-grid { grid-template-columns: 1fr; max-width: 460px; }
+  .price-card.featured { transform: none; }
+  .price-card.featured:hover { transform: translateY(-4px); }
+  .compare-row { grid-template-columns: 1.5fr repeat(3, 1fr); font-size: 12px; }
+  .compare-cell { padding: 12px 10px; }
+}
+@media (max-width: 768px) {
+  .compare-table { display: none; }
+  .trial-cta { padding: 50px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-c">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 130 32" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <path d="M4 8 L14 24 L24 8" stroke="#0a0a0a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="14" cy="24" r="2.5" fill="#a78bfa"/>
+        <text x="32" y="22" font-family="Cairo, sans-serif" font-weight="900" font-size="16" fill="#0a0a0a" letter-spacing="-0.5">Val<tspan fill="#a78bfa"> POS</tspan></text>
+      </svg>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+      <li><a href="/features" data-ar>المميزات</a><a href="/features" data-en>Features</a></li>
+      <li><a href="/pricing" class="active" data-ar>الأسعار</a><a href="/pricing" class="active" data-en>Pricing</a></li>
+      <li><a href="/blog" data-ar>المدوّنة</a><a href="/blog" data-en>Blog</a></li>
+      <li><a href="/contact" data-ar>تواصل</a><a href="/contact" data-en>Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button data-lang-btn="ar" class="active">عربي</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="/user/login" class="btn btn-ghost" data-ar>دخول</a>
+      <a href="/user/login" class="btn btn-ghost" data-en>Login</a>
+      <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+      <a href="/user/register" class="btn btn-violet" data-en>Get Started</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+    <li><a href="/features" data-ar>المميزات</a><a href="/features" data-en>Features</a></li>
+    <li><a href="/pricing" data-ar>الأسعار</a><a href="/pricing" data-en>Pricing</a></li>
+    <li><a href="/blog" data-ar>المدوّنة</a><a href="/blog" data-en>Blog</a></li>
+    <li><a href="/contact" data-ar>تواصل</a><a href="/contact" data-en>Contact</a></li>
+  </ul>
+  <a href="/user/login" class="btn btn-ghost" data-ar>دخول التاجر</a>
+  <a href="/user/login" class="btn btn-ghost" data-en>Merchant Login</a>
+  <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+  <a href="/user/register" class="btn btn-violet" data-en>Get Started Free</a>
+</div>
+
+<!-- ═══ PAGE HERO ═══ -->
+<section class="page-hero">
+  <div class="bg-grid"></div>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:0;right:-100px;"></div>
+  <div class="bg-blob yellow" style="width:300px;height:300px;bottom:-80px;left:-50px;"></div>
+
+  <div class="reveal" style="position: relative; z-index: 2;">
+    <div class="eyebrow" style="margin-bottom: 22px;" data-ar>الأسعار</div>
+    <div class="eyebrow" style="margin-bottom: 22px;" data-en>PRICING</div>
+
+    <h1 data-ar>أسعار <span class="accent">شفّافة</span><br>بدون رسوم خفيّة</h1>
+    <h1 data-en>Simple, <span class="accent">transparent</span><br>pricing</h1>
+
+    <p data-ar>اختر الباقة المناسبة لك. غيّرها متى ما شئت. بدون عقود طويلة. بدون مفاجآت.</p>
+    <p data-en>Choose the plan that fits you. Change it anytime. No long contracts. No surprises.</p>
+
+    <!-- Toggle -->
+    <div class="pricing-toggle">
+      <div class="toggle-pill">
+        <button id="monthlyBtn" class="active">
+          <span data-ar>شهرياً</span>
+          <span data-en>Monthly</span>
+        </button>
+        <button id="yearlyBtn">
+          <span data-ar>سنوياً</span>
+          <span data-en>Yearly</span>
+          <span class="save-badge" data-ar>وفّر ١٧٪</span>
+          <span class="save-badge" data-en>Save 17%</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING CARDS ═══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-c">
+    <div class="pricing-grid">
+      <!-- Basic -->
+      <div class="price-card reveal">
+        <div class="plan-icon basic">🌱</div>
+        <div class="plan-name" data-ar>الأساسيّة</div>
+        <div class="plan-name" data-en>Basic</div>
+        <div class="plan-tagline" data-ar>للمتاجر الصغيرة والبدء الجديد</div>
+        <div class="plan-tagline" data-en>For small stores and new starters</div>
+        <div class="plan-price">
+          <span class="amount" data-monthly="79" data-yearly="790">٧٩</span>
+          <span class="currency">ر.س / <span class="period-label">شهر</span></span>
+        </div>
+        <div class="plan-period" data-ar>تجربة مجانيّة لمدّة ١٤ يوم</div>
+        <div class="plan-period" data-en>14-day free trial</div>
+        <ul class="plan-features">
+          <li><span data-ar>كاشير POS كامل</span><span data-en>Full POS cashier</span></li>
+          <li><span data-ar>حتى <strong>500 منتج</strong></span><span data-en>Up to <strong>500 products</strong></span></li>
+          <li><span data-ar>فاتورة إلكترونيّة ZATCA</span><span data-en>ZATCA e-invoicing</span></li>
+          <li><span data-ar>تقارير أساسيّة</span><span data-en>Basic reports</span></li>
+          <li><span data-ar>فرع واحد</span><span data-en>1 branch</span></li>
+          <li><span data-ar>دعم بالبريد الإلكتروني</span><span data-en>Email support</span></li>
+          <li class="disabled"><span data-ar>متجر واتساب</span><span data-en>WhatsApp store</span></li>
+          <li class="disabled"><span data-ar>تقارير AI</span><span data-en>AI reports</span></li>
+        </ul>
+        <a href="/user/register" class="plan-cta" data-ar>ابدأ الآن</a>
+        <a href="/user/register" class="plan-cta" data-en>Get Started</a>
+      </div>
+
+      <!-- Professional (featured) -->
+      <div class="price-card featured reveal" data-delay="150">
+        <div class="popular-tag">
+          <span data-ar>⭐ الأكثر طلباً</span>
+          <span data-en>⭐ MOST POPULAR</span>
+        </div>
+        <div class="plan-icon pro">🚀</div>
+        <div class="plan-name" data-ar>الاحترافيّة</div>
+        <div class="plan-name" data-en>Professional</div>
+        <div class="plan-tagline" data-ar>للمتاجر النامية والمقاهي</div>
+        <div class="plan-tagline" data-en>For growing stores and cafes</div>
+        <div class="plan-price">
+          <span class="amount" data-monthly="99" data-yearly="990">٩٩</span>
+          <span class="currency">ر.س / <span class="period-label">شهر</span></span>
+        </div>
+        <div class="plan-period" data-ar>تجربة مجانيّة لمدّة ١٤ يوم</div>
+        <div class="plan-period" data-en>14-day free trial</div>
+        <ul class="plan-features">
+          <li><span data-ar>كل ميزات الأساسيّة</span><span data-en>Everything in Basic</span></li>
+          <li><span data-ar><strong>متجر واتساب</strong> الذكي</span><span data-en>Smart <strong>WhatsApp Store</strong></span></li>
+          <li><span data-ar>منتجات <strong>غير محدودة</strong></span><span data-en><strong>Unlimited</strong> products</span></li>
+          <li><span data-ar>تقارير ذكيّة بـ AI</span><span data-en>AI-powered reports</span></li>
+          <li><span data-ar>حتى <strong>فرعين</strong></span><span data-en>Up to <strong>2 branches</strong></span></li>
+          <li><span data-ar>طرق دفع متعدّدة</span><span data-en>Multiple payment methods</span></li>
+          <li><span data-ar>دعم فنّي ٢٤/٧</span><span data-en>24/7 technical support</span></li>
+          <li><span data-ar>مزامنة مع سلّة وزد</span><span data-en>Salla & Zid sync</span></li>
+        </ul>
+        <a href="/user/register" class="plan-cta" data-ar>ابدأ الآن</a>
+        <a href="/user/register" class="plan-cta" data-en>Get Started</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="price-card reveal" data-delay="300">
+        <div class="plan-icon enterprise">👑</div>
+        <div class="plan-name" data-ar>الشاملة</div>
+        <div class="plan-name" data-en>Enterprise</div>
+        <div class="plan-tagline" data-ar>للسلاسل الكبيرة والمتاجر متعدّدة الفروع</div>
+        <div class="plan-tagline" data-en>For chains and multi-branch stores</div>
+        <div class="plan-price">
+          <span class="amount" data-monthly="159" data-yearly="1590">١٥٩</span>
+          <span class="currency">ر.س / <span class="period-label">شهر</span></span>
+        </div>
+        <div class="plan-period" data-ar>تجربة مجانيّة لمدّة ١٤ يوم</div>
+        <div class="plan-period" data-en>14-day free trial</div>
+        <ul class="plan-features">
+          <li><span data-ar>كل ميزات الاحترافيّة</span><span data-en>Everything in Professional</span></li>
+          <li><span data-ar>فروع <strong>غير محدودة</strong></span><span data-en><strong>Unlimited</strong> branches</span></li>
+          <li><span data-ar>إدارة الموظّفين</span><span data-en>Staff management</span></li>
+          <li><span data-ar>صلاحيّات متقدّمة</span><span data-en>Advanced permissions</span></li>
+          <li><span data-ar>API للتكامل</span><span data-en>API integration</span></li>
+          <li><span data-ar>مدير حساب مخصّص</span><span data-en>Dedicated account manager</span></li>
+          <li><span data-ar>تدريب شخصي مجاني</span><span data-en>Free personal training</span></li>
+          <li><span data-ar>SLA مضمون</span><span data-en>Guaranteed SLA</span></li>
+        </ul>
+        <a href="/user/register" class="plan-cta" data-ar>ابدأ الآن</a>
+        <a href="/user/register" class="plan-cta" data-en>Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPARE TABLE ═══ -->
+<section class="section compare-section">
+  <div class="section-c">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>المقارنة</div>
+      <div class="eyebrow" data-en>COMPARISON</div>
+      <h2 data-ar>كل التفاصيل في جدول واحد</h2>
+      <h2 data-en>All details in one table</h2>
+      <p data-ar>قارن بين الباقات بسهولة لتختار الأنسب لمتجرك.</p>
+      <p data-en>Easily compare plans to choose what's right for your store.</p>
+    </div>
+
+    <div class="compare-table reveal">
+      <div class="compare-row header">
+        <div class="compare-cell">
+          <span data-ar>الميزة</span>
+          <span data-en>Feature</span>
+        </div>
+        <div class="compare-cell center"><span data-ar>الأساسيّة</span><span data-en>Basic</span></div>
+        <div class="compare-cell center"><span data-ar>الاحترافيّة</span><span data-en>Professional</span></div>
+        <div class="compare-cell center"><span data-ar>الشاملة</span><span data-en>Enterprise</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>كاشير POS</span><span data-en>POS Cashier</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>عدد المنتجات</span><span data-en>Products</span></div>
+        <div class="compare-cell center">500</div>
+        <div class="compare-cell center"><span data-ar>غير محدود</span><span data-en>Unlimited</span></div>
+        <div class="compare-cell center"><span data-ar>غير محدود</span><span data-en>Unlimited</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>فاتورة ZATCA</span><span data-en>ZATCA Invoicing</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>متجر واتساب</span><span data-en>WhatsApp Store</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>تقارير AI</span><span data-en>AI Reports</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>عدد الفروع</span><span data-en>Branches</span></div>
+        <div class="compare-cell center">1</div>
+        <div class="compare-cell center">2</div>
+        <div class="compare-cell center"><span data-ar>غير محدود</span><span data-en>Unlimited</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>إدارة الموظّفين</span><span data-en>Staff Management</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>API للتكامل</span><span data-en>API Integration</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>مدير حساب</span><span data-en>Account Manager</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="x-icon">✕</span></div>
+        <div class="compare-cell center"><span class="check-icon">✓</span></div>
+      </div>
+
+      <div class="compare-row featured-col">
+        <div class="compare-cell feature-name"><span data-ar>الدعم الفنّي</span><span data-en>Support</span></div>
+        <div class="compare-cell center"><span data-ar>بريد</span><span data-en>Email</span></div>
+        <div class="compare-cell center">24/7</div>
+        <div class="compare-cell center"><span data-ar>SLA</span><span data-en>SLA</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRIAL CTA ═══ -->
+<section class="section">
+  <div class="section-c">
+    <div class="trial-cta reveal">
+      <div class="trial-cta-c">
+        <h2 data-ar>جرّب Val POS مجاناً<br>لمدّة ١٤ يوم</h2>
+        <h2 data-en>Try Val POS free<br>for 14 days</h2>
+        <p data-ar>وصول كامل لجميع المميزات، بدون بطاقة ائتمان، بدون التزامات.</p>
+        <p data-en>Full access to all features, no credit card, no commitments.</p>
+        <a href="/user/register" class="btn btn-primary btn-lg">
+          <span data-ar>ابدأ تجربتك المجانيّة</span>
+          <span data-en>Start your free trial</span>
+        </a>
+        <div class="trial-perks">
+          <span><span data-ar>✓ بدون بطاقة ائتمان</span><span data-en>✓ No credit card</span></span>
+          <span><span data-ar>✓ إلغاء في أي وقت</span><span data-en>✓ Cancel anytime</span></span>
+          <span><span data-ar>✓ دعم سعودي</span><span data-en>✓ Saudi support</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-c">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>أسئلة عن الأسعار</div>
+      <div class="eyebrow" data-en>PRICING FAQ</div>
+      <h2 data-ar>أسئلة شائعة حول الأسعار</h2>
+      <h2 data-en>Common pricing questions</h2>
+    </div>
+
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل أحتاج بطاقة ائتمان للتجربة المجانيّة؟</span>
+          <span data-en>Do I need a credit card for the free trial?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>لا، التجربة المجانيّة لا تتطلّب بطاقة ائتمان. سجّل، استخدم Val POS لمدّة 14 يوم، وقرّر إذا كانت مناسبة لك. لو ما اشتركت، حسابك يُجمَّد ببساطة بدون أي خصم.</span>
+          <span data-en>No, the free trial doesn't require a credit card. Sign up, use Val POS for 14 days, and decide if it's right for you. If you don't subscribe, your account is simply paused with no charge.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل أقدر أغيّر باقتي بعد الاشتراك؟</span>
+          <span data-en>Can I change my plan after subscribing?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نعم، تقدر ترقّي أو تخفّض باقتك في أي وقت من لوحة التحكّم. عند الترقية، تدفع الفرق فقط للأيّام المتبقية. عند التخفيض، الباقة الجديدة تبدأ في الدورة التاليّة.</span>
+          <span data-en>Yes, you can upgrade or downgrade anytime from your dashboard. When upgrading, you only pay the difference for remaining days. When downgrading, the new plan starts on the next billing cycle.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل في رسوم خفيّة أو رسوم تركيب؟</span>
+          <span data-en>Are there hidden fees or setup fees?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>أبداً. السعر اللي تشوفه هو اللي تدفعه — شامل ضريبة القيمة المضافة. لا توجد رسوم تركيب، لا رسوم تفعيل، ولا رسوم خفيّة.</span>
+          <span data-en>Never. The price you see is what you pay — VAT included. No setup fees, no activation fees, no hidden charges.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>كيف يشتغل خصم الباقة السنويّة؟</span>
+          <span data-en>How does the yearly discount work?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>عند اختيار الدفع السنوي، توفّر 17٪ مقارنة بالدفع الشهري. مثلاً، الباقة الاحترافيّة شهرياً 99 ر.س × 12 = 1188 ر.س، لكن سنوياً تصير 990 ر.س فقط.</span>
+          <span data-en>When you choose yearly billing, you save 17% compared to monthly. For example, Professional plan is 99 SAR × 12 = 1188 SAR monthly, but only 990 SAR yearly.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>ما سياسة الاسترداد؟</span>
+          <span data-en>What's your refund policy?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نوفّر استرداد كامل خلال 30 يوم من الاشتراك إذا لم تكن راضي. ببساطة تواصل مع الدعم وسنرجع لك المبلغ بدون أسئلة.</span>
+          <span data-en>We offer a full refund within 30 days of subscription if you're not satisfied. Simply contact support and we'll refund you with no questions asked.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل تحتاج خطّة مخصّصة لمؤسّستي؟</span>
+          <span data-en>Do you have custom plans for enterprises?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نعم، للسلاسل الكبيرة والشركات، نوفّر خطط مخصّصة بأسعار خاصّة وميزات إضافيّة. تواصل معنا عبر صفحة <a href="/contact" style="color: var(--primary-dark); font-weight: 700;">تواصل</a> ونرتّب لك عرض مخصّص.</span>
+          <span data-en>Yes, for chains and large organizations, we offer custom plans with special pricing and additional features. Contact us via the <a href="/contact" style="color: var(--primary-dark); font-weight: 700;">contact</a> page and we'll arrange a custom quote.</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:-100px;right:-100px;"></div>
+  <div class="footer-c">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 130 32" style="height:32px;" fill="none">
+            <path d="M4 8 L14 24 L24 8" stroke="#0a0a0a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="14" cy="24" r="2.5" fill="#a78bfa"/>
+            <text x="32" y="22" font-family="Cairo, sans-serif" font-weight="900" font-size="18" fill="#0a0a0a">Val<tspan fill="#a78bfa"> POS</tspan></text>
+          </svg>
+        </a>
+        <p data-ar>منصّة سعوديّة متكاملة لإدارة المتاجر، الكاشير، والمبيعات عبر واتساب.</p>
+        <p data-en>Saudi all-in-one platform for stores, cashier, and WhatsApp sales.</p>
+        <div class="cert-badges">
+          <span class="cert-badge">🔒 PCI-DSS</span>
+          <span class="cert-badge">✓ ZATCA</span>
+          <span class="cert-badge">🛡 SAMA</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>المنتج</h4>
+        <h4 data-en>Product</h4>
+        <ul>
+          <li><a href="/features" data-ar>المميزات</a><a href="/features" data-en>Features</a></li>
+          <li><a href="/pricing" data-ar>الأسعار</a><a href="/pricing" data-en>Pricing</a></li>
+          <li><a href="/features#whatsapp" data-ar>متجر واتساب</a><a href="/features#whatsapp" data-en>WhatsApp</a></li>
+          <li><a href="/api" data-ar>واجهة API</a><a href="/api" data-en>API</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>الشركة</h4>
+        <h4 data-en>Company</h4>
+        <ul>
+          <li><a href="/about" data-ar>من نحن</a><a href="/about" data-en>About</a></li>
+          <li><a href="/blog" data-ar>المدوّنة</a><a href="/blog" data-en>Blog</a></li>
+          <li><a href="/contact" data-ar>تواصل</a><a href="/contact" data-en>Contact</a></li>
+          <li><a href="/careers" data-ar>الوظائف</a><a href="/careers" data-en>Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>قانوني</h4>
+        <h4 data-en>Legal</h4>
+        <ul>
+          <li><a href="/policy/terms" data-ar>الشروط</a><a href="/policy/terms" data-en>Terms</a></li>
+          <li><a href="/policy/privacy" data-ar>الخصوصيّة</a><a href="/policy/privacy" data-en>Privacy</a></li>
+          <li><a href="/policy/refund" data-ar>سياسة الاسترداد</a><a href="/policy/refund" data-en>Refunds</a></li>
+          <li><a href="/policy/cookies" data-ar>الكوكيز</a><a href="/policy/cookies" data-en>Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-ar>© 2026 Val POS. جميع الحقوق محفوظة. صُنع في 🇸🇦 السعوديّة</p>
+      <p data-en>© 2026 Val POS. All rights reserved. Made in 🇸🇦 Saudi Arabia</p>
+      <div class="social">
+        <a href="#" aria-label="Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753c0-.249 1.51-2.772 1.818-4.013z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts.js"></script>
+</body>
+</html>
