@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المميزات — Val POS</title>
+<meta name="description" content="اكتشف كل مميزات Val POS — منصّة سعوديّة متكاملة لإدارة متجرك بذكاء.">
+<meta name="theme-color" content="#fafaf7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+.page-hero { padding: 160px 5% 80px; text-align: center; position: relative; overflow: hidden; }
+.page-hero h1 { font-family: 'Cairo', sans-serif; font-size: clamp(40px, 6vw, 80px); font-weight: 900; line-height: 1; letter-spacing: -2.5px; margin-bottom: 22px; color: var(--text); }
+[data-lang="en"] .page-hero h1 { font-family: 'Inter', sans-serif; }
+.page-hero h1 .accent { background: linear-gradient(120deg, var(--primary) 0%, var(--pink) 50%, var(--yellow) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.page-hero p { font-size: 19px; color: var(--text-2); max-width: 640px; margin: 0 auto 36px; line-height: 1.65; }
+
+.cat-nav { position: sticky; top: 90px; z-index: 50; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 100px; padding: 6px; margin: 0 auto 40px; max-width: 1100px; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; box-shadow: var(--shadow-sm); }
+.cat-nav::-webkit-scrollbar { display: none; }
+.cat-nav button { flex-shrink: 0; padding: 9px 16px; background: transparent; border: none; border-radius: 100px; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text-2); cursor: pointer; transition: all var(--t-base); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.cat-nav button:hover { background: var(--bg-2); color: var(--text); }
+.cat-nav button.active { background: var(--text); color: white; }
+
+.cat-section { padding: 80px 5%; position: relative; scroll-margin-top: 160px; }
+.cat-section .section-c { max-width: 1200px; margin: 0 auto; }
+.cat-head { display: flex; align-items: center; gap: 18px; margin-bottom: 50px; flex-wrap: wrap; }
+.cat-icon-lg { width: 64px; height: 64px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; }
+.cat-icon-lg.violet { background: var(--primary-soft); }
+.cat-icon-lg.yellow { background: var(--yellow-soft); }
+.cat-icon-lg.cyan { background: var(--cyan-soft); }
+.cat-icon-lg.pink { background: var(--pink-soft); }
+.cat-icon-lg.green { background: var(--green-soft); }
+.cat-icon-lg.orange { background: var(--orange-soft); }
+.cat-head-text { flex: 1; min-width: 240px; }
+.cat-head .eyebrow { margin-bottom: 8px; }
+.cat-head h2 { font-family: 'Cairo', sans-serif; font-size: clamp(28px, 3.6vw, 44px); font-weight: 900; letter-spacing: -1.2px; line-height: 1.1; margin-bottom: 6px; color: var(--text); }
+[data-lang="en"] .cat-head h2 { font-family: 'Inter', sans-serif; }
+.cat-head .desc { color: var(--text-2); font-size: 15px; line-height: 1.6; max-width: 600px; }
+
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+.bento-item { background: white; border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px; transition: all var(--t-base); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
+.bento-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+.bento-item::before { content: ''; position: absolute; top: -50%; right: -30%; width: 280px; height: 280px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 65%); pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+.bento-item:hover::before { opacity: 0.5; }
+.bento-item.span-2 { grid-column: span 2; }
+.bento-item.span-3 { grid-column: span 3; }
+.bento-item.span-4 { grid-column: span 4; }
+.bento-item.span-6 { grid-column: span 6; }
+
+.bento-icon-sm { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; z-index: 1; }
+.bento-icon-sm svg { width: 22px; height: 22px; }
+.bento-icon-sm.violet { background: var(--primary-soft); color: var(--primary-dark); }
+.bento-icon-sm.yellow { background: var(--yellow-soft); color: #b45309; }
+.bento-icon-sm.cyan { background: var(--cyan-soft); color: #0e7490; }
+.bento-icon-sm.pink { background: var(--pink-soft); color: #be185d; }
+.bento-icon-sm.green { background: var(--green-soft); color: #047857; }
+.bento-icon-sm.orange { background: var(--orange-soft); color: #c2410c; }
+
+.bento-title { font-family: 'Cairo', sans-serif; font-size: 18px; font-weight: 900; color: var(--text); letter-spacing: -0.3px; position: relative; z-index: 1; }
+[data-lang="en"] .bento-title { font-family: 'Inter', sans-serif; }
+.bento-item.span-3 .bento-title, .bento-item.span-4 .bento-title, .bento-item.span-6 .bento-title { font-size: 22px; }
+.bento-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; position: relative; z-index: 1; }
+.bento-item.span-3 .bento-desc, .bento-item.span-4 .bento-desc, .bento-item.span-6 .bento-desc { font-size: 14px; }
+.bento-benefit { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 11px; color: var(--primary-dark); font-weight: 700; display: flex; align-items: center; gap: 6px; position: relative; z-index: 1; }
+.bento-benefit::before { content: '💡'; font-size: 14px; }
+
+.bento-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--primary); color: white; padding: 3px 10px; border-radius: 100px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 0.5px; width: fit-content; }
+.bento-tag.gold { background: var(--yellow); color: var(--text); }
+.bento-tag.cyan { background: var(--cyan); color: var(--text); }
+.bento-tag.green { background: var(--green); color: white; }
+
+.bento-visual { background: linear-gradient(135deg, var(--primary-soft), var(--cyan-soft)); border: none; padding: 0; overflow: hidden; min-height: 280px; }
+.bento-visual.violet-pink { background: linear-gradient(135deg, var(--primary-soft), var(--pink-soft)); }
+.bento-visual.yellow-orange { background: linear-gradient(135deg, var(--yellow-soft), var(--orange-soft)); }
+.bento-visual.cyan-green { background: linear-gradient(135deg, var(--cyan-soft), var(--green-soft)); }
+.bento-visual-c { padding: 32px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+.bento-visual h4 { font-family: 'Cairo', sans-serif; font-size: 26px; font-weight: 900; margin-bottom: 10px; color: var(--text); letter-spacing: -0.5px; }
+[data-lang="en"] .bento-visual h4 { font-family: 'Inter', sans-serif; }
+.bento-visual p { font-size: 14px; color: var(--text-2); line-height: 1.65; max-width: 90%; }
+
+/* AI Banner */
+.ai-banner { background: linear-gradient(135deg, #1a1033 0%, #2d1b69 50%, #4c1d95 100%); border-radius: var(--r-2xl); padding: 70px 56px; position: relative; overflow: hidden; color: white; margin: 60px 0; }
+.ai-banner::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, var(--yellow) 0%, transparent 70%); opacity: 0.25; animation: blob 14s ease-in-out infinite; }
+.ai-banner::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, var(--cyan) 0%, transparent 70%); opacity: 0.3; animation: blob 16s ease-in-out infinite reverse; }
+.ai-banner-c { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; position: relative; z-index: 2; }
+.ai-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: var(--yellow); padding: 7px 14px; border-radius: 100px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 18px; }
+.ai-tag::before { content: ''; width: 8px; height: 8px; background: var(--yellow); border-radius: 50%; box-shadow: 0 0 12px var(--yellow); animation: pulse 2s infinite; }
+.ai-banner h2 { font-family: 'Cairo', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 18px; color: white; }
+[data-lang="en"] .ai-banner h2 { font-family: 'Inter', sans-serif; }
+.ai-banner h2 .glow { background: linear-gradient(120deg, var(--yellow), var(--cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.ai-banner-c > div > p { color: rgba(255,255,255,0.85); font-size: 16px; line-height: 1.7; margin-bottom: 26px; }
+.ai-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.ai-features li { display: flex; gap: 12px; font-size: 15px; color: white; font-weight: 600; align-items: center; }
+.ai-features li::before { content: ''; flex-shrink: 0; width: 24px; height: 24px; background: linear-gradient(135deg, var(--yellow), var(--orange-soft)); border-radius: 50%; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg>"); background-size: 14px; background-repeat: no-repeat; background-position: center; }
+.ai-banner .btn-primary { background: var(--yellow); color: var(--text); }
+.ai-banner .btn-primary:hover { background: white; }
+
+.ai-visual { position: relative; height: 380px; }
+.ai-orb { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.ai-orb-circle { width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--cyan), var(--primary), #1a1033); position: relative; box-shadow: 0 30px 80px rgba(103, 232, 249, 0.4); animation: float 4.5s ease-in-out infinite; }
+.ai-orb-circle::before { content: ''; position: absolute; inset: 20px; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.2); animation: spinSlow 30s linear infinite; }
+.ai-orb-circle::after { content: ''; position: absolute; inset: 50px; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.1); animation: spinSlow 25s linear infinite reverse; }
+.ai-orb-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 70px; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4)); }
+.ai-floating { position: absolute; background: rgba(255,255,255,0.95); color: var(--text); padding: 12px 16px; border-radius: 14px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 8px; }
+.ai-floating-1 { top: 10%; right: 5%; animation: float 5s ease-in-out infinite; }
+.ai-floating-2 { bottom: 25%; left: 0; animation: float 4s ease-in-out infinite 0.5s; }
+.ai-floating-3 { bottom: 5%; right: 15%; animation: float2 6s ease-in-out infinite 1s; }
+
+.final-cta-section { padding: 100px 5%; position: relative; overflow: hidden; }
+.final-cta { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: var(--r-2xl); padding: 70px 48px; text-align: center; position: relative; overflow: hidden; color: white; max-width: 1200px; margin: 0 auto; }
+.final-cta::before { content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, var(--yellow) 0%, transparent 70%); opacity: 0.4; animation: blob 14s ease-in-out infinite; }
+.final-cta::after { content: ''; position: absolute; bottom: -50%; left: -10%; width: 400px; height: 400px; background: radial-gradient(circle, var(--cyan) 0%, transparent 70%); opacity: 0.4; animation: blob 16s ease-in-out infinite reverse; }
+.final-cta-c { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+.final-cta h2 { font-family: 'Cairo', sans-serif; font-size: clamp(32px, 4.5vw, 52px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 18px; color: white; }
+[data-lang="en"] .final-cta h2 { font-family: 'Inter', sans-serif; }
+.final-cta p { color: rgba(255,255,255,0.92); font-size: 17px; margin-bottom: 30px; }
+.final-cta .btn { padding: 16px 30px; font-size: 15px; }
+.final-cta .btn-primary { background: white; color: var(--primary-dark); }
+.final-cta .btn-primary:hover { background: var(--yellow); color: var(--text); }
+
+@media (max-width: 1024px) {
+  .bento { grid-template-columns: repeat(4, 1fr); }
+  .bento-item.span-3, .bento-item.span-4 { grid-column: span 2; }
+  .bento-item.span-6 { grid-column: span 4; }
+  .ai-banner-c { grid-template-columns: 1fr; }
+  .ai-visual { height: 320px; margin-top: 24px; }
+}
+@media (max-width: 768px) {
+  .page-hero { padding: 110px 5% 60px; }
+  .page-hero h1 { font-size: 42px; letter-spacing: -1.5px; }
+  .cat-nav { top: 80px; }
+  .bento { grid-template-columns: 1fr; }
+  .bento-item.span-2, .bento-item.span-3, .bento-item.span-4, .bento-item.span-6 { grid-column: span 1; }
+  .ai-banner { padding: 50px 28px; }
+  .cat-section { padding: 50px 5%; }
+}
+</style>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/favicon-192.png">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-c">
+    <a href="/" class="logo">
+      <img src="/images/val-logo.png" alt="Val Solutions" style="height:36px;width:auto;display:block;" />
+    </a>
+    <ul class="nav-menu">
+      <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+      <li><a href="/features.html" class="active" data-ar>المميزات</a><a href="/features.html" class="active" data-en>Features</a></li>
+      <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+      <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+      <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button data-lang-btn="ar" class="active">عربي</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="/user/login" class="btn btn-ghost" data-ar>دخول</a>
+      <a href="/user/login" class="btn btn-ghost" data-en>Login</a>
+      <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+      <a href="/user/register" class="btn btn-violet" data-en>Get Started</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+    <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+    <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+    <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+    <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+  </ul>
+  <a href="/user/login" class="btn btn-ghost" data-ar>دخول التاجر</a>
+  <a href="/user/login" class="btn btn-ghost" data-en>Merchant Login</a>
+  <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+  <a href="/user/register" class="btn btn-violet" data-en>Get Started Free</a>
+</div>
+
+<section class="page-hero">
+  <div class="bg-grid"></div>
+  <div class="bg-blob violet" style="width:500px;height:500px;top:0;right:-150px;"></div>
+  <div class="bg-blob yellow" style="width:400px;height:400px;bottom:-100px;left:-100px;"></div>
+  <div class="bg-blob cyan" style="width:300px;height:300px;top:30%;left:30%;"></div>
+  <div class="reveal" style="position: relative; z-index: 2;">
+    <div class="eyebrow" style="margin-bottom: 22px;" data-ar>المميزات الكاملة</div>
+    <div class="eyebrow" style="margin-bottom: 22px;" data-en>COMPLETE FEATURES</div>
+    <h1 data-ar>كل أدوات نجاح متجرك<br>في <span class="accent">منصّة واحدة</span></h1>
+    <h1 data-en>All your store success tools<br>in <span class="accent">one platform</span></h1>
+    <p data-ar>أكثر من <strong>80 ميزة</strong> متكاملة مصمّمة خصّيصاً للسوق السعودي — من الكاشير إلى المخزون، من الحسابات إلى الذكاء الاصطناعي.</p>
+    <p data-en>More than <strong>80 integrated features</strong> built for the Saudi market — from cashier to inventory, accounting to AI.</p>
+    <div style="display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      <a href="/user/register" class="btn btn-violet btn-lg" data-ar>ابدأ ١٤ يوم مجاناً</a>
+      <a href="/user/register" class="btn btn-violet btn-lg" data-en>Start 14-day free trial</a>
+      <a href="/pricing.html" class="btn btn-ghost btn-lg" data-ar>قارن الباقات ←</a>
+      <a href="/pricing.html" class="btn btn-ghost btn-lg" data-en>Compare plans →</a>
+    </div>
+  </div>
+</section>
+
+<nav class="cat-nav">
+  <button data-target="sales" class="active"><span>🛒</span><span data-ar>المبيعات</span><span data-en>Sales</span></button>
+  <button data-target="inventory"><span>📦</span><span data-ar>المخزون</span><span data-en>Inventory</span></button>
+  <button data-target="staff"><span>👥</span><span data-ar>الموظّفون</span><span data-en>Staff</span></button>
+  <button data-target="branches"><span>🏪</span><span data-ar>الفروع</span><span data-en>Branches</span></button>
+  <button data-target="accounting"><span>💰</span><span data-ar>الحسابات</span><span data-en>Accounting</span></button>
+  <button data-target="reports"><span>📊</span><span data-ar>التقارير</span><span data-en>Reports</span></button>
+  <button data-target="whatsapp"><span>💬</span><span data-ar>واتساب</span><span data-en>WhatsApp</span></button>
+  <button data-target="ai"><span>🤖</span><span data-ar>الذكاء الاصطناعي</span><span data-en>AI</span></button>
+  <button data-target="crm"><span>🤝</span><span data-ar>العملاء</span><span data-en>CRM</span></button>
+</nav>
+
+<!-- 1. SALES -->
+<section class="cat-section" id="sales">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg violet">🛒</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>إدارة المبيعات</div>
+        <div class="eyebrow" data-en>SALES MANAGEMENT</div>
+        <h2 data-ar>كل أدوات البيع في يدك</h2>
+        <h2 data-en>All your selling tools at hand</h2>
+        <p class="desc" data-ar>كاشير سريع، فاتورة معتمدة، عروض ذكيّة، ومتابعة دقيقة لكل عمليّة بيع.</p>
+        <p class="desc" data-en>Fast cashier, certified invoicing, smart offers, and accurate tracking for every sale.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item bento-visual span-3 reveal">
+        <div class="bento-visual-c">
+          <span class="bento-tag" data-ar>معتمد ZATCA</span>
+          <span class="bento-tag" data-en>ZATCA CERTIFIED</span>
+          <h4 data-ar>الفاتورة الإلكترونيّة</h4>
+          <h4 data-en>E-Invoicing</h4>
+          <p data-ar>متوافقة بالكامل مع المرحلة الأولى والثانية، QR codes تلقائيّة، ومستندات XML/PDF معتمدة.</p>
+          <p data-en>Fully Phase 1 & 2 compliant, automatic QR codes, certified XML/PDF documents.</p>
+        </div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="bento-title" data-ar>كاشير سحابي سريع</div>
+        <div class="bento-title" data-en>Fast Cloud Cashier</div>
+        <div class="bento-desc" data-ar>افتح الكاشير من أيّ جهاز — جوّال، تابلت، أو كمبيوتر. واجهة بسيطة وسريعة جداً للحركة العالية.</div>
+        <div class="bento-desc" data-en>Open the cashier on any device — phone, tablet, or computer. Simple, fast interface for high traffic.</div>
+        <div class="bento-benefit" data-ar>الفائدة: يقلّل وقت الانتظار 60%</div>
+        <div class="bento-benefit" data-en>Benefit: Cuts wait time by 60%</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><line x1="2" y1="2" x2="22" y2="22"/></svg></div>
+        <div class="bento-title" data-ar>يعمل بدون إنترنت</div>
+        <div class="bento-title" data-en>Works Offline</div>
+        <div class="bento-desc" data-ar>استمرّ بالبيع حتى لو انقطع الإنترنت. البيانات تتزامن تلقائياً عند العودة.</div>
+        <div class="bento-desc" data-en>Keep selling even when internet drops. Data syncs automatically on reconnect.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <div class="bento-title" data-ar>طرق دفع متعدّدة</div>
+        <div class="bento-title" data-en>Multiple Payments</div>
+        <div class="bento-desc" data-ar>مدى، Apple Pay، Visa، Mastercard، STC Pay، نقداً، آجل، أقساط — كلّها في زرّ واحد.</div>
+        <div class="bento-desc" data-en>Mada, Apple Pay, Visa, Mastercard, STC Pay, cash, credit, installments — all in one button.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div>
+        <div class="bento-title" data-ar>العروض والخصومات</div>
+        <div class="bento-title" data-en>Offers & Discounts</div>
+        <div class="bento-desc" data-ar>عروض ذكيّة: خصم نسبة، اشترِ X واحصل على Y، عروض المناسبات، وأكواد كوبونات.</div>
+        <div class="bento-desc" data-en>Smart offers: percentage off, buy X get Y, occasion deals, and coupon codes.</div>
+      </div>
+      <div class="bento-item span-3 reveal">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+        <div class="bento-title" data-ar>إدارة أقساط المبيعات</div>
+        <div class="bento-title" data-en>Sales Installments</div>
+        <div class="bento-desc" data-ar>قسّم المبلغ على دفعات مرنة، تابع المستحقّات، وأرسل تذكيرات تلقائيّة. مناسب للأثاث، الذهب، والإلكترونيّات.</div>
+        <div class="bento-desc" data-en>Split payments into flexible installments, track dues, automatic reminders. Perfect for furniture, gold, electronics.</div>
+        <div class="bento-benefit" data-ar>الفائدة: يفتح لك سوق جديد من العملاء</div>
+        <div class="bento-benefit" data-en>Benefit: Opens a new customer segment</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg></div>
+        <div class="bento-title" data-ar>عمولات المبيعات</div>
+        <div class="bento-title" data-en>Sales Commissions</div>
+        <div class="bento-desc" data-ar>احسب عمولات الموظّفين تلقائياً حسب نسبة من المبيعات أو حسب أهداف محدّدة. تقارير شفّافة لكل موظّف.</div>
+        <div class="bento-desc" data-en>Auto-calculate staff commissions based on sales percentage or specific targets. Transparent reports per employee.</div>
+        <div class="bento-benefit" data-ar>الفائدة: يحفّز فريقك على البيع</div>
+        <div class="bento-benefit" data-en>Benefit: Motivates your team to sell more</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div class="bento-title" data-ar>أوامر المبيعات</div>
+        <div class="bento-title" data-en>Sales Orders</div>
+        <div class="bento-desc" data-ar>عرض سعر → أمر بيع → فاتورة، كل ذلك بضغطة زرّ مع متابعة الحالة.</div>
+        <div class="bento-desc" data-en>Quote → sales order → invoice, all with one click and status tracking.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg></div>
+        <div class="bento-title" data-ar>قوائم الأسعار</div>
+        <div class="bento-title" data-en>Price Lists</div>
+        <div class="bento-desc" data-ar>قوائم متعدّدة: للجملة، للتجزئة، للموظّفين. كل قائمة بأسعار مختلفة لنفس المنتجات.</div>
+        <div class="bento-desc" data-en>Multiple lists: wholesale, retail, employees. Different prices for the same products.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="bento-title" data-ar>نقاط الولاء</div>
+        <div class="bento-title" data-en>Loyalty Points</div>
+        <div class="bento-desc" data-ar>اربط عميلك بنظام نقاط ذكي. كلّما اشترى حصل على نقاط يستبدلها بمنتجات أو خصومات.</div>
+        <div class="bento-desc" data-en>Engage customers with smart points. Every purchase earns redeemable points.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. INVENTORY -->
+<section class="cat-section" id="inventory" style="background: var(--bg-soft);">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg yellow">📦</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>المخزون والمشتريات</div>
+        <div class="eyebrow" data-en>INVENTORY & PURCHASES</div>
+        <h2 data-ar>تحكّم كامل بمخزونك</h2>
+        <h2 data-en>Full control over your inventory</h2>
+        <p class="desc" data-ar>كل تاجر له مستودعه الخاص، وكل فرع له مستودعه. تتبّع، جرد، تنبيهات، وإدارة موردين.</p>
+        <p class="desc" data-en>Every merchant and branch has their own warehouse. Tracking, counts, alerts, and supplier management.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item bento-visual yellow-orange span-4 reveal">
+        <div class="bento-visual-c">
+          <span class="bento-tag gold" data-ar>مستودع لكل فرع</span>
+          <span class="bento-tag gold" data-en>WAREHOUSE PER BRANCH</span>
+          <h4 data-ar>توسّع بدون قلق</h4>
+          <h4 data-en>Expand without worry</h4>
+          <p data-ar>كل تاجر يبدأ بمستودع رئيسي، وكل فرع إضافي يحصل على مستودعه الخاص. مزامنة لحظيّة بين المستودعات وحركة منتجات سهلة.</p>
+          <p data-en>Every merchant starts with a main warehouse, every additional branch gets its own. Real-time sync and easy stock transfers.</p>
+        </div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="bento-title" data-ar>تنبيهات نقص المخزون</div>
+        <div class="bento-title" data-en>Low Stock Alerts</div>
+        <div class="bento-desc" data-ar>اضبط حداً أدنى لكل منتج، وسيُنبّهك النظام تلقائياً قبل النفاد.</div>
+        <div class="bento-desc" data-en>Set a minimum threshold per product. The system alerts you before it runs out.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg></div>
+        <div class="bento-title" data-ar>إدارة الموردين</div>
+        <div class="bento-title" data-en>Supplier Management</div>
+        <div class="bento-desc" data-ar>أرشيف كامل لمورديك، طلبات الشراء، فواتير المورّد، والمستحقّات.</div>
+        <div class="bento-desc" data-en>Complete supplier archive, purchase orders, invoices, and dues.</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="bento-title" data-ar>الجرد الذكي</div>
+        <div class="bento-title" data-en>Smart Stock Count</div>
+        <div class="bento-desc" data-ar>اعمل جرد سريع من جوّالك بقراءة الباركود. النظام يقارن ويظهر الفروقات.</div>
+        <div class="bento-desc" data-en>Quick count from your phone via barcode. System auto-compares and shows discrepancies.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h2v14H3zM7 5h1v14H7zM10 5h2v14h-2zM14 5h1v14h-1zM17 5h1v14h-1zM20 5h1v14h-1z"/></svg></div>
+        <div class="bento-title" data-ar>تتبّع الباركود والباتش</div>
+        <div class="bento-title" data-en>Barcode & Batch Tracking</div>
+        <div class="bento-desc" data-ar>تتبّع منتجاتك برقم مسلسل، رقم شحنة، أو تاريخ انتهاء — مهمّ للصيدليّات والمواد الغذائيّة.</div>
+        <div class="bento-desc" data-en>Track by serial, batch, or expiry — crucial for pharmacies and food.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div class="bento-title" data-ar>المخزون المحجوز</div>
+        <div class="bento-title" data-en>Reserved Stock</div>
+        <div class="bento-desc" data-ar>احجز منتجات لطلبات قيد المعالجة بدون أن تخصمها من المخزون المتاح.</div>
+        <div class="bento-desc" data-en>Reserve products for pending orders without affecting available stock.</div>
+      </div>
+      <div class="bento-item span-3 reveal">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <div class="bento-title" data-ar>المنتجات المجمّعة (Bundle)</div>
+        <div class="bento-title" data-en>Bundle Products</div>
+        <div class="bento-desc" data-ar>أنشئ "وجبات" أو "حزم" من عدّة منتجات بسعر مخفّض. النظام يخصم المكوّنات تلقائياً من المخزون.</div>
+        <div class="bento-desc" data-en>Create "meals" or "packages" from multiple products at a discount. Auto-deducts components.</div>
+        <div class="bento-benefit" data-ar>الفائدة: يرفع متوسّط قيمة الفاتورة</div>
+        <div class="bento-benefit" data-en>Benefit: Raises average order value</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="bento-title" data-ar>أوامر الشراء (PO)</div>
+        <div class="bento-title" data-en>Purchase Orders (PO)</div>
+        <div class="bento-desc" data-ar>أنشئ أوامر شراء رسميّة، أرسلها لموردينك، وتابع حالة الاستلام والدفع. ربط مباشر مع الحسابات.</div>
+        <div class="bento-desc" data-en>Create official POs, send to suppliers, track receiving and payment. Direct accounting link.</div>
+        <div class="bento-benefit" data-ar>الفائدة: نظام شراء احترافي ومنظّم</div>
+        <div class="bento-benefit" data-en>Benefit: Professional, organized purchasing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. STAFF -->
+<section class="cat-section" id="staff">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg cyan">👥</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>الموظّفون والصلاحيّات</div>
+        <div class="eyebrow" data-en>STAFF & PERMISSIONS</div>
+        <h2 data-ar>أدر فريقك بثقة</h2>
+        <h2 data-en>Manage your team with confidence</h2>
+        <p class="desc" data-ar>أضف موظّفينك، حدّد صلاحيّات كل واحد، تابع حضورهم وأدائهم. <strong>9 ر.س فقط لكل موظّف إضافي</strong>.</p>
+        <p class="desc" data-en>Add staff, set permissions, track attendance. <strong>Only 9 SAR per additional employee</strong>.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item bento-visual cyan-green span-4 reveal">
+        <div class="bento-visual-c">
+          <span class="bento-tag cyan" data-ar>9 ر.س / موظّف</span>
+          <span class="bento-tag cyan" data-en>9 SAR / EMPLOYEE</span>
+          <h4 data-ar>أضف موظّفيك بسعر تنافسي</h4>
+          <h4 data-en>Add staff at competitive pricing</h4>
+          <p data-ar>كل موظّف إضافي بـ 9 ر.س فقط/شهر. حساب خاص لكل موظّف بصلاحيّات محدّدة، تتبّع للحركة، وتقارير شخصيّة.</p>
+          <p data-en>Each additional staff member is just 9 SAR/month. Dedicated account with specific permissions, activity tracking, and personal reports.</p>
+        </div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div class="bento-title" data-ar>صلاحيّات متقدّمة</div>
+        <div class="bento-title" data-en>Advanced Permissions</div>
+        <div class="bento-desc" data-ar>حدّد بدقّة ما يستطيع كل موظّف رؤيته وفعله. الكاشير مختلف عن المحاسب، والمدير يرى الكل.</div>
+        <div class="bento-desc" data-en>Precisely define what each employee sees and does. Cashier differs from accountant, manager sees all.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="bento-title" data-ar>الحضور والانصراف</div>
+        <div class="bento-title" data-en>Attendance Tracking</div>
+        <div class="bento-desc" data-ar>تسجيل دخول/خروج بصمة أو رمز. تقارير ساعات العمل، التأخير، والإضافي.</div>
+        <div class="bento-desc" data-en>Fingerprint or code-based check-in/out. Reports for working hours, lateness, overtime.</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+        <div class="bento-title" data-ar>طلبات الموظّفين</div>
+        <div class="bento-title" data-en>Staff Requests</div>
+        <div class="bento-desc" data-ar>إجازات، استئذان، خصومات، تعديل دوام — كل الطلبات تصلك للموافقة من جوّالك.</div>
+        <div class="bento-desc" data-en>Leaves, permissions, deductions, schedule changes — all requests reach you for approval.</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="bento-title" data-ar>الأجور والمرتّبات</div>
+        <div class="bento-title" data-en>Payroll & Salaries</div>
+        <div class="bento-desc" data-ar>احسب رواتب موظّفيك تلقائياً بعد خصم الغياب والتأخير وإضافة العمولات والإضافي. نظام شامل للأجور.</div>
+        <div class="bento-desc" data-en>Auto-calculate salaries after deducting absences, adding commissions and overtime. Complete payroll.</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="200">
+        <div class="bento-icon-sm orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="bento-title" data-ar>العقود والهيكل التنظيمي</div>
+        <div class="bento-title" data-en>Contracts & Org Structure</div>
+        <div class="bento-desc" data-ar>أرشيف العقود، تواريخ التجديد، الهيكل الإداري للشركة، والتقارير المتعلّقة بالموارد البشريّة.</div>
+        <div class="bento-desc" data-en>Contract archive, renewal dates, company org structure, and HR-related reports.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. BRANCHES -->
+<section class="cat-section" id="branches" style="background: var(--bg-soft);">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg pink">🏪</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>إدارة الفروع</div>
+        <div class="eyebrow" data-en>BRANCH MANAGEMENT</div>
+        <h2 data-ar>أدر سلسلة فروعك بسهولة</h2>
+        <h2 data-en>Manage your branch chain easily</h2>
+        <p class="desc" data-ar>الباقة الاحترافيّة تشمل <strong>فرعين</strong>. كل فرع إضافي بـ <strong>29 ر.س فقط/شهر</strong>.</p>
+        <p class="desc" data-en>Professional plan includes <strong>2 branches</strong>. Each additional branch is <strong>only 29 SAR/month</strong>.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item bento-visual violet-pink span-4 reveal">
+        <div class="bento-visual-c">
+          <span class="bento-tag" data-ar>29 ر.س / فرع</span>
+          <span class="bento-tag" data-en>29 SAR / BRANCH</span>
+          <h4 data-ar>توسّع بدون قلق</h4>
+          <h4 data-en>Expand without worry</h4>
+          <p data-ar>افتح فرع جديد، أضفه للنظام بضغطة زرّ، وانقل المنتجات والموظّفين بسلاسة. كل فرع له لوحته ومستودعه.</p>
+          <p data-en>Open a new branch, add it with one click, seamlessly transfer products and staff. Each branch has its own dashboard and warehouse.</p>
+        </div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div>
+        <div class="bento-title" data-ar>مزامنة لحظيّة</div>
+        <div class="bento-title" data-en>Real-Time Sync</div>
+        <div class="bento-desc" data-ar>أيّ تغيير في فرع ينتقل فوراً للنظام المركزي. لا توجد بيانات قديمة أو مكرّرة.</div>
+        <div class="bento-desc" data-en>Any change in a branch syncs instantly. No outdated or duplicate data.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="bento-title" data-ar>تقارير منفصلة لكل فرع</div>
+        <div class="bento-title" data-en>Separate Reports per Branch</div>
+        <div class="bento-desc" data-ar>قارن أداء فروعك، اعرف الأكثر ربحاً، وحدّد نقاط القوّة والضعف بدقّة.</div>
+        <div class="bento-desc" data-en>Compare branch performance, know the most profitable, identify strengths and weaknesses.</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <div class="bento-title" data-ar>مستودع لكل فرع</div>
+        <div class="bento-title" data-en>Warehouse per Branch</div>
+        <div class="bento-desc" data-ar>كل فرع مخزونه مستقل. النظام يعرف بالضبط أين يوجد كل منتج.</div>
+        <div class="bento-desc" data-en>Each branch has independent stock. System knows exactly where each product is.</div>
+      </div>
+      <div class="bento-item span-4 reveal" data-delay="100">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+        <div class="bento-title" data-ar>صلاحيّات على مستوى الفرع</div>
+        <div class="bento-title" data-en>Branch-Level Permissions</div>
+        <div class="bento-desc" data-ar>مدير الفرع يرى بيانات فرعه فقط، الأدمن العام يشوف الكل. حدّد صلاحيّات دقيقة لكل دور إداري في كل فرع.</div>
+        <div class="bento-desc" data-en>Branch manager sees only their branch data, super admin sees all. Set precise permissions per role per branch.</div>
+        <div class="bento-benefit" data-ar>الفائدة: حماية بياناتك مع منح صلاحيّات منظّمة</div>
+        <div class="bento-benefit" data-en>Benefit: Protect data with organized access</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. ACCOUNTING -->
+<section class="cat-section" id="accounting">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg green">💰</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>الحسابات والمحاسبة</div>
+        <div class="eyebrow" data-en>ACCOUNTING & FINANCE</div>
+        <h2 data-ar>محاسبة احترافيّة بدون محاسب</h2>
+        <h2 data-en>Pro accounting without a pro accountant</h2>
+        <p class="desc" data-ar>دليل حسابات كامل، قيود تلقائيّة، تقارير ماليّة احترافيّة، ومزامنة مع البنوك.</p>
+        <p class="desc" data-en>Full chart of accounts, automatic entries, professional reports, and bank sync.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="bento-title" data-ar>دليل الحسابات</div>
+        <div class="bento-title" data-en>Chart of Accounts</div>
+        <div class="bento-desc" data-ar>دليل حسابات شامل ومرن. أضف، عدّل، وصنّف حساباتك.</div>
+        <div class="bento-desc" data-en>Comprehensive, flexible chart of accounts. Add, edit, categorize.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="bento-title" data-ar>القيود اليوميّة</div>
+        <div class="bento-title" data-en>Daily Journal Entries</div>
+        <div class="bento-desc" data-ar>قيود تُسجّل تلقائياً مع كل عمليّة بيع، شراء، أو دفع. لا تسجيل يدوي.</div>
+        <div class="bento-desc" data-en>Entries auto-recorded with every sale, purchase, or payment. No manual recording.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+        <div class="bento-title" data-ar>المزامنة مع البنك</div>
+        <div class="bento-title" data-en>Bank Sync</div>
+        <div class="bento-desc" data-ar>اربط حسابك البنكي وتحصل على مزامنة لحظيّة للحركات الماليّة.</div>
+        <div class="bento-desc" data-en>Link your bank account for real-time financial sync.</div>
+      </div>
+      <div class="bento-item bento-visual cyan-green span-3 reveal">
+        <div class="bento-visual-c">
+          <span class="bento-tag green" data-ar>تقارير ماليّة</span>
+          <span class="bento-tag green" data-en>FINANCIAL REPORTS</span>
+          <h4 data-ar>تقارير ماليّة احترافيّة</h4>
+          <h4 data-en>Professional financial reports</h4>
+          <p data-ar>الميزانيّة العموميّة، قائمة الدخل، التدفّق النقدي، تقارير الحسابات الختاميّة — كلّها بضغطة زرّ.</p>
+          <p data-en>Balance sheet, income statement, cash flow, closing reports — all with one click.</p>
+        </div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM9 9h6v6H9z"/></svg></div>
+        <div class="bento-title" data-ar>إقرارات ضريبيّة جاهزة</div>
+        <div class="bento-title" data-en>Ready-to-File Tax Returns</div>
+        <div class="bento-desc" data-ar>إقرارات ضريبة القيمة المضافة الشهريّة والربعيّة جاهزة للتقديم لـ ZATCA. النظام يحسب كل شي تلقائياً.</div>
+        <div class="bento-desc" data-en>Monthly and quarterly VAT returns ready to submit to ZATCA. System calculates automatically.</div>
+        <div class="bento-benefit" data-ar>الفائدة: لن تتأخّر عن موعد الإقرار أبداً</div>
+        <div class="bento-benefit" data-en>Benefit: Never miss a filing deadline</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M5 8h11.5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="bento-title" data-ar>سندات الصرف والقبض</div>
+        <div class="bento-title" data-en>Payment & Receipt Vouchers</div>
+        <div class="bento-desc" data-ar>سندات قبض ومدفوعات احترافيّة، مرقّمة، ومرتبطة بالحسابات تلقائياً.</div>
+        <div class="bento-desc" data-en>Professional vouchers, numbered, auto-linked to accounts.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="bento-title" data-ar>الأصول والإهلاكات</div>
+        <div class="bento-title" data-en>Assets & Depreciation</div>
+        <div class="bento-desc" data-ar>سجّل أصول متجرك (أجهزة، أثاث، سيّارات) واحسب إهلاكها تلقائياً.</div>
+        <div class="bento-desc" data-en>Register store assets (equipment, furniture, vehicles) and auto-calculate depreciation.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="bento-title" data-ar>تقارير أعمار الديون</div>
+        <div class="bento-title" data-en>Aging Reports</div>
+        <div class="bento-desc" data-ar>اعرف من يدين لك ومنذ متى. تقرير دقيق لتحصيل المستحقّات في الوقت المناسب.</div>
+        <div class="bento-desc" data-en>Know who owes you and how long. Accurate report to collect dues on time.</div>
+      </div>
+      <div class="bento-item span-3 reveal">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="bento-title" data-ar>دورة الشيكات</div>
+        <div class="bento-title" data-en>Cheque Cycle</div>
+        <div class="bento-desc" data-ar>تتبّع كل شيك أصدرته أو استلمته: تواريخ الاستحقاق، حالة التحصيل، والأرصدة المتبقّية.</div>
+        <div class="bento-desc" data-en>Track every cheque: due dates, collection status, remaining balances.</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <div class="bento-title" data-ar>مراكز التكلفة</div>
+        <div class="bento-title" data-en>Cost Centers</div>
+        <div class="bento-desc" data-ar>وزّع المصروفات على فروع، إدارات، أو مشاريع. اعرف مين يصرف كم وعلى أيش.</div>
+        <div class="bento-desc" data-en>Distribute expenses across branches, departments, or projects. Know who spends what.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. REPORTS -->
+<section class="cat-section" id="reports" style="background: var(--bg-soft);">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg orange">📊</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>التقارير والتحليلات</div>
+        <div class="eyebrow" data-en>REPORTS & ANALYTICS</div>
+        <h2 data-ar>قرارات أذكى ببيانات حقيقيّة</h2>
+        <h2 data-en>Smarter decisions with real data</h2>
+        <p class="desc" data-ar>أكثر من 50 تقرير جاهز، ولوحات تحكّم لحظيّة. اعرف وقت الذروة، أكثر المنتجات بيعاً.</p>
+        <p class="desc" data-en>50+ ready reports, real-time dashboards. Know peak hours, top sellers, and more.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item bento-visual yellow-orange span-6 reveal">
+        <div class="bento-visual-c">
+          <span class="bento-tag gold" data-ar>لحظي</span>
+          <span class="bento-tag gold" data-en>REAL-TIME</span>
+          <h4 data-ar>لوحة تحكّم ذكيّة</h4>
+          <h4 data-en>Smart dashboard</h4>
+          <p data-ar>كل ما تحتاج معرفته عن متجرك في شاشة واحدة: المبيعات اليوم، المنتجات الأكثر طلباً، أداء الموظّفين، حالة المخزون، وأكثر.</p>
+          <p data-en>Everything about your store in one screen: today's sales, top products, staff performance, inventory status, and more.</p>
+        </div>
+      </div>
+      <div class="bento-item span-3 reveal">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="bento-title" data-ar>خريطة المبيعات السعوديّة</div>
+        <div class="bento-title" data-en>Saudi Sales Map</div>
+        <div class="bento-desc" data-ar>اعرف من أين يأتي عملاؤك بخريطة تفاعليّة للمملكة. حدّد المناطق الأكثر طلباً واستهدفها بحملات تسويقيّة.</div>
+        <div class="bento-desc" data-en>Know where customers come from with an interactive Saudi map. Identify top regions and target them.</div>
+        <div class="bento-benefit" data-ar>الفائدة: استهداف ذكي يضاعف عائد التسويق</div>
+        <div class="bento-benefit" data-en>Benefit: Smart targeting doubles marketing ROI</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="bento-title" data-ar>ساعات الذروة</div>
+        <div class="bento-title" data-en>Peak Hours Analysis</div>
+        <div class="bento-desc" data-ar>اعرف بالضبط متى تكون مبيعاتك في الذروة. خطّط لجدول موظّفيك ومخزونك بدقّة.</div>
+        <div class="bento-desc" data-en>Know exactly when your sales peak. Plan staff schedules and inventory accurately.</div>
+        <div class="bento-benefit" data-ar>الفائدة: تقليل التكاليف وزيادة الأرباح</div>
+        <div class="bento-benefit" data-en>Benefit: Lower costs, higher profits</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="bento-title" data-ar>أكثر المنتجات بيعاً</div>
+        <div class="bento-title" data-en>Top Selling Products</div>
+        <div class="bento-desc" data-ar>قائمة بأفضل منتجاتك أداءً، الأكثر ربحاً، والأقل تحرّكاً.</div>
+        <div class="bento-desc" data-en>List of top performers, most profitable, and slowest movers.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+        <div class="bento-title" data-ar>مقارنة الفروع</div>
+        <div class="bento-title" data-en>Branch Comparison</div>
+        <div class="bento-desc" data-ar>قارن أداء فروعك جنباً إلى جنب: الإيرادات، عدد العمليّات، متوسّط قيمة الفاتورة.</div>
+        <div class="bento-desc" data-en>Compare branches side-by-side: revenue, transactions, average ticket.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8.7a4 4 0 0 0-6 0l-1.4 1.4-1.4-1.4a4 4 0 0 0-6 0"/></svg></div>
+        <div class="bento-title" data-ar>توقّعات النموّ</div>
+        <div class="bento-title" data-en>Growth Forecasts</div>
+        <div class="bento-desc" data-ar>توقّعات ذكيّة لإيرادات الشهر القادم بناءً على بياناتك التاريخيّة.</div>
+        <div class="bento-desc" data-en>Smart forecasts for next month's revenue based on your historical data.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. WHATSAPP -->
+<section class="cat-section" id="whatsapp">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg green">💬</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>متجر واتساب</div>
+        <div class="eyebrow" data-en>WHATSAPP STORE</div>
+        <h2 data-ar>طلبات تصلك من واتساب مباشرة</h2>
+        <h2 data-en>Orders straight from WhatsApp</h2>
+        <p class="desc" data-ar>خدمة إضافيّة بـ <strong>69 ر.س/شهر</strong> للباقات الـ 3 الأولى، و<strong>مشمولة مجاناً</strong> في الباقة الشاملة.</p>
+        <p class="desc" data-en>Add-on at <strong>69 SAR/month</strong> for the first 3 plans, <strong>included free</strong> in Enterprise.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item bento-visual cyan-green span-4 reveal">
+        <div class="bento-visual-c">
+          <span class="bento-tag green" data-ar>+69 ر.س / شهر</span>
+          <span class="bento-tag green" data-en>+69 SAR / MONTH</span>
+          <h4 data-ar>الواتساب أداة بيع قويّة</h4>
+          <h4 data-en>WhatsApp is a powerful sales tool</h4>
+          <p data-ar>عميلك يطلب من واتساب → الطلب يدخل نظامك تلقائياً → يحضّر في المطبخ → يخرج كاشير. كل شي مرتّب ومتزامن.</p>
+          <p data-en>Customer orders via WhatsApp → order enters your system → prepared → ringed up at checkout. All organized and synced.</p>
+        </div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg></div>
+        <div class="bento-title" data-ar>كتالوج تفاعلي</div>
+        <div class="bento-title" data-en>Interactive Catalog</div>
+        <div class="bento-desc" data-ar>عميلك يشوف منتجاتك بصور وأسعار، يختار، ويرسل طلبه — كل شي داخل واتساب.</div>
+        <div class="bento-desc" data-en>Customer sees products with images and prices, picks, sends order — all in WhatsApp.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <div class="bento-title" data-ar>ردّ آلي ذكي 24/7</div>
+        <div class="bento-title" data-en>Smart Auto-Reply 24/7</div>
+        <div class="bento-desc" data-ar>روبوت ذكي يردّ على الاستفسارات، يعرض القائمة، ويحوّل المحادثات إلى مبيعات.</div>
+        <div class="bento-desc" data-en>Smart bot replies to inquiries, shows menu, turns conversations into sales.</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <div class="bento-title" data-ar>دفع داخل المحادثة</div>
+        <div class="bento-title" data-en>In-Chat Payments</div>
+        <div class="bento-desc" data-ar>عميلك يدفع برابط آمن داخل واتساب. يصلك المبلغ في حسابك البنكي مباشرة.</div>
+        <div class="bento-desc" data-en>Customer pays via secure link inside WhatsApp. Funds reach your bank instantly.</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="bento-title" data-ar>ربط مباشر مع الكاشير</div>
+        <div class="bento-title" data-en>Direct Cashier Link</div>
+        <div class="bento-desc" data-ar>كل طلب من واتساب يدخل تلقائياً في نظام الكاشير وتنقص الكميّات من المخزون. لا تكرار، لا أخطاء.</div>
+        <div class="bento-desc" data-en>Every WhatsApp order auto-enters cashier and deducts stock. No duplicates, no errors.</div>
+        <div class="bento-benefit" data-ar>الفائدة: عمل أقل، مبيعات أكثر</div>
+        <div class="bento-benefit" data-en>Benefit: Less work, more sales</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="200">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+        <div class="bento-title" data-ar>رسائل ترويجيّة جماعيّة</div>
+        <div class="bento-title" data-en>Bulk Promotional Messages</div>
+        <div class="bento-desc" data-ar>أرسل عروضك وإعلاناتك لكل عملاءك دفعة واحدة. حملات منظّمة بنتائج مذهلة.</div>
+        <div class="bento-desc" data-en>Send offers to all customers at once. Organized campaigns with amazing results.</div>
+        <div class="bento-benefit" data-ar>الفائدة: قناة تسويق فعّالة جداً</div>
+        <div class="bento-benefit" data-en>Benefit: Highly effective marketing channel</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. AI BANNER -->
+<section class="cat-section" id="ai" style="background: var(--bg-soft);">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg violet">🤖</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>الذكاء الاصطناعي</div>
+        <div class="eyebrow" data-en>ARTIFICIAL INTELLIGENCE</div>
+        <h2 data-ar>أوّل منصّة سعوديّة بمساعد AI</h2>
+        <h2 data-en>First Saudi platform with AI assistant</h2>
+        <p class="desc" data-ar>حصري للباقة الشاملة: مساعدك الشخصي على واتساب، مشرف ذكي، وتقارير AI.</p>
+        <p class="desc" data-en>Exclusive to Enterprise plan: WhatsApp assistant, smart supervisor, AI reports.</p>
+      </div>
+    </div>
+    <div class="ai-banner reveal">
+      <div class="ai-banner-c">
+        <div>
+          <div class="ai-tag" data-ar>حصري للباقة الشاملة</div>
+          <div class="ai-tag" data-en>EXCLUSIVE TO ENTERPRISE</div>
+          <h2 data-ar>مساعد <span class="glow">ذكاء اصطناعي</span><br>على الواتساب</h2>
+          <h2 data-en>Your <span class="glow">AI assistant</span><br>on WhatsApp</h2>
+          <p data-ar>تكلّم مع مساعدك على الواتساب، اسأله "كم مبيعات اليوم؟"، "أفضل منتج هذا الشهر؟"، وأمره بإرسال تقارير لك تلقائياً. مشرف ذكي يراقب أداء متجرك على مدار الساعة.</p>
+          <p data-en>Talk to your assistant on WhatsApp. Ask "How are today's sales?", "Best product this month?". A smart supervisor watching your store 24/7.</p>
+          <ul class="ai-features">
+            <li><span data-ar>مساعد شخصي على واتساب يجاوبك بصوت أو نص</span><span data-en>Personal WhatsApp assistant in voice or text</span></li>
+            <li><span data-ar>مشرف AI يراقب الأداء ويرسل تنبيهات ذكيّة</span><span data-en>AI supervisor watching and sending smart alerts</span></li>
+            <li><span data-ar>توقّعات نمو وتحليلات ذكيّة لمتجرك</span><span data-en>Growth forecasts and smart analytics</span></li>
+            <li><span data-ar>إدارة دفع الأجور للموظّفين تلقائياً</span><span data-en>Automatic payroll management</span></li>
+            <li><span data-ar>اقتراحات لتحسين المبيعات وتقليل التكاليف</span><span data-en>Suggestions to boost sales and cut costs</span></li>
+          </ul>
+          <a href="/pricing.html" class="btn btn-primary btn-lg" data-ar>اطلع على الباقة الشاملة ←</a>
+          <a href="/pricing.html" class="btn btn-primary btn-lg" data-en>See Enterprise plan →</a>
+        </div>
+        <div class="ai-visual">
+          <div class="ai-orb">
+            <div class="ai-orb-circle"></div>
+            <div class="ai-orb-icon">🤖</div>
+          </div>
+          <div class="ai-floating ai-floating-1">⚡ <span data-ar>مبيعات اليوم: ٨,٤٢٠</span><span data-en>Today: 8,420 SAR</span></div>
+          <div class="ai-floating ai-floating-2">📈 <span data-ar>+24% هذا الشهر</span><span data-en>+24% this month</span></div>
+          <div class="ai-floating ai-floating-3">✨ <span data-ar>توصية ذكيّة</span><span data-en>Smart tip</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. CRM -->
+<section class="cat-section" id="crm">
+  <div class="section-c">
+    <div class="cat-head reveal">
+      <div class="cat-icon-lg pink">🤝</div>
+      <div class="cat-head-text">
+        <div class="eyebrow" data-ar>إدارة العملاء</div>
+        <div class="eyebrow" data-en>CRM</div>
+        <h2 data-ar>اعرف عملاءك، اخدمهم، احتفظ بهم</h2>
+        <h2 data-en>Know your customers, serve them, keep them</h2>
+        <p class="desc" data-ar>قاعدة بيانات احترافيّة لعملاءك مع تاريخ شراء كامل، تواصل عبر قنوات متعدّدة، ونظام عضويّات وولاء.</p>
+        <p class="desc" data-en>Pro customer database with full history, multi-channel communication, and a membership system.</p>
+      </div>
+    </div>
+    <div class="bento">
+      <div class="bento-item span-3 reveal">
+        <div class="bento-icon-sm violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg></div>
+        <div class="bento-title" data-ar>قاعدة بيانات العملاء</div>
+        <div class="bento-title" data-en>Customer Database</div>
+        <div class="bento-desc" data-ar>سجّل كل تفاصيل عملائك: الاسم، الجوّال، تاريخ الشراء، المنتجات المفضّلة، نقاط الولاء.</div>
+        <div class="bento-desc" data-en>Record all customer details: name, phone, purchase history, favorites, loyalty points.</div>
+        <div class="bento-benefit" data-ar>الفائدة: تواصل شخصي يبني علاقة طويلة</div>
+        <div class="bento-benefit" data-en>Benefit: Personal communication builds long relationships</div>
+      </div>
+      <div class="bento-item span-3 reveal" data-delay="100">
+        <div class="bento-icon-sm cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div class="bento-title" data-ar>تواصل عبر قنوات متعدّدة</div>
+        <div class="bento-title" data-en>Multi-Channel Communication</div>
+        <div class="bento-desc" data-ar>اتصل بعملاءك عبر SMS، Email، Push notifications، وWhatsApp — كل ذلك من نفس النظام.</div>
+        <div class="bento-desc" data-en>Reach customers via SMS, Email, Push notifications, WhatsApp — all from the same system.</div>
+        <div class="bento-benefit" data-ar>الفائدة: ٤ قنوات تسويق في منصّة واحدة</div>
+        <div class="bento-benefit" data-en>Benefit: 4 marketing channels in one platform</div>
+      </div>
+      <div class="bento-item span-2 reveal">
+        <div class="bento-icon-sm yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="bento-title" data-ar>نظام النقاط والأرصدة</div>
+        <div class="bento-title" data-en>Points & Wallet System</div>
+        <div class="bento-desc" data-ar>كل عميل له محفظة افتراضيّة. يحصّل نقاط، يستبدلها، ويستخدم رصيده في الشراء.</div>
+        <div class="bento-desc" data-en>Each customer has a virtual wallet. Earn points, redeem, use balance for purchases.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="100">
+        <div class="bento-icon-sm pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+        <div class="bento-title" data-ar>إدارة العضويّات</div>
+        <div class="bento-title" data-en>Membership Management</div>
+        <div class="bento-desc" data-ar>أنشئ بطاقات عضويّة ذهبيّة وفضّيّة بمزايا مختلفة لتمييز عملاءك المميّزين.</div>
+        <div class="bento-desc" data-en>Create gold and silver memberships with different perks for VIP customers.</div>
+      </div>
+      <div class="bento-item span-2 reveal" data-delay="200">
+        <div class="bento-icon-sm green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div class="bento-title" data-ar>متابعة العملاء</div>
+        <div class="bento-title" data-en>Customer Follow-up</div>
+        <div class="bento-desc" data-ar>تذكيرات تلقائيّة للتواصل مع عملاءك في المناسبات وأعياد الميلاد.</div>
+        <div class="bento-desc" data-en>Automated reminders to reach out on birthdays and special occasions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta-section">
+  <div class="bg-blob violet" style="width:500px;height:500px;top:0;right:-200px;"></div>
+  <div class="bg-blob yellow" style="width:400px;height:400px;bottom:0;left:-150px;"></div>
+  <div class="final-cta reveal">
+    <div class="final-cta-c">
+      <h2 data-ar>كل هذا في منصّة واحدة<br>ابدأ الآن مجاناً</h2>
+      <h2 data-en>All this in one platform<br>start free today</h2>
+      <p data-ar>أكثر من 80 ميزة جاهزة للاستخدام. ١٤ يوم تجربة مجانيّة كاملة. بدون بطاقة ائتمان.</p>
+      <p data-en>80+ features ready to use. 14-day free trial with full access. No credit card.</p>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <a href="/user/register" class="btn btn-primary btn-lg">
+          <span data-ar>ابدأ تجربتك المجانيّة</span>
+          <span data-en>Start your free trial</span>
+        </a>
+        <a href="/pricing.html" class="btn btn-ghost btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white;">
+          <span data-ar>قارن الباقات</span>
+          <span data-en>Compare plans</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:-100px;right:-100px;"></div>
+  <div class="footer-c">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <img src="/images/val-logo.png" alt="Val Solutions" style="height:42px;width:auto;display:block;" />
+        </a>
+        <p data-ar>منصّة سعوديّة متكاملة لإدارة المتاجر، الكاشير، والمبيعات عبر واتساب.</p>
+        <p data-en>Saudi all-in-one platform for stores, cashier, and WhatsApp sales.</p>
+        <div class="cert-badges">
+          <span class="cert-badge">🔒 PCI-DSS</span>
+          <span class="cert-badge">✓ ZATCA</span>
+          <span class="cert-badge">🛡 SAMA</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>المنتج</h4>
+        <h4 data-en>Product</h4>
+        <ul>
+          <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+          <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+          <li><a href="/features#whatsapp" data-ar>متجر واتساب</a><a href="/features#whatsapp" data-en>WhatsApp</a></li>
+          <li><a href="/features#ai" data-ar>الذكاء الاصطناعي</a><a href="/features#ai" data-en>AI</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>الشركة</h4>
+        <h4 data-en>Company</h4>
+        <ul>
+          <li><a href="/about" data-ar>من نحن</a><a href="/about" data-en>About</a></li>
+          <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+          <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+          <li><a href="/careers" data-ar>الوظائف</a><a href="/careers" data-en>Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>قانوني</h4>
+        <h4 data-en>Legal</h4>
+        <ul>
+          <li><a href="/policy/terms" data-ar>الشروط</a><a href="/policy/terms" data-en>Terms</a></li>
+          <li><a href="/policy/privacy" data-ar>الخصوصيّة</a><a href="/policy/privacy" data-en>Privacy</a></li>
+          <li><a href="/policy/refund" data-ar>سياسة الاسترداد</a><a href="/policy/refund" data-en>Refunds</a></li>
+          <li><a href="/policy/cookies" data-ar>الكوكيز</a><a href="/policy/cookies" data-en>Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-ar>© 2026 Val POS. جميع الحقوق محفوظة. صُنع في 🇸🇦 السعوديّة</p>
+      <p data-en>© 2026 Val POS. All rights reserved. Made in 🇸🇦 Saudi Arabia</p>
+      <div class="social">
+        <a href="#" aria-label="Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753c0-.249 1.51-2.772 1.818-4.013z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts.js"></script>
+<script>
+(function() {
+  const buttons = document.querySelectorAll('.cat-nav button');
+  const sections = document.querySelectorAll('.cat-section');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          buttons.forEach(b => b.classList.toggle('active', b.dataset.target === entry.target.id));
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    sections.forEach(s => obs.observe(s));
+  }
+})();
+</script>
+</body>
+</html>

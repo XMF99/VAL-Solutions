@@ -278,6 +278,9 @@
 @endpush
 
 @section('panel')
+
+@include('Template::user.partials.trial-banner')
+
 <div class="dash-page">
 
 {{-- ═══════════════════════════════════════════════════════════
@@ -759,6 +762,8 @@
 </div>
 
 </div>{{-- /.dash-page --}}
+
+@include('templates.basic.user.partials.onboarding-modal')
 @endsection
 
 @push('script')

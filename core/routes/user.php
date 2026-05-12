@@ -634,4 +634,10 @@ Route::middleware(['auth'])->name('user.')->group(function () {
             Route::post('manual', 'manualDepositUpdate')->name('manual.update');
         });
     });
+
+
+    // Onboarding (Recipe 3 v2)
+    Route::post('/onboarding/complete', [\App\Http\Controllers\User\OnboardingController::class, 'complete'])->name('onboarding.complete');
+    Route::post('/onboarding/skip',     [\App\Http\Controllers\User\OnboardingController::class, 'skip'])->name('onboarding.skip');
+
 });

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تواصل معنا — Val POS</title>
+<meta name="description" content="تواصل مع فريق Val POS — نحن هنا للمساعدة. واتساب، بريد إلكتروني، هاتف، أو نموذج التواصل.">
+<meta name="theme-color" content="#fafaf7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+.page-hero {
+  padding: 160px 5% 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero h1 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+[data-lang="en"] .page-hero h1 { font-family: 'Inter', sans-serif; }
+.page-hero h1 .accent {
+  background: linear-gradient(120deg, var(--primary) 0%, var(--pink) 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.page-hero p { font-size: 18px; color: var(--text-2); max-width: 600px; margin: 0 auto; line-height: 1.65; }
+
+/* Contact methods grid */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 60px;
+}
+.method-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 22px;
+  text-align: center;
+  transition: all var(--t-base);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.method-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+.method-icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+.method-icon.violet { background: var(--primary-soft); }
+.method-icon.green { background: var(--green-soft); }
+.method-icon.yellow { background: var(--yellow-soft); }
+.method-icon.cyan { background: var(--cyan-soft); }
+.method-card h3 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+[data-lang="en"] .method-card h3 { font-family: 'Inter', sans-serif; }
+.method-value {
+  font-size: 14px;
+  color: var(--primary-dark);
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-family: 'Inter', sans-serif;
+  direction: ltr;
+}
+.method-desc { font-size: 12px; color: var(--text-3); }
+
+/* Contact form layout */
+.form-section {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 60px;
+  align-items: start;
+}
+.form-info {
+  position: sticky;
+  top: 100px;
+}
+.form-info h2 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+[data-lang="en"] .form-info h2 { font-family: 'Inter', sans-serif; }
+.form-info p {
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.info-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.info-list li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.info-icon {
+  width: 40px; height: 40px;
+  background: var(--primary-soft);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--primary-dark);
+}
+.info-icon svg { width: 18px; height: 18px; }
+.info-text .label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 2px;
+}
+.info-text .value { font-size: 15px; color: var(--text); font-weight: 600; line-height: 1.5; }
+.info-text .sub { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+
+/* Form */
+.contact-form {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 44px;
+  box-shadow: var(--shadow-sm);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  font-family: 'Cairo', sans-serif;
+}
+[data-lang="en"] .form-group label { font-family: 'Inter', sans-serif; }
+.form-group label .req { color: var(--primary); margin-inline-start: 2px; }
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-md);
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--bg-soft);
+  color: var(--text);
+  transition: all var(--t-base);
+  outline: none;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 4px var(--primary-soft);
+}
+.form-textarea {
+  min-height: 130px;
+  resize: vertical;
+  line-height: 1.6;
+}
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2.5'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: left 16px center;
+  padding-inline-start: 16px;
+  padding-inline-end: 44px;
+}
+[dir="rtl"] .form-select { background-position: left 16px center; }
+[dir="ltr"] .form-select { background-position: right 16px center; }
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.form-checkbox input { margin-top: 3px; accent-color: var(--primary); }
+.form-checkbox a { color: var(--primary-dark); font-weight: 700; }
+.form-submit {
+  width: 100%;
+  padding: 15px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--r-md);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all var(--t-base);
+}
+.form-submit:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px var(--primary-glow);
+}
+.form-note {
+  font-size: 12px;
+  color: var(--text-3);
+  text-align: center;
+  margin-top: 14px;
+}
+
+/* Office locations */
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.location-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 32px;
+  transition: all var(--t-base);
+}
+.location-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+.location-flag { font-size: 36px; margin-bottom: 12px; }
+.location-card h3 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+[data-lang="en"] .location-card h3 { font-family: 'Inter', sans-serif; }
+.location-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 1px;
+  padding: 3px 9px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+.location-tag.hq { background: var(--primary-soft); color: var(--primary-dark); }
+.location-tag.office { background: var(--cyan-soft); color: #0e7490; }
+.location-tag.remote { background: var(--yellow-soft); color: #b45309; }
+.location-card p {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.location-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-3);
+  font-family: 'Inter', sans-serif;
+  direction: ltr;
+}
+
+/* Quick FAQ */
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.faq-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: all var(--t-base);
+}
+.faq-item.open {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+.faq-q {
+  width: 100%;
+  padding: 22px 26px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: start;
+  font-family: 'Cairo', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  gap: 16px;
+  cursor: pointer;
+}
+[data-lang="en"] .faq-q { font-family: 'Inter', sans-serif; }
+.faq-plus {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+  transition: transform var(--t-base), background var(--t-base);
+}
+.faq-plus svg { width: 14px; height: 14px; }
+.faq-item.open .faq-plus {
+  transform: rotate(45deg);
+  background: var(--primary);
+  color: white;
+}
+.faq-a { max-height: 0; overflow: hidden; transition: max-height var(--t-slow); }
+.faq-item.open .faq-a { max-height: 400px; }
+.faq-a-inner { padding: 0 26px 24px; color: var(--text-2); font-size: 15px; line-height: 1.75; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .contact-methods { grid-template-columns: repeat(2, 1fr); }
+  .form-section { grid-template-columns: 1fr; gap: 40px; }
+  .form-info { position: static; }
+  .locations-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .contact-methods { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .contact-form { padding: 28px; }
+}
+</style>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/favicon-192.png">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-c">
+    <a href="/" class="logo">
+      <img src="/images/val-logo.png" alt="Val Solutions" style="height:36px;width:auto;display:block;" />
+    </a>
+    <ul class="nav-menu">
+      <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+      <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+      <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+      <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+      <li><a href="/contact.html" class="active" data-ar>تواصل</a><a href="/contact.html" class="active" data-en>Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button data-lang-btn="ar" class="active">عربي</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="/user/login" class="btn btn-ghost" data-ar>دخول</a>
+      <a href="/user/login" class="btn btn-ghost" data-en>Login</a>
+      <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+      <a href="/user/register" class="btn btn-violet" data-en>Get Started</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+    <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+    <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+    <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+    <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+  </ul>
+  <a href="/user/login" class="btn btn-ghost" data-ar>دخول التاجر</a>
+  <a href="/user/login" class="btn btn-ghost" data-en>Merchant Login</a>
+  <a href="/user/register" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+  <a href="/user/register" class="btn btn-violet" data-en>Get Started Free</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="page-hero">
+  <div class="bg-grid"></div>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:0;right:-100px;"></div>
+  <div class="bg-blob pink" style="width:300px;height:300px;bottom:-80px;left:-50px;"></div>
+
+  <div class="reveal" style="position: relative; z-index: 2;">
+    <div class="eyebrow" style="margin-bottom: 22px;" data-ar>تواصل معنا</div>
+    <div class="eyebrow" style="margin-bottom: 22px;" data-en>GET IN TOUCH</div>
+
+    <h1 data-ar>نحن هنا<br>لـ<span class="accent">مساعدتك</span></h1>
+    <h1 data-en>We're here<br>to <span class="accent">help</span></h1>
+
+    <p data-ar>سواء كان عندك سؤال، اقتراح، أو تحتاج مساعدة فنيّة — فريقنا مستعدّ للردّ خلال ساعات.</p>
+    <p data-en>Whether you have a question, suggestion, or need technical help — our team is ready to respond within hours.</p>
+  </div>
+</section>
+
+<!-- ═══ CONTACT METHODS ═══ -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-c">
+    <div class="contact-methods">
+      <a href="https://wa.me/966501234567" class="method-card reveal">
+        <div class="method-icon green">💬</div>
+        <h3 data-ar>واتساب</h3>
+        <h3 data-en>WhatsApp</h3>
+        <div class="method-value">+966 50 123 4567</div>
+        <div class="method-desc" data-ar>أسرع طريقة للتواصل</div>
+        <div class="method-desc" data-en>Fastest way to reach us</div>
+      </a>
+
+      <a href="mailto:hello@vallsolutions.com" class="method-card reveal" data-delay="100">
+        <div class="method-icon violet">✉️</div>
+        <h3 data-ar>بريد إلكتروني</h3>
+        <h3 data-en>Email</h3>
+        <div class="method-value">hello@vallsolutions.com</div>
+        <div class="method-desc" data-ar>الرد خلال ساعات</div>
+        <div class="method-desc" data-en>Reply within hours</div>
+      </a>
+
+      <a href="tel:+966112345678" class="method-card reveal" data-delay="200">
+        <div class="method-icon yellow">📞</div>
+        <h3 data-ar>هاتف</h3>
+        <h3 data-en>Phone</h3>
+        <div class="method-value">+966 11 234 5678</div>
+        <div class="method-desc" data-ar>الأحد - الخميس ٩ص-٦م</div>
+        <div class="method-desc" data-en>Sun-Thu 9AM-6PM</div>
+      </a>
+
+      <a href="#contact-form" class="method-card reveal" data-delay="300">
+        <div class="method-icon cyan">📝</div>
+        <h3 data-ar>نموذج التواصل</h3>
+        <h3 data-en>Contact Form</h3>
+        <div class="method-value" data-ar>الدعم المتقدّم</div>
+        <div class="method-value" data-en>Advanced Support</div>
+        <div class="method-desc" data-ar>للاستفسارات المفصّلة</div>
+        <div class="method-desc" data-en>For detailed inquiries</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT FORM ═══ -->
+<section class="section" id="contact-form" style="padding-top: 0;">
+  <div class="section-c">
+    <div class="form-section">
+      <!-- Left: info -->
+      <div class="form-info reveal">
+        <div class="eyebrow" data-ar>اكتب لنا</div>
+        <div class="eyebrow" data-en>WRITE TO US</div>
+        <h2 data-ar>أرسل رسالتك<br>وسنردّ بأسرع وقت</h2>
+        <h2 data-en>Send us a message<br>we'll reply ASAP</h2>
+        <p data-ar>نعتزّ بكلّ سؤال يصلنا. فريقنا سيرجع لك خلال ٢٤ ساعة كحدّ أقصى.</p>
+        <p data-en>We value every question we receive. Our team will get back to you within 24 hours max.</p>
+
+        <ul class="info-list">
+          <li>
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="info-text">
+              <div class="label" data-ar>المقرّ الرئيسي</div>
+              <div class="label" data-en>Headquarters</div>
+              <div class="value" data-ar>جدة، المملكة العربيّة السعوديّة</div>
+              <div class="value" data-en>Jeddah, Saudi Arabia</div>
+              <div class="sub" data-ar>طريق الملك عبدالعزيز، حيّ الزهراء</div>
+              <div class="sub" data-en>King Abdulaziz Rd, Az Zahraa District</div>
+            </div>
+          </li>
+          <li>
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="info-text">
+              <div class="label" data-ar>ساعات العمل</div>
+              <div class="label" data-en>Working Hours</div>
+              <div class="value" data-ar>الأحد - الخميس</div>
+              <div class="value" data-en>Sunday - Thursday</div>
+              <div class="sub">9:00 AM - 6:00 PM</div>
+            </div>
+          </li>
+          <li>
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div class="info-text">
+              <div class="label" data-ar>دعم متاح ٢٤/٧</div>
+              <div class="label" data-en>24/7 Support</div>
+              <div class="value" data-ar>عبر واتساب والدردشة المباشرة</div>
+              <div class="value" data-en>Via WhatsApp & live chat</div>
+              <div class="sub" data-ar>للعملاء المشتركين</div>
+              <div class="sub" data-en>For subscribed customers</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: form -->
+      <form class="contact-form reveal" data-delay="200" onsubmit="event.preventDefault(); alert('تم إرسال رسالتك! سنردّ خلال ٢٤ ساعة. ✓'); this.reset();">
+        <div class="form-row">
+          <div class="form-group">
+            <label data-ar>الاسم الكامل <span class="req">*</span></label>
+            <label data-en>Full Name <span class="req">*</span></label>
+            <input class="form-input" type="text" required>
+          </div>
+          <div class="form-group">
+            <label data-ar>اسم الشركة</label>
+            <label data-en>Company Name</label>
+            <input class="form-input" type="text">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label data-ar>البريد الإلكتروني <span class="req">*</span></label>
+            <label data-en>Email <span class="req">*</span></label>
+            <input class="form-input" type="email" required>
+          </div>
+          <div class="form-group">
+            <label data-ar>رقم الجوّال</label>
+            <label data-en>Phone Number</label>
+            <input class="form-input" type="tel" placeholder="+966 5X XXX XXXX">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label data-ar>كيف تقدر نساعدك؟ <span class="req">*</span></label>
+          <label data-en>How can we help you? <span class="req">*</span></label>
+          <select class="form-select" required>
+            <option value="" data-ar>اختر نوع الاستفسار...</option>
+            <option value="" data-en>Select inquiry type...</option>
+            <option value="sales"><span data-ar>استفسار عن المبيعات</span><span data-en>Sales inquiry</span></option>
+            <option value="support"><span data-ar>دعم فنّي</span><span data-en>Technical support</span></option>
+            <option value="demo"><span data-ar>طلب عرض توضيحي</span><span data-en>Request a demo</span></option>
+            <option value="partnership"><span data-ar>شراكة تجاريّة</span><span data-en>Business partnership</span></option>
+            <option value="custom"><span data-ar>خطّة مخصّصة</span><span data-en>Custom plan</span></option>
+            <option value="other"><span data-ar>أخرى</span><span data-en>Other</span></option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label data-ar>رسالتك <span class="req">*</span></label>
+          <label data-en>Your Message <span class="req">*</span></label>
+          <textarea class="form-textarea" required placeholder="اكتب رسالتك هنا..."></textarea>
+        </div>
+
+        <label class="form-checkbox">
+          <input type="checkbox" required>
+          <span data-ar>أوافق على <a href="/policy/privacy">سياسة الخصوصيّة</a> و<a href="/policy/terms">الشروط</a></span>
+          <span data-en>I agree to the <a href="/policy/privacy">Privacy Policy</a> and <a href="/policy/terms">Terms</a></span>
+        </label>
+
+        <button type="submit" class="form-submit">
+          <span data-ar>إرسال الرسالة ←</span>
+          <span data-en>Send Message →</span>
+        </button>
+
+        <p class="form-note">
+          <span data-ar>سنرد عليك خلال ٢٤ ساعة عمل كحدّ أقصى</span>
+          <span data-en>We'll reply within 24 business hours max</span>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOCATIONS ═══ -->
+<section class="section" style="background: var(--bg-soft);">
+  <div class="section-c">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>المكاتب</div>
+      <div class="eyebrow" data-en>OFFICES</div>
+      <h2 data-ar>تواجدنا في المملكة</h2>
+      <h2 data-en>Our presence in Saudi Arabia</h2>
+      <p data-ar>فريق محلّي يفهم احتياجات السوق السعودي.</p>
+      <p data-en>A local team that understands the Saudi market.</p>
+    </div>
+
+    <div class="locations-grid">
+      <div class="location-card reveal">
+        <div class="location-flag">🇸🇦</div>
+        <span class="location-tag hq" data-ar>المقرّ الرئيسي</span>
+        <span class="location-tag hq" data-en>HEADQUARTERS</span>
+        <h3 data-ar>جدة</h3>
+        <h3 data-en>Jeddah</h3>
+        <p data-ar>طريق الملك عبدالعزيز<br>حيّ الزهراء، جدة ٢١٤٤٢</p>
+        <p data-en>King Abdulaziz Road<br>Az Zahraa District, Jeddah 21442</p>
+        <div class="location-meta">📞 +966 12 234 5678</div>
+      </div>
+
+      <div class="location-card reveal" data-delay="100">
+        <div class="location-flag">🏙️</div>
+        <span class="location-tag office" data-ar>مكتب فرعي</span>
+        <span class="location-tag office" data-en>OFFICE</span>
+        <h3 data-ar>الرياض</h3>
+        <h3 data-en>Riyadh</h3>
+        <p data-ar>طريق الملك فهد<br>حيّ العليا، الرياض ١١٤٦١</p>
+        <p data-en>King Fahd Road<br>Al Olaya District, Riyadh 11461</p>
+        <div class="location-meta">📞 +966 11 234 5678</div>
+      </div>
+
+      <div class="location-card reveal" data-delay="200">
+        <div class="location-flag">🌐</div>
+        <span class="location-tag remote" data-ar>عمل عن بُعد</span>
+        <span class="location-tag remote" data-en>REMOTE</span>
+        <h3 data-ar>كل المملكة</h3>
+        <h3 data-en>Kingdom-wide</h3>
+        <p data-ar>فريق دعم متاح من جميع مدن المملكة عبر الواتساب والمكالمات.</p>
+        <p data-en>Support team available across all Saudi cities via WhatsApp and calls.</p>
+        <div class="location-meta" data-ar>متاح ٢٤/٧</div>
+        <div class="location-meta" data-en>Available 24/7</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUICK FAQ ═══ -->
+<section class="section">
+  <div class="section-c">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>أسئلة سريعة</div>
+      <div class="eyebrow" data-en>QUICK ANSWERS</div>
+      <h2 data-ar>قبل ما تتواصل</h2>
+      <h2 data-en>Before reaching out</h2>
+      <p data-ar>قد تجد إجابة سؤالك هنا.</p>
+      <p data-en>You might find your answer here.</p>
+    </div>
+
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>كم يستغرق الرد على الاستفسارات؟</span>
+          <span data-en>How long does it take to respond?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>عبر واتساب: خلال ساعة في أوقات العمل. عبر البريد الإلكتروني: خلال ٢٤ ساعة كحدّ أقصى. للعملاء المشتركين: دعم ٢٤/٧.</span>
+          <span data-en>Via WhatsApp: within an hour during business hours. Via email: within 24 hours max. For subscribed customers: 24/7 support.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل أقدر أحجز عرضاً توضيحياً (Demo)؟</span>
+          <span data-en>Can I book a product demo?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نعم، اختر "طلب عرض توضيحي" من النموذج أعلاه وسنرتّب لك جلسة عبر زوم خلال ٣٠ دقيقة لعرض كل المميزات.</span>
+          <span data-en>Yes, select "Request a demo" in the form above and we'll arrange a 30-minute Zoom session showing all features.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل تقدّمون تدريباً على النظام؟</span>
+          <span data-en>Do you provide system training?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نعم، التدريب الأساسي مجاني عبر مقاطع فيديو ودلائل. التدريب الشخصي عبر زوم متاح للباقة الشاملة، أو كخدمة إضافيّة.</span>
+          <span data-en>Yes, basic training is free via videos and guides. Personal Zoom training is available for Enterprise plan, or as an add-on service.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل تتعاملون مع شركاء أو مطوّرين؟</span>
+          <span data-en>Do you work with partners or developers?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نعم، عندنا برنامج شركاء للمطوّرين والمسوّقين والوكالات. اختر "شراكة تجاريّة" من النموذج للتفاصيل.</span>
+          <span data-en>Yes, we have a partner program for developers, marketers, and agencies. Select "Business partnership" in the form for details.</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:-100px;right:-100px;"></div>
+  <div class="footer-c">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <img src="/images/val-logo.png" alt="Val Solutions" style="height:42px;width:auto;display:block;" />
+        </a>
+        <p data-ar>منصّة سعوديّة متكاملة لإدارة المتاجر، الكاشير، والمبيعات عبر واتساب.</p>
+        <p data-en>Saudi all-in-one platform for stores, cashier, and WhatsApp sales.</p>
+        <div class="cert-badges">
+          <span class="cert-badge">🔒 PCI-DSS</span>
+          <span class="cert-badge">✓ ZATCA</span>
+          <span class="cert-badge">🛡 SAMA</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>المنتج</h4>
+        <h4 data-en>Product</h4>
+        <ul>
+          <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+          <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+          <li><a href="/features#whatsapp" data-ar>متجر واتساب</a><a href="/features#whatsapp" data-en>WhatsApp</a></li>
+          <li><a href="/api" data-ar>واجهة API</a><a href="/api" data-en>API</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>الشركة</h4>
+        <h4 data-en>Company</h4>
+        <ul>
+          <li><a href="/about" data-ar>من نحن</a><a href="/about" data-en>About</a></li>
+          <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+          <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+          <li><a href="/careers" data-ar>الوظائف</a><a href="/careers" data-en>Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>قانوني</h4>
+        <h4 data-en>Legal</h4>
+        <ul>
+          <li><a href="/policy/terms" data-ar>الشروط</a><a href="/policy/terms" data-en>Terms</a></li>
+          <li><a href="/policy/privacy" data-ar>الخصوصيّة</a><a href="/policy/privacy" data-en>Privacy</a></li>
+          <li><a href="/policy/refund" data-ar>سياسة الاسترداد</a><a href="/policy/refund" data-en>Refunds</a></li>
+          <li><a href="/policy/cookies" data-ar>الكوكيز</a><a href="/policy/cookies" data-en>Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-ar>© 2026 Val POS. جميع الحقوق محفوظة. صُنع في 🇸🇦 السعوديّة</p>
+      <p data-en>© 2026 Val POS. All rights reserved. Made in 🇸🇦 Saudi Arabia</p>
+      <div class="social">
+        <a href="#" aria-label="Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753c0-.249 1.51-2.772 1.818-4.013z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts.js"></script>
+</body>
+</html>

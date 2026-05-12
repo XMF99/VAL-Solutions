@@ -1,0 +1,4 @@
+/* Val POS RTL adjustments */
+body { direction: rtl; text-align: right; font-family: 'Cairo', 'Tajawal', system-ui, sans-serif; }
+.ms-auto { margin-right: auto !important; margin-left: 0 !important; }
+.me-auto { margin-left: auto !important; margin-right: 0 !important; }
