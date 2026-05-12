@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المميزات — VAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: linear-gradient(180deg, #DBEAFE 0%, #E0F2FE 25%, #F0F9FF 60%, #F8FAFC 100%);
+  background-attachment: fixed;
+  color: #0F172A;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+@keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes border-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.bg-decoration { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+.bg-circle-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent); top: -100px; left: -100px; animation: float-slow 20s ease-in-out infinite; }
+.bg-circle-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(125, 211, 252, 0.2), transparent); top: 30%; right: -50px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; font-family: inherit; cursor: pointer; border: none; transition: all 0.3s ease; white-space: nowrap; position: relative; overflow: hidden; }
+.btn-animated { position: relative; background: #0F172A; color: #ffffff; z-index: 1; border: 2px solid transparent; }
+.btn-animated::before { content: ''; position: absolute; inset: -2px; border-radius: 12px; background: conic-gradient(from 0deg, #3B82F6, #06B6D4, #0EA5E9, #38BDF8, #3B82F6); z-index: -2; animation: border-rotate 4s linear infinite; }
+.btn-animated::after { content: ''; position: absolute; inset: 2px; border-radius: 10px; background: #0F172A; z-index: -1; }
+.btn-animated:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25); }
+.btn-animated.light { color: #0F172A; }
+.btn-animated.light::after { background: #ffffff; }
+.btn-ghost { background: rgba(255,255,255,0.6); color: #0F172A; backdrop-filter: blur(10px); border: 1px solid rgba(15, 23, 42, 0.1); }
+
+.navbar { position: sticky; top: 0; z-index: 100; background: rgba(240, 249, 255, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(15, 23, 42, 0.06); }
+.nav-wrap { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+.logo svg { width: 70px; height: 20px; fill: #0F172A; }
+.nav-menu { display: flex; gap: 28px; list-style: none; }
+.nav-menu a { font-size: 14px; color: #0F172A; font-weight: 500; transition: color 0.2s; position: relative; }
+.nav-menu a::after { content: ''; position: absolute; bottom: -4px; right: 0; width: 0; height: 2px; background: linear-gradient(90deg, #1E40AF, #0EA5E9); transition: width 0.3s ease; }
+.nav-menu a:hover { color: #1E40AF; }
+.nav-menu a:hover::after { width: 100%; }
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.lang-switch { display: flex; background: rgba(15, 23, 42, 0.05); border-radius: 8px; padding: 3px; }
+.lang-switch button { background: transparent; border: none; color: rgba(15, 23, 42, 0.6); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+.lang-switch button.active { background: #ffffff; color: #0F172A; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.mobile-toggle { display: none; background: none; border: none; color: #0F172A; cursor: pointer; font-size: 22px; }
+
+.page-header { padding: 80px 0 40px; text-align: center; position: relative; z-index: 1; }
+.page-header .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #1E40AF; background: rgba(255,255,255,0.7); border: 1px solid rgba(30, 64, 175, 0.15); padding: 7px 18px; border-radius: 100px; font-weight: 600; margin-bottom: 24px; }
+.page-header h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 900; line-height: 1.2; margin-bottom: 18px; }
+.page-header .gradient-text { background: linear-gradient(90deg, #1E40AF 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.page-header p { font-size: 17px; color: rgba(15, 23, 42, 0.65); max-width: 620px; margin: 0 auto; line-height: 1.7; }
+
+.feature-block { padding: 60px 0; position: relative; z-index: 1; }
+.feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto; }
+.feature-row.reverse { direction: ltr; }
+.feature-row.reverse > * { direction: rtl; }
+.feature-content { padding: 20px 0; }
+.feature-num { font-size: 13px; color: #1E40AF; font-weight: 700; letter-spacing: 2px; margin-bottom: 12px; }
+.feature-content h2 { font-size: clamp(28px, 3vw, 38px); font-weight: 900; margin-bottom: 16px; line-height: 1.3; }
+.feature-content p { font-size: 16px; color: rgba(15, 23, 42, 0.7); line-height: 1.8; margin-bottom: 24px; }
+.feature-list { list-style: none; }
+.feature-list li { padding: 8px 0; display: flex; align-items: center; gap: 10px; font-size: 15px; color: rgba(15, 23, 42, 0.85); }
+.check-mark { flex-shrink: 0; width: 22px; height: 22px; background: rgba(30, 64, 175, 0.1); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #1E40AF; font-size: 12px; font-weight: 800; }
+
+.feature-visual { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 24px; padding: 48px; min-height: 320px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px; position: relative; overflow: hidden; }
+.feature-visual::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #1E40AF, #0EA5E9, #06B6D4); }
+.feature-label { font-size: 11px; color: rgba(15, 23, 42, 0.5); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+.feature-big-text { font-size: clamp(40px, 6vw, 64px); font-weight: 900; background: linear-gradient(90deg, #1E40AF 0%, #0EA5E9 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; text-align: center; }
+.feature-tagline { font-size: 14px; color: rgba(15, 23, 42, 0.6); text-align: center; }
+.feature-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; margin-top: 16px; padding-top: 24px; border-top: 1px solid rgba(15, 23, 42, 0.08); }
+.stat-box { text-align: center; }
+.stat-box .num { font-size: 24px; font-weight: 800; color: #1E40AF; }
+.stat-box .lbl { font-size: 11px; color: rgba(15, 23, 42, 0.5); margin-top: 2px; }
+
+.cta-section { text-align: center; padding: 80px 32px; margin: 60px auto; max-width: 1100px; background: linear-gradient(135deg, rgba(30, 64, 175, 0.08), rgba(14, 165, 233, 0.05)); backdrop-filter: blur(10px); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 28px; }
+.cta-section h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 900; margin-bottom: 16px; }
+.cta-section p { font-size: 16px; color: rgba(15, 23, 42, 0.7); margin-bottom: 28px; }
+.cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.footer { background: linear-gradient(180deg, #0F172A 0%, #000000 100%); padding: 60px 0 24px; color: #ffffff; position: relative; z-index: 2; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-brand .logo svg { fill: #ffffff; }
+.footer-brand p { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 14px; max-width: 280px; line-height: 1.7; }
+.footer-col h5 { font-size: 12px; font-weight: 800; color: #6EE7B7; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col li { padding: 6px 0; }
+.footer-col a { font-size: 14px; color: rgba(255,255,255,0.75); }
+.footer-col a:hover { color: #6EE7B7; }
+.footer-bottom { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.5); text-align: center; }
+
+@media (max-width: 768px) {
+  .nav-menu { display: none; }
+  .mobile-toggle { display: block; }
+  .nav-menu.show { display: flex; position: absolute; top: 100%; right: 0; left: 0; flex-direction: column; background: #ffffff; padding: 20px 24px; gap: 16px; }
+  .feature-row { grid-template-columns: 1fr; gap: 32px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+  .lang-switch { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-decoration bg-circle-1"></div>
+<div class="bg-decoration bg-circle-2"></div>
+
+<nav class="navbar">
+  <div class="container nav-wrap">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 629 181"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+    </a>
+    <ul class="nav-menu" id="nav-menu">
+      <li><a href="/">الرئيسية</a></li>
+      <li><a href="/features">المميزات</a></li>
+      <li><a href="/pricing-plan">الأسعار</a></li>
+      <li><a href="/blogs">الأخبار</a></li>
+      <li><a href="/contact">تواصل</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button class="active" onclick="changeLang('ar')">عربي</button>
+        <button onclick="changeLang('en')">EN</button>
+      </div>
+      <a href="/admin" class="btn btn-animated light">دخول التاجر</a>
+      <a href="/pricing-plan" class="btn btn-animated">اشترك معنا</a>
+      <button class="mobile-toggle" onclick="document.getElementById('nav-menu').classList.toggle('show')">☰</button>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="container">
+    <span class="badge">المميزات الكاملة</span>
+    <h1>كل ما يحتاجه <span class="gradient-text">متجرك</span> للنجاح</h1>
+    <p>اكتشف المميزات الكاملة اللي تساعدك تدير متجرك بكل سهولة — من الكاشير إلى التقارير الذكيّة.</p>
+  </div>
+</section>
+
+<section class="feature-block">
+  <div class="container">
+    <div class="feature-row">
+      <div class="feature-content">
+        <div class="feature-num">٠١ — POS</div>
+        <h2>الكاشير الذكي</h2>
+        <p>نظام كاشير سريع ومتطوّر مصمّم خصّيصاً للسوق السعودي. يدعم الباركود، الطباعة الحراريّة، وكلّ طرق الدفع المعتمدة.</p>
+        <ul class="feature-list">
+          <li><span class="check-mark">✓</span> قارئ الباركود السريع</li>
+          <li><span class="check-mark">✓</span> طباعة فواتير حراريّة</li>
+          <li><span class="check-mark">✓</span> دعم مدى وآبل باي وSTC Pay</li>
+          <li><span class="check-mark">✓</span> فاتورة ZATCA متوافقة</li>
+          <li><span class="check-mark">✓</span> إدارة جلسات الكاشير</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <span class="feature-label">POINT OF SALE</span>
+        <div class="feature-big-text">Cashier</div>
+        <p class="feature-tagline">سرعة + بساطة + احترافيّة</p>
+        <div class="feature-stats">
+          <div class="stat-box"><div class="num">&lt;3s</div><div class="lbl">عمليّة بيع</div></div>
+          <div class="stat-box"><div class="num">100%</div><div class="lbl">ZATCA</div></div>
+          <div class="stat-box"><div class="num">∞</div><div class="lbl">منتجات</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feature-block">
+  <div class="container">
+    <div class="feature-row reverse">
+      <div class="feature-visual">
+        <span class="feature-label">TABLET POS</span>
+        <div class="feature-big-text">Mobile</div>
+        <p class="feature-tagline">بيع من أيّ مكان</p>
+        <div class="feature-stats">
+          <div class="stat-box"><div class="num">iOS</div><div class="lbl">جوال</div></div>
+          <div class="stat-box"><div class="num">Android</div><div class="lbl">تابلت</div></div>
+          <div class="stat-box"><div class="num">Web</div><div class="lbl">متصفّح</div></div>
+        </div>
+      </div>
+      <div class="feature-content">
+        <div class="feature-num">٠٢ — TABLET</div>
+        <h2>نقطة البيع المحمولة</h2>
+        <p>واجهة بيع سهلة على الجوال والتابلت — مثاليّة للمطاعم، المحلّات الصغيرة، والمتاجر المتنقّلة. اشتغل من أيّ مكان.</p>
+        <ul class="feature-list">
+          <li><span class="check-mark">✓</span> تشتغل على iPad وAndroid</li>
+          <li><span class="check-mark">✓</span> واجهة سهلة وسريعة</li>
+          <li><span class="check-mark">✓</span> مزامنة لحظيّة مع الكاشير</li>
+          <li><span class="check-mark">✓</span> طلبات خارج المتجر</li>
+          <li><span class="check-mark">✓</span> دفع إلكتروني فوري</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feature-block">
+  <div class="container">
+    <div class="feature-row">
+      <div class="feature-content">
+        <div class="feature-num">٠٣ — WHATSAPP</div>
+        <h2>طلبات عبر واتساب</h2>
+        <p>اربط متجرك مع واتساب واستقبل الطلبات مباشرة من عملائك. اعرض المنتجات، خذ الطلب، واستلم الدفع — بدون أيّ تطبيق إضافي.</p>
+        <ul class="feature-list">
+          <li><span class="check-mark">✓</span> كاتالوج المنتجات في واتساب</li>
+          <li><span class="check-mark">✓</span> سلّة شراء ذكيّة</li>
+          <li><span class="check-mark">✓</span> ردود تلقائيّة احترافيّة</li>
+          <li><span class="check-mark">✓</span> تتبّع الطلب لحظياً</li>
+          <li><span class="check-mark">✓</span> روابط دفع آمنة</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <span class="feature-label">WHATSAPP COMMERCE</span>
+        <div class="feature-big-text">WhatsApp</div>
+        <p class="feature-tagline">عملاؤك يطلبون من تطبيقهم المفضّل</p>
+        <div class="feature-stats">
+          <div class="stat-box"><div class="num">+50%</div><div class="lbl">طلبات</div></div>
+          <div class="stat-box"><div class="num">24/7</div><div class="lbl">متاح</div></div>
+          <div class="stat-box"><div class="num">$0</div><div class="lbl">عمولة</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feature-block">
+  <div class="container">
+    <div class="feature-row reverse">
+      <div class="feature-visual">
+        <span class="feature-label">ONLINE STORE</span>
+        <div class="feature-big-text">E-Shop</div>
+        <p class="feature-tagline">متجرك على الإنترنت في ٥ دقائق</p>
+        <div class="feature-stats">
+          <div class="stat-box"><div class="num">SEO</div><div class="lbl">جاهز</div></div>
+          <div class="stat-box"><div class="num">Mobile</div><div class="lbl">متجاوب</div></div>
+          <div class="stat-box"><div class="num">Fast</div><div class="lbl">سريع</div></div>
+        </div>
+      </div>
+      <div class="feature-content">
+        <div class="feature-num">٠٤ — ONLINE</div>
+        <h2>متجر إلكتروني جاهز</h2>
+        <p>أطلق متجرك الإلكتروني في دقائق — بدون كود، بدون تعقيد. استقبل الطلبات أونلاين وأرسلها للعملاء بأبسط الطرق.</p>
+        <ul class="feature-list">
+          <li><span class="check-mark">✓</span> قوالب احترافيّة جاهزة</li>
+          <li><span class="check-mark">✓</span> دومين خاص بمتجرك</li>
+          <li><span class="check-mark">✓</span> دفع إلكتروني آمن</li>
+          <li><span class="check-mark">✓</span> إدارة الشحن والتوصيل</li>
+          <li><span class="check-mark">✓</span> تحسين محرّكات البحث</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feature-block">
+  <div class="container">
+    <div class="feature-row">
+      <div class="feature-content">
+        <div class="feature-num">٠٥ — KITCHEN</div>
+        <h2>شاشة المطبخ</h2>
+        <p>للمطاعم والكافيهات — شاشة مطبخ ذكيّة لإدارة تجهيز الطلبات. تتبّع كل طلب من لحظة استلامه حتّى تسليمه.</p>
+        <ul class="feature-list">
+          <li><span class="check-mark">✓</span> عرض الطلبات لحظياً</li>
+          <li><span class="check-mark">✓</span> تتبّع وقت التحضير</li>
+          <li><span class="check-mark">✓</span> تنبيهات صوتيّة</li>
+          <li><span class="check-mark">✓</span> تنظيم حسب الأولويّة</li>
+          <li><span class="check-mark">✓</span> تقليل الأخطاء وزيادة السرعة</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <span class="feature-label">KITCHEN DISPLAY</span>
+        <div class="feature-big-text">Kitchen</div>
+        <p class="feature-tagline">مطبخك أسرع وأذكى</p>
+        <div class="feature-stats">
+          <div class="stat-box"><div class="num">-30%</div><div class="lbl">وقت تحضير</div></div>
+          <div class="stat-box"><div class="num">99%</div><div class="lbl">دقّة</div></div>
+          <div class="stat-box"><div class="num">+40%</div><div class="lbl">سرعة</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="feature-block">
+  <div class="container">
+    <div class="feature-row reverse">
+      <div class="feature-visual">
+        <span class="feature-label">SMART REPORTS</span>
+        <div class="feature-big-text">Reports</div>
+        <p class="feature-tagline">قرارات مبنيّة على بيانات</p>
+        <div class="feature-stats">
+          <div class="stat-box"><div class="num">Real</div><div class="lbl">لحظي</div></div>
+          <div class="stat-box"><div class="num">PDF</div><div class="lbl">تصدير</div></div>
+          <div class="stat-box"><div class="num">AI</div><div class="lbl">ذكي</div></div>
+        </div>
+      </div>
+      <div class="feature-content">
+        <div class="feature-num">٠٦ — REPORTS</div>
+        <h2>التقارير الذكيّة</h2>
+        <p>تقارير لحظيّة شاملة عن مبيعاتك، مخزونك، وعملائك. اتخذ قرارات أفضل بناءً على بيانات حقيقيّة.</p>
+        <ul class="feature-list">
+          <li><span class="check-mark">✓</span> تقارير مبيعات لحظيّة</li>
+          <li><span class="check-mark">✓</span> تحليل المخزون</li>
+          <li><span class="check-mark">✓</span> أكثر المنتجات مبيعاً</li>
+          <li><span class="check-mark">✓</span> تقارير ضريبيّة جاهزة</li>
+          <li><span class="check-mark">✓</span> تصدير PDF وExcel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta-section">
+      <h2>جاهز تكتشف VAL؟</h2>
+      <p>ابدأ تجربتك المجانيّة ١٤ يوم واستمتع بكل المميزات</p>
+      <div class="cta-buttons">
+        <a href="/admin" class="btn btn-animated">ابدأ مجاناً</a>
+        <a href="/contact" class="btn btn-animated light">احجز عرض توضيحي</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 629 181"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+        </a>
+        <p>منصّة بيع متكاملة لإدارة المتاجر السعوديّة.</p>
+      </div>
+      <div class="footer-col">
+        <h5>المنتج</h5>
+        <ul>
+          <li><a href="/features">المميزات</a></li>
+          <li><a href="/pricing-plan">الأسعار</a></li>
+          <li><a href="/blogs">الأخبار</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>الشركة</h5>
+        <ul>
+          <li><a href="/contact">من نحن</a></li>
+          <li><a href="/blogs">الأخبار</a></li>
+          <li><a href="/contact">تواصل</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>الدعم</h5>
+        <ul>
+          <li><a href="/contact">تواصل</a></li>
+          <li><a href="#">الخصوصيّة</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© ٢٠٢٦ VAL — جميع الحقوق محفوظة</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function changeLang(lang) {
+  fetch('/change/' + lang).then(() => window.location.reload()).catch(() => { window.location.href = '/change/' + lang; });
+}
+</script>
+
+</body>
+</html>

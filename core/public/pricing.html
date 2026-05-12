@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأسعار — Val POS</title>
+<meta name="description" content="باقات Val POS بأسعار شفّافة — من 79 ريال شهرياً. اختر الباقة المناسبة لمتجرك.">
+<meta name="theme-color" content="#fafaf7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+<style>
+.page-hero { padding: 160px 5% 60px; text-align: center; position: relative; overflow: hidden; }
+.page-hero h1 { font-family: 'Cairo', sans-serif; font-size: clamp(40px, 6vw, 76px); font-weight: 900; line-height: 1; letter-spacing: -2.5px; margin-bottom: 22px; color: var(--text); }
+[data-lang="en"] .page-hero h1 { font-family: 'Inter', sans-serif; }
+.page-hero h1 .accent { background: linear-gradient(120deg, var(--primary) 0%, var(--pink) 50%, var(--yellow) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.page-hero p { font-size: 19px; color: var(--text-2); max-width: 640px; margin: 0 auto 36px; line-height: 1.65; }
+
+/* Toggle */
+.billing-toggle { display: inline-flex; background: white; border: 1px solid var(--border); border-radius: 100px; padding: 4px; box-shadow: var(--shadow-sm); margin-top: 8px; }
+.billing-toggle button { padding: 10px 22px; background: transparent; border: none; border-radius: 100px; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text-2); cursor: pointer; transition: all var(--t-base); }
+.billing-toggle button.active { background: var(--text); color: white; }
+.save-badge { display: inline-block; background: var(--green-soft); color: #047857; padding: 2px 8px; border-radius: 100px; font-size: 10px; font-weight: 800; margin-inline-start: 6px; font-family: 'Inter', sans-serif; }
+
+/* Pricing grid - 4 tiers */
+.pricing-section { padding: 40px 5% 80px; position: relative; }
+.pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; max-width: 1300px; margin: 0 auto; }
+.plan-card { background: white; border: 1px solid var(--border); border-radius: var(--r-lg); padding: 32px 24px; position: relative; transition: all var(--t-base); display: flex; flex-direction: column; gap: 16px; }
+.plan-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.plan-card.featured { border: 2px solid var(--primary); box-shadow: 0 20px 50px var(--primary-glow); }
+.plan-card.enterprise { background: linear-gradient(135deg, #1a1033 0%, #2d1b69 100%); border: 2px solid transparent; color: white; position: relative; overflow: hidden; }
+.plan-card.enterprise::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, var(--yellow) 0%, transparent 70%); opacity: 0.2; animation: blob 14s ease-in-out infinite; }
+.plan-card.enterprise::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 300px; height: 300px; background: radial-gradient(circle, var(--cyan) 0%, transparent 70%); opacity: 0.2; animation: blob 16s ease-in-out infinite reverse; }
+.plan-card.enterprise > * { position: relative; z-index: 1; }
+
+.plan-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 5px 14px; border-radius: 100px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 6px 16px var(--primary-glow); }
+.plan-badge.gold { background: linear-gradient(135deg, var(--yellow), #f59e0b); color: var(--text); box-shadow: 0 6px 16px rgba(251, 191, 36, 0.4); }
+
+.plan-name { font-family: 'Cairo', sans-serif; font-size: 22px; font-weight: 900; color: var(--text); }
+[data-lang="en"] .plan-name { font-family: 'Inter', sans-serif; }
+.plan-card.enterprise .plan-name { color: white; }
+.plan-tagline { font-size: 13px; color: var(--text-3); min-height: 36px; }
+.plan-card.enterprise .plan-tagline { color: rgba(255,255,255,0.7); }
+
+.plan-price { display: flex; align-items: baseline; gap: 6px; margin: 8px 0; }
+.plan-price .amount { font-family: 'Cairo', sans-serif; font-size: 50px; font-weight: 900; line-height: 1; letter-spacing: -2px; color: var(--text); }
+[data-lang="en"] .plan-price .amount { font-family: 'Inter', sans-serif; }
+.plan-card.enterprise .plan-price .amount { background: linear-gradient(135deg, var(--yellow), var(--cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.plan-price .currency { font-size: 14px; color: var(--text-3); font-weight: 600; }
+.plan-card.enterprise .plan-price .currency { color: rgba(255,255,255,0.7); }
+.plan-period { font-size: 13px; color: var(--text-3); }
+.plan-card.enterprise .plan-period { color: rgba(255,255,255,0.7); }
+
+.plan-cta { display: block; width: 100%; padding: 13px; border-radius: 100px; font-family: inherit; font-weight: 800; font-size: 14px; text-align: center; transition: all var(--t-base); border: 1px solid transparent; cursor: pointer; }
+.plan-cta.outline { background: white; color: var(--text); border-color: var(--border-2); }
+.plan-cta.outline:hover { background: var(--bg-2); border-color: var(--text-4); }
+.plan-cta.solid { background: var(--primary); color: white; }
+.plan-cta.solid:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 8px 20px var(--primary-glow); }
+.plan-cta.gold { background: linear-gradient(135deg, var(--yellow), #f59e0b); color: var(--text); }
+.plan-cta.gold:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(251, 191, 36, 0.4); }
+
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
+.plan-card.enterprise .plan-features { border-top-color: rgba(255,255,255,0.15); }
+.plan-features li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.5; }
+.plan-features li::before { content: ''; flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; border-radius: 50%; background: var(--primary-soft); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg>"); background-size: 11px; background-repeat: no-repeat; background-position: center; }
+.plan-card.enterprise .plan-features li { color: rgba(255,255,255,0.92); }
+.plan-card.enterprise .plan-features li::before { background-color: rgba(251, 191, 36, 0.2); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fbbf24' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg>"); }
+.plan-features li.check-cyan::before { background-color: var(--cyan-soft); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230e7490' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg>"); }
+.plan-features li strong { color: var(--text); font-weight: 800; }
+.plan-card.enterprise .plan-features li strong { color: var(--yellow); }
+
+/* Add-ons section */
+.addons-section { padding: 80px 5%; background: var(--bg-soft); }
+.addons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1100px; margin: 0 auto; }
+.addon-card { background: white; border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px; transition: all var(--t-base); }
+.addon-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+.addon-icon { font-size: 32px; margin-bottom: 14px; }
+.addon-title { font-family: 'Cairo', sans-serif; font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+[data-lang="en"] .addon-title { font-family: 'Inter', sans-serif; }
+.addon-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px; }
+.addon-price .amount { font-family: 'Cairo', sans-serif; font-size: 28px; font-weight: 900; color: var(--primary-dark); }
+[data-lang="en"] .addon-price .amount { font-family: 'Inter', sans-serif; }
+.addon-price .unit { font-size: 13px; color: var(--text-3); font-weight: 600; }
+.addon-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; }
+
+/* Comparison table */
+.compare-section { padding: 80px 5%; }
+.compare-table-wrap { max-width: 1300px; margin: 0 auto; background: white; border: 1px solid var(--border); border-radius: var(--r-xl); overflow: hidden; }
+.compare-cat { background: var(--bg-soft); border-bottom: 1px solid var(--border); }
+.compare-cat-header { padding: 18px 24px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background var(--t-base); user-select: none; }
+.compare-cat-header:hover { background: var(--bg-2); }
+.compare-cat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.compare-cat-icon.violet { background: var(--primary-soft); }
+.compare-cat-icon.yellow { background: var(--yellow-soft); }
+.compare-cat-icon.cyan { background: var(--cyan-soft); }
+.compare-cat-icon.pink { background: var(--pink-soft); }
+.compare-cat-icon.green { background: var(--green-soft); }
+.compare-cat-icon.orange { background: var(--orange-soft); }
+.compare-cat-name { font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 900; color: var(--text); flex: 1; }
+[data-lang="en"] .compare-cat-name { font-family: 'Inter', sans-serif; }
+.compare-cat-toggle { font-size: 18px; color: var(--text-3); transition: transform var(--t-base); }
+.compare-cat.open .compare-cat-toggle { transform: rotate(180deg); }
+.compare-rows { display: none; }
+.compare-cat.open .compare-rows { display: block; }
+.compare-row { display: grid; grid-template-columns: 2fr repeat(4, 1fr); border-top: 1px solid var(--border); transition: background var(--t-base); }
+.compare-row:hover { background: var(--bg-soft); }
+.compare-cell { padding: 14px 16px; font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 6px; border-inline-end: 1px solid var(--border); }
+.compare-cell:last-child { border-inline-end: none; }
+.compare-cell.feature { font-weight: 600; }
+.compare-cell.center { justify-content: center; text-align: center; }
+.compare-cell.featured-col { background: var(--primary-soft); }
+.compare-row:hover .compare-cell.featured-col { background: #ddd6fe; }
+.check-yes { color: #047857; font-weight: 900; font-size: 16px; }
+.check-no { color: var(--text-4); font-weight: 700; font-size: 14px; }
+.value-text { font-size: 12px; color: var(--text); font-weight: 700; font-family: 'Inter', sans-serif; }
+
+/* Sticky table header */
+.compare-sticky-header { display: grid; grid-template-columns: 2fr repeat(4, 1fr); background: white; border-bottom: 2px solid var(--border); position: sticky; top: 80px; z-index: 30; }
+.compare-sticky-header .compare-cell { padding: 16px; font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 13px; }
+[data-lang="en"] .compare-sticky-header .compare-cell { font-family: 'Inter', sans-serif; }
+.compare-sticky-header .price-mini { font-size: 16px; color: var(--primary-dark); margin-top: 2px; font-family: 'Cairo', sans-serif; }
+[data-lang="en"] .compare-sticky-header .price-mini { font-family: 'Inter', sans-serif; }
+
+/* FAQ */
+.faq-section { padding: 80px 5%; background: var(--bg-soft); }
+.faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item { background: white; border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; transition: all var(--t-base); }
+.faq-item.open { border-color: var(--primary); box-shadow: var(--shadow-md); }
+.faq-q { width: 100%; padding: 22px 26px; background: transparent; border: none; color: var(--text); display: flex; justify-content: space-between; align-items: center; text-align: start; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 700; gap: 16px; cursor: pointer; }
+[data-lang="en"] .faq-q { font-family: 'Inter', sans-serif; }
+.faq-plus { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-2); display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; transition: all var(--t-base); }
+.faq-plus svg { width: 13px; height: 13px; }
+.faq-item.open .faq-plus { transform: rotate(45deg); background: var(--primary); color: white; }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height var(--t-slow); }
+.faq-item.open .faq-a { max-height: 400px; }
+.faq-a-inner { padding: 0 26px 24px; color: var(--text-2); font-size: 14px; line-height: 1.75; }
+
+/* Final CTA */
+.final-cta-section { padding: 100px 5%; position: relative; overflow: hidden; }
+.final-cta { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: var(--r-2xl); padding: 70px 48px; text-align: center; position: relative; overflow: hidden; color: white; max-width: 1200px; margin: 0 auto; }
+.final-cta::before { content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, var(--yellow) 0%, transparent 70%); opacity: 0.4; animation: blob 14s ease-in-out infinite; }
+.final-cta::after { content: ''; position: absolute; bottom: -50%; left: -10%; width: 400px; height: 400px; background: radial-gradient(circle, var(--cyan) 0%, transparent 70%); opacity: 0.4; animation: blob 16s ease-in-out infinite reverse; }
+.final-cta-c { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+.final-cta h2 { font-family: 'Cairo', sans-serif; font-size: clamp(32px, 4.5vw, 52px); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 18px; color: white; }
+[data-lang="en"] .final-cta h2 { font-family: 'Inter', sans-serif; }
+.final-cta p { color: rgba(255,255,255,0.92); font-size: 17px; margin-bottom: 30px; }
+.final-cta .btn { padding: 16px 30px; font-size: 15px; }
+.final-cta .btn-primary { background: white; color: var(--primary-dark); }
+.final-cta .btn-primary:hover { background: var(--yellow); color: var(--text); }
+
+@media (max-width: 1024px) {
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .addons-grid { grid-template-columns: 1fr; }
+  .compare-row, .compare-sticky-header { grid-template-columns: 2fr repeat(4, 1fr); font-size: 11px; }
+  .compare-cell { padding: 10px 8px; font-size: 11px; }
+}
+@media (max-width: 768px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .compare-section { padding: 40px 5%; }
+  .compare-table-wrap { overflow-x: auto; }
+  .compare-row, .compare-sticky-header { min-width: 700px; }
+  .final-cta { padding: 50px 24px; }
+}
+</style>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/favicon-192.png">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-c">
+    <a href="/" class="logo">
+      <img src="/images/val-logo.png" alt="Val Solutions" style="height:36px;width:auto;display:block;" />
+    </a>
+    <ul class="nav-menu">
+      <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+      <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+      <li><a href="/pricing.html" class="active" data-ar>الأسعار</a><a href="/pricing.html" class="active" data-en>Pricing</a></li>
+      <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+      <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button data-lang-btn="ar" class="active">عربي</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="/user/login" class="btn btn-ghost" data-ar>دخول</a>
+      <a href="/user/login" class="btn btn-ghost" data-en>Login</a>
+      <a href="/user/register?plan=basic" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+      <a href="/user/register?plan=advanced" class="btn btn-violet" data-en>Get Started</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="/" data-ar>الرئيسية</a><a href="/" data-en>Home</a></li>
+    <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+    <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+    <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+    <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+  </ul>
+  <a href="/user/login" class="btn btn-ghost" data-ar>دخول التاجر</a>
+  <a href="/user/login" class="btn btn-ghost" data-en>Merchant Login</a>
+  <a href="/user/register?plan=professional" class="btn btn-violet" data-ar>اشترك مجاناً</a>
+  <a href="/user/register?plan=enterprise" class="btn btn-violet" data-en>Get Started Free</a>
+</div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="bg-grid"></div>
+  <div class="bg-blob violet" style="width:500px;height:500px;top:0;right:-150px;"></div>
+  <div class="bg-blob yellow" style="width:400px;height:400px;bottom:-100px;left:-100px;"></div>
+  <div class="reveal" style="position: relative; z-index: 2;">
+    <div class="eyebrow" style="margin-bottom: 22px;" data-ar>الأسعار</div>
+    <div class="eyebrow" style="margin-bottom: 22px;" data-en>PRICING</div>
+    <h1 data-ar>أسعار <span class="accent">شفّافة</span><br>تنمو مع متجرك</h1>
+    <h1 data-en>Transparent <span class="accent">pricing</span><br>that grows with you</h1>
+    <p data-ar>اختر باقتك، أضف ما تحتاجه فقط، وادفع ما تستخدمه. بدون عقود طويلة.</p>
+    <p data-en>Pick a plan, add what you need, pay only for what you use. No long contracts.</p>
+    <div class="billing-toggle">
+      <button id="monthlyBtn" class="active">
+        <span data-ar>شهرياً</span><span data-en>Monthly</span>
+      </button>
+      <button id="yearlyBtn">
+        <span data-ar>سنوياً</span><span data-en>Yearly</span>
+        <span class="save-badge" data-ar>وفّر ١٧٪</span><span class="save-badge" data-en>Save 17%</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- 4 PLANS -->
+<section class="pricing-section">
+  <div class="pricing-grid">
+    <!-- BASIC -->
+    <div class="plan-card reveal">
+      <div>
+        <div class="plan-name" data-ar>الأساسيّة</div>
+        <div class="plan-name" data-en>Basic</div>
+        <div class="plan-tagline" data-ar>للمتاجر الصغيرة والبدء الجديد</div>
+        <div class="plan-tagline" data-en>For small stores and new starters</div>
+      </div>
+      <div class="plan-price">
+        <span class="amount" data-monthly="79" data-yearly="788">٧٩</span>
+        <span class="currency"><span data-ar>ر.س / </span><span data-en>SAR / </span><span class="period-label">شهر</span></span>
+      </div>
+      <div class="plan-period" data-ar>تجربة ١٤ يوم مجاناً</div>
+      <div class="plan-period" data-en>14-day free trial</div>
+      <a href="/user/register" class="plan-cta outline">
+        <span data-ar>ابدأ الآن</span><span data-en>Get Started</span>
+      </a>
+      <ul class="plan-features">
+        <li><span data-ar>كاشير POS كامل</span><span data-en>Full POS cashier</span></li>
+        <li><span data-ar>فرع واحد + مستودع</span><span data-en>1 branch + warehouse</span></li>
+        <li><span data-ar>فاتورة ZATCA Phase 2</span><span data-en>ZATCA Phase 2</span></li>
+        <li><span data-ar>إدارة المخزون الأساسي</span><span data-en>Basic inventory</span></li>
+        <li><span data-ar>تقارير مبيعات أساسيّة</span><span data-en>Basic sales reports</span></li>
+        <li><span data-ar>طرق الدفع: مدى/Apple Pay</span><span data-en>Mada / Apple Pay</span></li>
+        <li><span data-ar>دعم بالبريد الإلكتروني</span><span data-en>Email support</span></li>
+      </ul>
+    </div>
+
+    <!-- ADVANCED -->
+    <div class="plan-card reveal" data-delay="100">
+      <div>
+        <div class="plan-name" data-ar>المتقدّمة</div>
+        <div class="plan-name" data-en>Advanced</div>
+        <div class="plan-tagline" data-ar>للمتاجر النامية بإدارة مخزون أعمق</div>
+        <div class="plan-tagline" data-en>For growing stores with deeper inventory</div>
+      </div>
+      <div class="plan-price">
+        <span class="amount" data-monthly="129" data-yearly="1290">١٢٩</span>
+        <span class="currency"><span data-ar>ر.س / </span><span data-en>SAR / </span><span class="period-label">شهر</span></span>
+      </div>
+      <div class="plan-period" data-ar>تجربة ١٤ يوم مجاناً</div>
+      <div class="plan-period" data-en>14-day free trial</div>
+      <a href="/user/register" class="plan-cta outline">
+        <span data-ar>ابدأ الآن</span><span data-en>Get Started</span>
+      </a>
+      <ul class="plan-features">
+        <li><span data-ar>كل ميزات الأساسيّة</span><span data-en>Everything in Basic</span></li>
+        <li><span data-ar>فرع واحد + مستودع</span><span data-en>1 branch + warehouse</span></li>
+        <li><span data-ar>إدارة موردين متقدّمة</span><span data-en>Advanced suppliers</span></li>
+        <li><span data-ar>أوامر شراء (PO)</span><span data-en>Purchase Orders (PO)</span></li>
+        <li><span data-ar>منتجات مجمّعة (Bundle)</span><span data-en>Bundle products</span></li>
+        <li><span data-ar>عمولات وأقساط مبيعات</span><span data-en>Commissions & installments</span></li>
+        <li><span data-ar>دعم 24/7 بالواتساب</span><span data-en>24/7 WhatsApp support</span></li>
+      </ul>
+    </div>
+
+    <!-- PROFESSIONAL (FEATURED) -->
+    <div class="plan-card featured reveal" data-delay="200">
+      <div class="plan-badge">
+        <span data-ar>⭐ الأكثر طلباً</span><span data-en>⭐ MOST POPULAR</span>
+      </div>
+      <div>
+        <div class="plan-name" data-ar>الاحترافيّة</div>
+        <div class="plan-name" data-en>Professional</div>
+        <div class="plan-tagline" data-ar>لسلاسل الفروع وأصحاب التوسّع</div>
+        <div class="plan-tagline" data-en>For chains and expanding businesses</div>
+      </div>
+      <div class="plan-price">
+        <span class="amount" data-monthly="159" data-yearly="1590">١٥٩</span>
+        <span class="currency"><span data-ar>ر.س / </span><span data-en>SAR / </span><span class="period-label">شهر</span></span>
+      </div>
+      <div class="plan-period" data-ar>تجربة ١٤ يوم مجاناً</div>
+      <div class="plan-period" data-en>14-day free trial</div>
+      <a href="/user/register" class="plan-cta solid">
+        <span data-ar>ابدأ الآن</span><span data-en>Get Started</span>
+      </a>
+      <ul class="plan-features">
+        <li><span data-ar>كل ميزات المتقدّمة</span><span data-en>Everything in Advanced</span></li>
+        <li><span data-ar><strong>فرعان</strong> + مستودع لكل فرع</span><span data-en><strong>2 branches</strong> + warehouse each</span></li>
+        <li><span data-ar>فرع إضافي بـ 29 ر.س فقط</span><span data-en>Extra branch only 29 SAR</span></li>
+        <li><span data-ar>تقارير ذكيّة بالـ AI</span><span data-en>AI-powered reports</span></li>
+        <li><span data-ar>حسابات كاملة + إقرارات ضريبيّة</span><span data-en>Full accounting + tax returns</span></li>
+        <li><span data-ar>CRM ونقاط ولاء</span><span data-en>CRM & loyalty points</span></li>
+        <li><span data-ar>ربط مع سلّة وزد وShopify</span><span data-en>Salla, Zid, Shopify integrations</span></li>
+      </ul>
+    </div>
+
+    <!-- ENTERPRISE -->
+    <div class="plan-card enterprise reveal" data-delay="300">
+      <div class="plan-badge gold">
+        <span data-ar>🤖 AI ENTERPRISE</span><span data-en>🤖 AI ENTERPRISE</span>
+      </div>
+      <div>
+        <div class="plan-name" data-ar>الشاملة</div>
+        <div class="plan-name" data-en>Enterprise</div>
+        <div class="plan-tagline" data-ar>للسلاسل الكبيرة بمساعد AI شخصي</div>
+        <div class="plan-tagline" data-en>For chains with personal AI assistant</div>
+      </div>
+      <div class="plan-price">
+        <span class="amount" data-monthly="469" data-yearly="4690">٤٦٩</span>
+        <span class="currency"><span data-ar>ر.س / </span><span data-en>SAR / </span><span class="period-label">شهر</span></span>
+      </div>
+      <div class="plan-period" data-ar>تجربة ١٤ يوم مجاناً</div>
+      <div class="plan-period" data-en>14-day free trial</div>
+      <a href="/user/register" class="plan-cta gold">
+        <span data-ar>اشترك في الشاملة</span><span data-en>Subscribe to Enterprise</span>
+      </a>
+      <ul class="plan-features">
+        <li><span data-ar>كل ميزات الاحترافيّة</span><span data-en>Everything in Professional</span></li>
+        <li><span data-ar><strong>فروع غير محدودة</strong></span><span data-en><strong>Unlimited branches</strong></span></li>
+        <li><span data-ar><strong>متجر واتساب مشمول</strong></span><span data-en><strong>WhatsApp Store included</strong></span></li>
+        <li><span data-ar><strong>مساعد AI على واتساب</strong></span><span data-en><strong>AI assistant on WhatsApp</strong></span></li>
+        <li><span data-ar><strong>مشرف ذكي 24/7</strong></span><span data-en><strong>Smart AI supervisor 24/7</strong></span></li>
+        <li><span data-ar><strong>إدارة دفع الأجور تلقائياً</strong></span><span data-en><strong>Automated payroll</strong></span></li>
+        <li><span data-ar>API كامل + مدير حساب مخصّص</span><span data-en>Full API + dedicated manager</span></li>
+        <li><span data-ar>SLA مضمون + تدريب شخصي</span><span data-en>Guaranteed SLA + training</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="addons-section">
+  <div class="section-c" style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>إضافات اختياريّة</div>
+      <div class="eyebrow" data-en>OPTIONAL ADD-ONS</div>
+      <h2 data-ar>أضف ما تحتاجه فقط</h2>
+      <h2 data-en>Add only what you need</h2>
+      <p data-ar>كل تاجر مختلف. اختر الإضافات المناسبة لاحتياجاتك.</p>
+      <p data-en>Every merchant is different. Pick the add-ons that fit your needs.</p>
+    </div>
+
+    <div class="addons-grid">
+      <div class="addon-card reveal">
+        <div class="addon-icon">🏪</div>
+        <div class="addon-title" data-ar>فرع إضافي</div>
+        <div class="addon-title" data-en>Additional Branch</div>
+        <div class="addon-price">
+          <span class="amount">29</span>
+          <span class="unit"><span data-ar>ر.س / فرع / شهر</span><span data-en>SAR / branch / month</span></span>
+        </div>
+        <div class="addon-desc" data-ar>متاح في الباقة الاحترافيّة فقط (الباقتان الأساسيّة والمتقدّمة بفرع واحد). الباقة الشاملة فروع غير محدودة مجاناً.</div>
+        <div class="addon-desc" data-en>Available in Professional plan only (Basic and Advanced limited to 1 branch). Enterprise has unlimited branches free.</div>
+      </div>
+
+      <div class="addon-card reveal" data-delay="100">
+        <div class="addon-icon">👥</div>
+        <div class="addon-title" data-ar>موظّف إضافي</div>
+        <div class="addon-title" data-en>Additional Employee</div>
+        <div class="addon-price">
+          <span class="amount">9</span>
+          <span class="unit"><span data-ar>ر.س / موظّف / شهر</span><span data-en>SAR / employee / month</span></span>
+        </div>
+        <div class="addon-desc" data-ar>متاح في جميع الباقات. كل موظّف بحساب خاص وصلاحيّات مخصّصة.</div>
+        <div class="addon-desc" data-en>Available in all plans. Each employee gets a dedicated account with custom permissions.</div>
+      </div>
+
+      <div class="addon-card reveal" data-delay="200">
+        <div class="addon-icon">💬</div>
+        <div class="addon-title" data-ar>متجر واتساب</div>
+        <div class="addon-title" data-en>WhatsApp Store</div>
+        <div class="addon-price">
+          <span class="amount">69</span>
+          <span class="unit"><span data-ar>ر.س / شهر</span><span data-en>SAR / month</span></span>
+        </div>
+        <div class="addon-desc" data-ar>متاح إضافة للباقات الـ ٣ الأولى. <strong>مشمول مجاناً في الباقة الشاملة</strong>.</div>
+        <div class="addon-desc" data-en>Add-on for the first 3 plans. <strong>Included free in Enterprise plan</strong>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="compare-section">
+  <div class="section-c" style="max-width: 1300px; margin: 0 auto;">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>مقارنة شاملة</div>
+      <div class="eyebrow" data-en>FULL COMPARISON</div>
+      <h2 data-ar>قارن كل الميزات بين الباقات</h2>
+      <h2 data-en>Compare all features across plans</h2>
+      <p data-ar>اضغط على كل قسم لتظهر التفاصيل الكاملة.</p>
+      <p data-en>Click each section to expand full details.</p>
+    </div>
+
+    <div class="compare-table-wrap reveal">
+      <!-- Sticky header -->
+      <div class="compare-sticky-header">
+        <div class="compare-cell">
+          <span data-ar>الميزة</span><span data-en>Feature</span>
+        </div>
+        <div class="compare-cell center">
+          <div>
+            <span data-ar>الأساسيّة</span><span data-en>Basic</span>
+            <div class="price-mini">79</div>
+          </div>
+        </div>
+        <div class="compare-cell center">
+          <div>
+            <span data-ar>المتقدّمة</span><span data-en>Advanced</span>
+            <div class="price-mini">129</div>
+          </div>
+        </div>
+        <div class="compare-cell center featured-col">
+          <div>
+            <span data-ar>الاحترافيّة</span><span data-en>Professional</span>
+            <div class="price-mini">159</div>
+          </div>
+        </div>
+        <div class="compare-cell center">
+          <div>
+            <span data-ar>الشاملة</span><span data-en>Enterprise</span>
+            <div class="price-mini">469</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. SALES -->
+      <div class="compare-cat open">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon violet">🛒</div>
+          <div class="compare-cat-name" data-ar>إدارة المبيعات</div>
+          <div class="compare-cat-name" data-en>Sales Management</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>كاشير POS سحابي</span><span data-en>Cloud POS Cashier</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>فاتورة إلكترونيّة ZATCA Phase 2</span><span data-en>ZATCA Phase 2 E-Invoicing</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>طرق دفع متعدّدة</span><span data-en>Multiple Payment Methods</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>يعمل بدون إنترنت (Offline)</span><span data-en>Works Offline</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>العروض والخصومات</span><span data-en>Offers & Discounts</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>قوائم أسعار متعدّدة</span><span data-en>Multiple Price Lists</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>أوامر المبيعات (Sales Orders)</span><span data-en>Sales Orders</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>أقساط المبيعات</span><span data-en>Sales Installments</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>عمولات المبيعات</span><span data-en>Sales Commissions</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>نقاط الولاء</span><span data-en>Loyalty Points</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. INVENTORY -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon yellow">📦</div>
+          <div class="compare-cat-name" data-ar>المخزون والمشتريات</div>
+          <div class="compare-cat-name" data-en>Inventory & Purchases</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>عدد المنتجات</span><span data-en>Products</span></div>
+            <div class="compare-cell center"><span class="value-text">500</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>غير محدود</span><span class="value-text" data-en>Unlimited</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text" data-ar>غير محدود</span><span class="value-text" data-en>Unlimited</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>غير محدود</span><span class="value-text" data-en>Unlimited</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>مستودعات</span><span data-en>Warehouses</span></div>
+            <div class="compare-cell center"><span class="value-text">1</span></div>
+            <div class="compare-cell center"><span class="value-text">1</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text">2+</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>غير محدود</span><span class="value-text" data-en>Unlimited</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تتبّع المخزون والجرد</span><span data-en>Inventory Tracking & Counts</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تنبيهات نقص المخزون</span><span data-en>Low Stock Alerts</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>إدارة الموردين</span><span data-en>Supplier Management</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>أوامر شراء (PO)</span><span data-en>Purchase Orders (PO)</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تتبّع الباركود/الباتش/الانتهاء</span><span data-en>Barcode/Batch/Expiry</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>المنتجات المجمّعة (Bundle)</span><span data-en>Bundle Products</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>المخزون المحجوز</span><span data-en>Reserved Stock</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>توزيع المصروفات</span><span data-en>Expense Distribution</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. STAFF -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon cyan">👥</div>
+          <div class="compare-cat-name" data-ar>الموظّفون والصلاحيّات</div>
+          <div class="compare-cat-name" data-en>Staff & Permissions</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>الموظّف الإضافي</span><span data-en>Additional Employee</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>9 ر.س/شهر</span><span class="value-text" data-en>9 SAR/mo</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>9 ر.س/شهر</span><span class="value-text" data-en>9 SAR/mo</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text" data-ar>9 ر.س/شهر</span><span class="value-text" data-en>9 SAR/mo</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>9 ر.س/شهر</span><span class="value-text" data-en>9 SAR/mo</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>صلاحيّات أساسيّة</span><span data-en>Basic Permissions</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>صلاحيّات متقدّمة</span><span data-en>Advanced Permissions</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>الحضور والانصراف</span><span data-en>Attendance Tracking</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>طلبات الموظّفين (إجازات/استئذان)</span><span data-en>Staff Requests</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>الأجور والمرتّبات</span><span data-en>Payroll & Salaries</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>دفع الأجور تلقائياً (AI)</span><span data-en>Auto Payroll Disbursement (AI)</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. BRANCHES -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon pink">🏪</div>
+          <div class="compare-cat-name" data-ar>إدارة الفروع</div>
+          <div class="compare-cat-name" data-en>Branch Management</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>عدد الفروع</span><span data-en>Branches</span></div>
+            <div class="compare-cell center"><span class="value-text">1</span></div>
+            <div class="compare-cell center"><span class="value-text">1</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text">2 + 29 SAR</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>غير محدود</span><span class="value-text" data-en>Unlimited</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>مستودع لكل فرع</span><span data-en>Warehouse per Branch</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>مزامنة لحظيّة بين الفروع</span><span data-en>Real-time Sync</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تقارير منفصلة لكل فرع</span><span data-en>Separate Branch Reports</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>طلبات نقل المخزون</span><span data-en>Stock Transfer Requests</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. ACCOUNTING -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon green">💰</div>
+          <div class="compare-cat-name" data-ar>الحسابات والمحاسبة</div>
+          <div class="compare-cat-name" data-en>Accounting & Finance</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>دليل الحسابات</span><span data-en>Chart of Accounts</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>القيود اليوميّة التلقائيّة</span><span data-en>Daily Journal Entries (Auto)</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تقارير ماليّة احترافيّة</span><span data-en>Pro Financial Reports</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>إقرارات ضريبيّة جاهزة</span><span data-en>Tax Returns Ready</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>المزامنة التلقائيّة مع البنك</span><span data-en>Auto Bank Sync</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>دورة الشيكات</span><span data-en>Cheque Cycle</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>الأصول والإهلاكات</span><span data-en>Assets & Depreciation</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>مراكز التكلفة</span><span data-en>Cost Centers</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. REPORTS -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon orange">📊</div>
+          <div class="compare-cat-name" data-ar>التقارير والتحليلات</div>
+          <div class="compare-cat-name" data-en>Reports & Analytics</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>لوحة تحكّم لحظيّة</span><span data-en>Real-time Dashboard</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تقارير مبيعات أساسيّة</span><span data-en>Basic Sales Reports</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تقارير ذكيّة بالـ AI</span><span data-en>AI-Powered Reports</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>خريطة المبيعات السعوديّة</span><span data-en>Saudi Sales Map</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>توقّعات النموّ</span><span data-en>Growth Forecasts</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. WHATSAPP -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon green">💬</div>
+          <div class="compare-cat-name" data-ar>متجر واتساب</div>
+          <div class="compare-cat-name" data-en>WhatsApp Store</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>متجر واتساب</span><span data-en>WhatsApp Store</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>+69 ر.س</span><span class="value-text" data-en>+69 SAR</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>+69 ر.س</span><span class="value-text" data-en>+69 SAR</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text" data-ar>+69 ر.س</span><span class="value-text" data-en>+69 SAR</span></div>
+            <div class="compare-cell center"><span class="value-text" style="color:#047857;" data-ar>مشمول مجاناً</span><span class="value-text" data-en="" style="color:#047857;">FREE</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>كتالوج تفاعلي</span><span data-en>Interactive Catalog</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>ردّ آلي ذكي 24/7</span><span data-en>Smart Auto-Reply 24/7</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>دفع داخل المحادثة</span><span data-en>In-Chat Payments</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>رسائل ترويجيّة جماعيّة</span><span data-en>Bulk Promo Messages</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="value-text">+</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text">+</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. AI - Enterprise Exclusive -->
+      <div class="compare-cat">
+        <div class="compare-cat-header" style="background: linear-gradient(135deg, #ede9fe, #fef3c7);">
+          <div class="compare-cat-icon violet">🤖</div>
+          <div class="compare-cat-name" data-ar>الذكاء الاصطناعي (حصري للشاملة)</div>
+          <div class="compare-cat-name" data-en>AI (Enterprise Exclusive)</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>مساعد AI على واتساب</span><span data-en>AI WhatsApp Assistant</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>مشرف AI ذكي 24/7</span><span data-en>Smart AI Supervisor 24/7</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تنبيهات ذكيّة وتوصيات</span><span data-en>Smart Alerts & Recommendations</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>إدارة دفع الأجور تلقائياً</span><span data-en>Auto Payroll Management</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. CRM -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon pink">🤝</div>
+          <div class="compare-cat-name" data-ar>إدارة العملاء (CRM)</div>
+          <div class="compare-cat-name" data-en>CRM</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>قاعدة بيانات العملاء</span><span data-en>Customer Database</span></div>
+            <div class="compare-cell center"><span class="value-text">100</span></div>
+            <div class="compare-cell center"><span class="value-text">300</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text" data-ar>غير محدود</span><span class="value-text" data-en>Unlimited</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>غير محدود</span><span class="value-text" data-en>Unlimited</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تواصل عبر قنوات متعدّدة</span><span data-en>Multi-channel Communication</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>نظام النقاط والأرصدة</span><span data-en>Points & Wallet System</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>إدارة العضويّات</span><span data-en>Membership Management</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>ربط SMS</span><span data-en>SMS Integration</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. SUPPORT -->
+      <div class="compare-cat">
+        <div class="compare-cat-header">
+          <div class="compare-cat-icon cyan">🛟</div>
+          <div class="compare-cat-name" data-ar>الدعم الفنّي والتكامل</div>
+          <div class="compare-cat-name" data-en>Support & Integration</div>
+          <div class="compare-cat-toggle">▼</div>
+        </div>
+        <div class="compare-rows">
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>الدعم الفنّي</span><span data-en>Support</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>بريد</span><span class="value-text" data-en>Email</span></div>
+            <div class="compare-cell center"><span class="value-text">24/7 WhatsApp</span></div>
+            <div class="compare-cell center featured-col"><span class="value-text">24/7 + Phone</span></div>
+            <div class="compare-cell center"><span class="value-text" data-ar>SLA + مدير حساب</span><span class="value-text" data-en>SLA + Manager</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>ربط مع سلّة، زد، Shopify</span><span data-en>Salla, Zid, Shopify Integration</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-yes">✓</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>API كامل للتكامل</span><span data-en>Full API Integration</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell feature"><span data-ar>تدريب شخصي مجاني</span><span data-en>Free Personal Training</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-no">—</span></div>
+            <div class="compare-cell center featured-col"><span class="check-no">—</span></div>
+            <div class="compare-cell center"><span class="check-yes">✓</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-c" style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-head reveal">
+      <div class="eyebrow" data-ar>أسئلة الأسعار</div>
+      <div class="eyebrow" data-en>PRICING FAQ</div>
+      <h2 data-ar>أسئلة شائعة</h2>
+      <h2 data-en>Common questions</h2>
+    </div>
+
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل أحتاج بطاقة ائتمان للتجربة المجانيّة؟</span>
+          <span data-en>Do I need a credit card for the free trial?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>لا، التجربة المجانيّة لا تتطلّب بطاقة ائتمان. سجّل، استخدم Val POS لمدّة ١٤ يوم، وقرّر إذا كانت مناسبة لك.</span>
+          <span data-en>No credit card required. Sign up, use Val POS for 14 days, and decide if it's right for you.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>كيف يعمل سعر الفروع والموظّفين الإضافيّين؟</span>
+          <span data-en>How do additional branches and employees work?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>كل موظّف إضافي بـ ٩ ر.س/شهر في كل الباقات. كل فرع إضافي بـ ٢٩ ر.س/شهر متاح فقط في الباقة الاحترافيّة. الباقة الشاملة فروع وموظّفين غير محدودين.</span>
+          <span data-en>Each additional employee is 9 SAR/month in all plans. Each additional branch is 29 SAR/month, available in Professional only. Enterprise has unlimited branches and employees.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>ليش الباقة الشاملة سعرها مرتفع؟ ما الفرق؟</span>
+          <span data-en>Why is Enterprise more expensive? What's different?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>الباقة الشاملة (٤٦٩ ر.س) موجّهة للسلاسل الكبيرة. تشمل: فروع وموظّفين غير محدودين، متجر واتساب مجاناً (يوفّر ٦٩ ر.س)، مساعد AI شخصي على واتساب، مشرف ذكي ٢٤/٧، وإدارة دفع أجور تلقائيّة. خصائص حصريّة لا تجدها في باقات أخرى.</span>
+          <span data-en>Enterprise (469 SAR) is for large chains. Includes: unlimited branches and employees, free WhatsApp Store (saves 69 SAR), personal AI WhatsApp assistant, smart AI supervisor 24/7, and automated payroll. Exclusive features not found elsewhere.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل أقدر أبدأ بالأساسيّة وأرقّي لاحقاً؟</span>
+          <span data-en>Can I start with Basic and upgrade later?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نعم، تقدر ترقّي أو تخفّض باقتك في أي وقت. عند الترقية تدفع الفرق فقط للأيّام المتبقيّة. كل بياناتك تنتقل تلقائياً.</span>
+          <span data-en>Yes, upgrade or downgrade anytime. When upgrading, you only pay the difference for remaining days. All your data transfers automatically.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل في رسوم خفيّة أو رسوم تركيب؟</span>
+          <span data-en>Are there hidden fees or setup fees?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>أبداً. السعر اللي تشوفه هو اللي تدفعه — شامل ضريبة القيمة المضافة. لا توجد رسوم تركيب، لا رسوم تفعيل، ولا رسوم خفيّة.</span>
+          <span data-en>Never. The price you see is what you pay — VAT included. No setup fees, no activation fees, no hidden charges.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>كيف يشتغل خصم الباقة السنويّة؟</span>
+          <span data-en>How does the yearly discount work?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>عند الدفع السنوي توفّر ١٧٪. الاحترافيّة سنوياً ١٥٩٠ ر.س بدلاً من ١٩٠٨، والشاملة سنوياً ٤٦٩٠ ر.س بدلاً من ٥٦٢٨.</span>
+          <span data-en>Yearly billing saves 17%. Professional yearly is 1590 SAR instead of 1908. Enterprise yearly is 4690 SAR instead of 5628.</span>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-ar>هل تحتاجون خطّة مخصّصة لمؤسّستي الكبيرة؟</span>
+          <span data-en>Do you have custom plans for large organizations?</span>
+          <span class="faq-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <span data-ar>نعم، للسلاسل الكبيرة جدّاً نوفّر خطط مخصّصة بأسعار خاصّة. تواصل معنا عبر صفحة <a href="/contact.html" style="color: var(--primary-dark); font-weight: 700;">تواصل</a>.</span>
+          <span data-en>Yes, for very large chains we offer custom plans. Contact us via the <a href="/contact.html" style="color: var(--primary-dark); font-weight: 700;">contact</a> page.</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta-section">
+  <div class="bg-blob violet" style="width:500px;height:500px;top:0;right:-200px;"></div>
+  <div class="bg-blob yellow" style="width:400px;height:400px;bottom:0;left:-150px;"></div>
+  <div class="final-cta reveal">
+    <div class="final-cta-c">
+      <h2 data-ar>جاهز تنقل تجارتك<br>للمستوى التالي؟</h2>
+      <h2 data-en>Ready to take your business<br>to the next level?</h2>
+      <p data-ar>ابدأ تجربتك المجانيّة لمدّة ١٤ يوم. بدون بطاقة ائتمان. بدون التزامات.</p>
+      <p data-en>Start your 14-day free trial. No credit card. No commitments.</p>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <a href="/user/register" class="btn btn-primary btn-lg">
+          <span data-ar>ابدأ مجاناً الآن</span><span data-en>Start Free Now</span>
+        </a>
+        <a href="/contact.html" class="btn btn-ghost btn-lg" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white;">
+          <span data-ar>تحدّث مع المبيعات</span><span data-en>Talk to Sales</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="bg-blob violet" style="width:400px;height:400px;top:-100px;right:-100px;"></div>
+  <div class="footer-c">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <img src="/images/val-logo.png" alt="Val Solutions" style="height:42px;width:auto;display:block;" />
+        </a>
+        <p data-ar>منصّة سعوديّة متكاملة لإدارة المتاجر، الكاشير، والمبيعات عبر واتساب.</p>
+        <p data-en>Saudi all-in-one platform for stores, cashier, and WhatsApp sales.</p>
+        <div class="cert-badges">
+          <span class="cert-badge">🔒 PCI-DSS</span>
+          <span class="cert-badge">✓ ZATCA</span>
+          <span class="cert-badge">🛡 SAMA</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>المنتج</h4><h4 data-en>Product</h4>
+        <ul>
+          <li><a href="/features.html" data-ar>المميزات</a><a href="/features.html" data-en>Features</a></li>
+          <li><a href="/pricing.html" data-ar>الأسعار</a><a href="/pricing.html" data-en>Pricing</a></li>
+          <li><a href="/features#whatsapp" data-ar>متجر واتساب</a><a href="/features#whatsapp" data-en>WhatsApp</a></li>
+          <li><a href="/features#ai" data-ar>الذكاء الاصطناعي</a><a href="/features#ai" data-en>AI</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>الشركة</h4><h4 data-en>Company</h4>
+        <ul>
+          <li><a href="/about" data-ar>من نحن</a><a href="/about" data-en>About</a></li>
+          <li><a href="/blog.html" data-ar>المدوّنة</a><a href="/blog.html" data-en>Blog</a></li>
+          <li><a href="/contact.html" data-ar>تواصل</a><a href="/contact.html" data-en>Contact</a></li>
+          <li><a href="/careers" data-ar>الوظائف</a><a href="/careers" data-en>Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-ar>قانوني</h4><h4 data-en>Legal</h4>
+        <ul>
+          <li><a href="/policy/terms" data-ar>الشروط</a><a href="/policy/terms" data-en>Terms</a></li>
+          <li><a href="/policy/privacy" data-ar>الخصوصيّة</a><a href="/policy/privacy" data-en>Privacy</a></li>
+          <li><a href="/policy/refund" data-ar>سياسة الاسترداد</a><a href="/policy/refund" data-en>Refunds</a></li>
+          <li><a href="/policy/cookies" data-ar>الكوكيز</a><a href="/policy/cookies" data-en>Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-ar>© 2026 Val POS. جميع الحقوق محفوظة. صُنع في 🇸🇦 السعوديّة</p>
+      <p data-en>© 2026 Val POS. All rights reserved. Made in 🇸🇦 Saudi Arabia</p>
+      <div class="social">
+        <a href="#" aria-label="Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts.js"></script>
+<script>
+// Comparison table category toggle
+document.querySelectorAll('.compare-cat-header').forEach(header => {
+  header.addEventListener('click', () => {
+    header.parentElement.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>

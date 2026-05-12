@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAL — منصّة بيع متكاملة لمتجرك</title>
+<meta name="description" content="VAL — منصّة سعوديّة متكاملة لإدارة المتاجر">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: #F0F9FF;
+  color: #0F172A;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+.page-bg {
+  background: linear-gradient(180deg,
+    #DBEAFE 0%,
+    #E0F2FE 25%,
+    #F0F9FF 60%,
+    #F8FAFC 100%
+  );
+  min-height: 100vh;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+@keyframes float-mid {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(30px) translateX(-15px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+.bg-decoration {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-circle-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent);
+  top: -100px; left: -100px;
+  animation: float-slow 20s ease-in-out infinite;
+}
+.bg-circle-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(125, 211, 252, 0.2), transparent);
+  top: 30%; right: -50px;
+  animation: float-mid 25s ease-in-out infinite;
+}
+.bg-circle-3 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(147, 197, 253, 0.18), transparent);
+  bottom: 20%; left: 30%;
+  animation: pulse-glow 8s ease-in-out infinite;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes border-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.btn-animated {
+  position: relative;
+  background: #0F172A;
+  color: #ffffff;
+  z-index: 1;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.btn-animated::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  background: conic-gradient(from 0deg,
+    #3B82F6, #06B6D4, #0EA5E9, #38BDF8, #3B82F6
+  );
+  z-index: -2;
+  animation: border-rotate 4s linear infinite;
+}
+
+.btn-animated::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 10px;
+  background: #0F172A;
+  z-index: -1;
+}
+
+.btn-animated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
+}
+
+.btn-animated.light {
+  color: #0F172A;
+}
+.btn-animated.light::after {
+  background: #ffffff;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.4);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.6);
+  color: #0F172A;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.9);
+  transform: translateY(-2px);
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(240, 249, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo svg { width: 70px; height: 20px; fill: #0F172A; }
+
+.nav-menu {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.nav-menu a {
+  font-size: 14px;
+  color: #0F172A;
+  font-weight: 500;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1E40AF, #0EA5E9);
+  transition: width 0.3s ease;
+}
+.nav-menu a:hover { color: #1E40AF; }
+.nav-menu a:hover::after { width: 100%; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lang-switch {
+  display: flex;
+  background: rgba(15, 23, 42, 0.05);
+  border-radius: 8px;
+  padding: 3px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.lang-switch button {
+  background: transparent;
+  border: none;
+  color: rgba(15, 23, 42, 0.6);
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+.lang-switch button.active {
+  background: #ffffff;
+  color: #0F172A;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #0F172A;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer-text {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes word-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.hero {
+  padding: 100px 0 120px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #1E40AF;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(30, 64, 175, 0.15);
+  padding: 7px 18px;
+  border-radius: 100px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fade-up 0.8s ease forwards;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 6vw, 68px);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 24px;
+  color: #0F172A;
+}
+
+.hero h1 .word {
+  display: inline-block;
+  opacity: 0;
+  animation: word-reveal 0.7s ease forwards;
+}
+
+.hero h1 .gradient-word {
+  background: linear-gradient(90deg, #1E40AF 0%, #0EA5E9 50%, #06B6D4 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: word-reveal 0.7s ease forwards, shimmer-text 4s linear infinite;
+}
+
+.hero p {
+  font-size: clamp(15px, 2vw, 19px);
+  color: rgba(15, 23, 42, 0.7);
+  max-width: 620px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fade-up 0.8s ease 0.6s forwards;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fade-up 0.8s ease 0.8s forwards;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 24px;
+  max-width: 720px;
+  margin: 80px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  opacity: 0;
+  animation: fade-up 0.8s ease 1s forwards;
+}
+
+.stat-num {
+  font-size: 36px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #1E40AF, #0EA5E9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.55);
+  font-weight: 500;
+}
+
+.section { padding: 80px 0; position: relative; z-index: 1; }
+
+.section-head {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 12px;
+  color: #1E40AF;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding: 4px 14px;
+  background: rgba(30, 64, 175, 0.08);
+  border-radius: 100px;
+}
+
+.section-head h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  margin-bottom: 14px;
+  color: #0F172A;
+}
+
+.section-head p {
+  font-size: 16px;
+  color: rgba(15, 23, 42, 0.6);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 20px;
+  padding: 32px 24px;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #1E40AF, #0EA5E9, #06B6D4);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(30, 64, 175, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.product-card:hover::before {
+  transform: scaleX(1);
+}
+
+.product-num {
+  font-size: 12px;
+  color: #1E40AF;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.product-card h3 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #0F172A;
+}
+
+.product-card p {
+  font-size: 14px;
+  color: rgba(15, 23, 42, 0.65);
+  line-height: 1.7;
+}
+
+.feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: 13px;
+  color: #1E40AF;
+  font-weight: 600;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.benefit-item {
+  text-align: center;
+  padding: 28px 20px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  transition: all 0.3s ease;
+}
+
+.benefit-item:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.85);
+}
+
+.benefit-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, #DBEAFE, #BAE6FD);
+  border: 1px solid rgba(30, 64, 175, 0.15);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #1E40AF;
+  font-weight: 800;
+}
+
+.benefit-item h4 {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #0F172A;
+}
+
+.benefit-item p {
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.price-card {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  padding: 36px 30px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.price-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(30, 64, 175, 0.08);
+}
+
+.price-card.featured {
+  background: linear-gradient(160deg, #1E40AF 0%, #0369A1 100%);
+  color: #ffffff;
+  transform: scale(1.04);
+  box-shadow: 0 20px 50px rgba(30, 64, 175, 0.3);
+}
+
+.price-card.featured h4,
+.price-card.featured .price-name,
+.price-card.featured .price-num,
+.price-card.featured .price-period,
+.price-card.featured .price-desc,
+.price-card.featured .price-features li {
+  color: #ffffff;
+}
+
+.price-card.featured .price-features li {
+  color: rgba(255,255,255,0.9);
+}
+
+.price-card.featured .check-mark {
+  background: rgba(255,255,255,0.2);
+  color: #ffffff;
+}
+
+.price-badge {
+  position: absolute;
+  top: -14px;
+  right: 50%;
+  transform: translateX(50%);
+  background: #ffffff;
+  color: #1E40AF;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 100px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.price-name {
+  font-size: 14px;
+  color: #1E40AF;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.price-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.price-num {
+  font-size: 48px;
+  font-weight: 900;
+  color: #0F172A;
+}
+
+.riyal-icon {
+  display: inline-block;
+  width: 22px;
+  height: 17px;
+  vertical-align: middle;
+}
+
+.price-period {
+  font-size: 14px;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.price-desc {
+  font-size: 13px;
+  color: rgba(15, 23, 42, 0.55);
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.price-card.featured .price-desc {
+  border-color: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+}
+
+.price-features {
+  list-style: none;
+  margin-bottom: 28px;
+}
+
+.price-features li {
+  font-size: 14px;
+  color: rgba(15, 23, 42, 0.85);
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-mark {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: rgba(30, 64, 175, 0.1);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E40AF;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.price-cta { width: 100%; text-align: center; }
+
+.cta-section {
+  text-align: center;
+  padding: 80px 32px;
+  margin: 40px auto;
+  max-width: 1100px;
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.08), rgba(14, 165, 233, 0.05));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(30, 64, 175, 0.15);
+  border-radius: 28px;
+}
+
+.cta-section h2 {
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 900;
+  margin-bottom: 16px;
+  color: #0F172A;
+}
+
+.cta-section p {
+  font-size: 16px;
+  color: rgba(15, 23, 42, 0.7);
+  margin-bottom: 32px;
+}
+
+.footer {
+  background: linear-gradient(180deg, #0F172A 0%, #000000 100%);
+  padding: 60px 0 24px;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-brand .logo svg { fill: #ffffff; }
+.footer-brand p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  margin-top: 14px;
+  max-width: 280px;
+  line-height: 1.7;
+}
+
+.footer-col h5 {
+  font-size: 12px;
+  font-weight: 800;
+  color: #6EE7B7;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col li { padding: 6px 0; }
+.footer-col a {
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: #6EE7B7; }
+
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-bottom p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+
+.footer-social {
+  display: flex;
+  gap: 8px;
+}
+
+.social-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.85);
+  transition: all 0.3s;
+  font-size: 14px;
+  font-weight: 700;
+}
+.social-icon:hover {
+  background: rgba(110, 231, 183, 0.2);
+  color: #6EE7B7;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .nav-menu { display: none; }
+  .mobile-toggle { display: block; }
+  .nav-menu.show {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 20px 24px;
+    gap: 16px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: 1 / -1; }
+  .lang-switch { display: none; }
+  .price-card.featured { transform: scale(1); }
+}
+
+[data-aos="fade-up"] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+[data-aos="fade-up"].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<div class="page-bg">
+
+<div class="bg-decoration bg-circle-1"></div>
+<div class="bg-decoration bg-circle-2"></div>
+<div class="bg-decoration bg-circle-3"></div>
+
+<nav class="navbar">
+  <div class="container nav-wrap">
+    <div class="logo">
+      <svg viewBox="0 0 629 181"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+    </div>
+
+    <ul class="nav-menu" id="nav-menu">
+      <li><a href="#home">الرئيسية</a></li>
+      <li><a href="#products">المنتجات</a></li>
+      <li><a href="#features">المميزات</a></li>
+      <li><a href="#pricing">الأسعار</a></li>
+      <li><a href="#contact">تواصل</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button class="active">عربي</button>
+        <button>EN</button>
+      </div>
+      <a href="/admin" class="btn btn-animated light">دخول التاجر</a>
+      <a href="#pricing" class="btn btn-animated">اشترك معنا</a>
+      <button class="mobile-toggle" onclick="document.getElementById('nav-menu').classList.toggle('show')">☰</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="container">
+    <span class="badge">منصّة سعوديّة معتمدة من ZATCA</span>
+    <h1>
+      <span class="word" style="animation-delay: 0.1s;">منصّة</span>
+      <span class="word gradient-word" style="animation-delay: 0.2s;">بيع</span>
+      <span class="word" style="animation-delay: 0.3s;">متكاملة</span><br>
+      <span class="word" style="animation-delay: 0.4s;">لإدارة</span>
+      <span class="word" style="animation-delay: 0.5s;">متجرك</span>
+      <span class="word gradient-word" style="animation-delay: 0.6s;">بذكاء</span>
+    </h1>
+    <p>من الكاشير إلى نقطة البيع، الطلبات أونلاين، والواتساب — كلّ ما تحتاجه لإدارة متجرك في مكان واحد. سهل، سريع، وآمن.</p>
+    <div class="hero-cta">
+      <a href="#pricing" class="btn btn-animated">جرّب مجاناً ١٤ يوم</a>
+      <a href="#products" class="btn btn-ghost">استكشف المنتجات</a>
+    </div>
+
+    <div class="hero-stats">
+      <div data-aos="fade-up">
+        <span class="stat-num">٦+</span>
+        <span class="stat-label">منتجات متكاملة</span>
+      </div>
+      <div data-aos="fade-up">
+        <span class="stat-num">٢٤/٧</span>
+        <span class="stat-label">دعم فنّي</span>
+      </div>
+      <div data-aos="fade-up">
+        <span class="stat-num">٩٩.٩٪</span>
+        <span class="stat-label">جاهزيّة النظام</span>
+      </div>
+      <div data-aos="fade-up">
+        <span class="stat-num">SAR</span>
+        <span class="stat-label">عملة افتراضيّة</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="section-tag">المنتجات</span>
+      <h2>كلّ ما يحتاجه متجرك</h2>
+      <p>حلول متكاملة مصمّمة خصّيصاً للسوق السعودي — من المتاجر الصغيرة إلى السلاسل الكبرى</p>
+    </div>
+
+    <div class="products-grid">
+      <div class="product-card" data-aos="fade-up">
+        <div class="product-num">٠١ — POS</div>
+        <h3>الكاشير</h3>
+        <p>نظام كاشير سريع ومتطوّر يدعم الباركود، الطباعة الحراريّة، والدفع بكلّ الطرق المعتمدة في السعوديّة.</p>
+        <div class="feature-link">المزيد ←</div>
+      </div>
+
+      <div class="product-card" data-aos="fade-up">
+        <div class="product-num">٠٢ — TABLET</div>
+        <h3>نقطة البيع</h3>
+        <p>واجهة بيع سهلة على الجوال والتابلت، مثاليّة للمطاعم والمحلّات الصغيرة والمتنقّلة.</p>
+        <div class="feature-link">المزيد ←</div>
+      </div>
+
+      <div class="product-card" data-aos="fade-up">
+        <div class="product-num">٠٣ — WHATSAPP</div>
+        <h3>الطلب من واتساب</h3>
+        <p>استقبل طلبات عملائك مباشرة عبر الواتساب، اعرض منتجاتك، واستلم الدفع بدون تطبيق إضافي.</p>
+        <div class="feature-link">المزيد ←</div>
+      </div>
+
+      <div class="product-card" data-aos="fade-up">
+        <div class="product-num">٠٤ — ONLINE</div>
+        <h3>الطلب أونلاين</h3>
+        <p>متجر إلكتروني جاهز خلال دقائق — اعرض منتجاتك، استقبل الطلبات، وأرسلها للعملاء.</p>
+        <div class="feature-link">المزيد ←</div>
+      </div>
+
+      <div class="product-card" data-aos="fade-up">
+        <div class="product-num">٠٥ — KITCHEN</div>
+        <h3>تجهيز الطلب</h3>
+        <p>شاشة المطبخ لإدارة تجهيز الطلبات، تتبّع الحالة، وتقليل وقت الانتظار للعميل.</p>
+        <div class="feature-link">المزيد ←</div>
+      </div>
+
+      <div class="product-card" data-aos="fade-up">
+        <div class="product-num">٠٦ — REPORTS</div>
+        <h3>التقارير الذكيّة</h3>
+        <p>تقارير لحظيّة عن المبيعات، المخزون، والعملاء — قرارات أفضل بناءً على بيانات حقيقيّة.</p>
+        <div class="feature-link">المزيد ←</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="section-tag">لماذا VAL</span>
+      <h2>صُمّمت للمتجر السعودي</h2>
+      <p>كلّ ميزة فيها تفكير عميق في احتياجاتك كصاحب متجر</p>
+    </div>
+
+    <div class="benefits-grid">
+      <div class="benefit-item" data-aos="fade-up">
+        <div class="benefit-icon">ZATCA</div>
+        <h4>متوافق مع الفوترة الإلكترونيّة</h4>
+        <p>معتمد رسمياً من هيئة الزكاة والضريبة والجمارك</p>
+      </div>
+      <div class="benefit-item" data-aos="fade-up">
+        <div class="benefit-icon">عربي</div>
+        <h4>عربيّة كاملة</h4>
+        <p>الواجهة، الفواتير، والتقارير — كلّها بالعربيّة الفصحى</p>
+      </div>
+      <div class="benefit-item" data-aos="fade-up">
+        <div class="benefit-icon">SAR</div>
+        <h4>مدى وآبل باي</h4>
+        <p>دعم كامل لطرق الدفع المحليّة في السعوديّة</p>
+      </div>
+      <div class="benefit-item" data-aos="fade-up">
+        <div class="benefit-icon">٢٤/٧</div>
+        <h4>دعم فنّي محلّي</h4>
+        <p>فريق دعم سعودي جاهز لمساعدتك في أيّ وقت</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-head" data-aos="fade-up">
+      <span class="section-tag">الأسعار</span>
+      <h2>باقات تناسب كلّ متجر</h2>
+      <p>اختر الباقة المناسبة لحجم متجرك — كلّها تشمل تجربة مجانيّة ١٤ يوم</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card" data-aos="fade-up">
+        <div class="price-name">Basic</div>
+        <div class="price-amount">
+          <span class="price-num">٩٩</span>
+          <svg class="riyal-icon" viewBox="0 0 629 181" fill="#0F172A"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+          <span class="price-period">/ شهرياً</span>
+        </div>
+        <p class="price-desc">للمتاجر الصغيرة والمشاريع الناشئة</p>
+        <ul class="price-features">
+          <li><span class="check-mark">✓</span> كاشير + نقطة بيع</li>
+          <li><span class="check-mark">✓</span> فاتورة ZATCA</li>
+          <li><span class="check-mark">✓</span> تقارير أساسيّة</li>
+          <li><span class="check-mark">✓</span> مستخدم واحد</li>
+          <li><span class="check-mark">✓</span> دعم بالإيميل</li>
+        </ul>
+        <a href="#" class="btn btn-ghost price-cta">ابدأ مجاناً</a>
+      </div>
+
+      <div class="price-card featured" data-aos="fade-up">
+        <div class="price-badge">الأكثر طلباً</div>
+        <div class="price-name" style="color: #BAE6FD;">Pro</div>
+        <div class="price-amount">
+          <span class="price-num">٢٩٩</span>
+          <svg class="riyal-icon" viewBox="0 0 629 181" fill="#ffffff"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+          <span class="price-period">/ شهرياً</span>
+        </div>
+        <p class="price-desc">للمتاجر المتوسّطة الراغبة بالنموّ</p>
+        <ul class="price-features">
+          <li><span class="check-mark">✓</span> كل مميزات Basic</li>
+          <li><span class="check-mark">✓</span> الطلب من واتساب</li>
+          <li><span class="check-mark">✓</span> متجر إلكتروني</li>
+          <li><span class="check-mark">✓</span> ٥ مستخدمين</li>
+          <li><span class="check-mark">✓</span> تقارير متقدّمة</li>
+          <li><span class="check-mark">✓</span> دعم فوري ٢٤/٧</li>
+        </ul>
+        <a href="#" class="btn btn-animated price-cta">ابدأ الآن</a>
+      </div>
+
+      <div class="price-card" data-aos="fade-up">
+        <div class="price-name">Enterprise</div>
+        <div class="price-amount">
+          <span class="price-num">٥٩٩</span>
+          <svg class="riyal-icon" viewBox="0 0 629 181" fill="#0F172A"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+          <span class="price-period">/ شهرياً</span>
+        </div>
+        <p class="price-desc">للسلاسل والمتاجر الكبرى</p>
+        <ul class="price-features">
+          <li><span class="check-mark">✓</span> كل مميزات Pro</li>
+          <li><span class="check-mark">✓</span> فروع متعدّدة</li>
+          <li><span class="check-mark">✓</span> مستخدمون لا محدودون</li>
+          <li><span class="check-mark">✓</span> API مخصّص</li>
+          <li><span class="check-mark">✓</span> مدير حساب مخصّص</li>
+          <li><span class="check-mark">✓</span> تكامل مخصّص</li>
+        </ul>
+        <a href="#" class="btn btn-ghost price-cta">تواصل معنا</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="cta-section" data-aos="fade-up">
+      <h2>جاهز تنقل متجرك للمستوى التالي؟</h2>
+      <p>ابدأ تجربتك المجانيّة اليوم — بدون بطاقة ائتمان، بدون التزامات</p>
+      <div class="hero-cta">
+        <a href="#pricing" class="btn btn-animated">ابدأ مجاناً ١٤ يوم</a>
+        <a href="#contact" class="btn btn-animated light">احجز عرض توضيحي</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <svg viewBox="0 0 629 181"><g transform="translate(-498.584868,301.182831) scale(0.1,-0.1)"><path d="M4986 2998 c4 -7 107 -173 229 -368 122 -195 333 -535 470 -755 211 -339 259 -411 319 -470 216 -214 526 -263 805 -129 77 38 108 60 175 127 68 69 106 122 236 332 389 629 443 712 480 746 47 43 113 64 175 56 53 -8 112 -36 141 -69 12 -12 126 -192 254 -398 128 -206 303 -486 388 -622 l154 -248 274 0 c151 0 274 2 274 5 0 3 -96 159 -213 348 -118 188 -312 500 -432 692 -272 438 -291 469 -335 521 -78 94 -214 181 -345 220 -45 14 -93 18 -190 18 -113 0 -140 -4 -208 -26 -43 -14 -110 -45 -150 -69 -135 -80 -171 -126 -512 -674 -291 -466 -315 -502 -360 -530 -42 -26 -58 -30 -119 -30 -121 1 -144 21 -289 254 -275 440 -636 1019 -652 1049 l-19 32 -279 0 c-220 0 -277 -3 -271 -12z"/><path d="M8741 2973 c13 -21 176 -283 362 -583 187 -300 389 -626 451 -725 143 -233 226 -321 367 -389 156 -75 169 -76 804 -76 l556 0 -2 235 -1 235 -537 0 c-317 0 -550 4 -570 10 -65 18 -100 53 -175 170 -75 117 -562 898 -665 1067 l-56 92 -278 1 -279 0 23 -37z"/></g></svg>
+        </div>
+        <p>منصّة بيع متكاملة لإدارة المتاجر السعوديّة. صُنعت بحبّ في المملكة.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>المنتج</h5>
+        <ul>
+          <li><a href="#products">الكاشير</a></li>
+          <li><a href="#products">نقطة البيع</a></li>
+          <li><a href="#products">الواتساب</a></li>
+          <li><a href="#products">المتجر أونلاين</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>الشركة</h5>
+        <ul>
+          <li><a href="#">من نحن</a></li>
+          <li><a href="#">المدوّنة</a></li>
+          <li><a href="#">الوظائف</a></li>
+          <li><a href="#">شركاؤنا</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>الدعم</h5>
+        <ul>
+          <li><a href="#">مركز المساعدة</a></li>
+          <li><a href="#">تواصل معنا</a></li>
+          <li><a href="#">الخصوصيّة</a></li>
+          <li><a href="#">الشروط</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© ٢٠٢٦ VAL — جميع الحقوق محفوظة</p>
+      <div class="footer-social">
+        <a href="#" class="social-icon">𝕏</a>
+        <a href="#" class="social-icon">in</a>
+        <a href="#" class="social-icon">f</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
