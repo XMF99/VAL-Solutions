@@ -1,0 +1,56 @@
+# Val POS - Laravel gitignore
+
+# Secrets (NEVER commit)
+.env
+.env.backup
+.env.production
+core/.env
+core/.env.backup
+core/.env.production
+*.env.local
+
+# Dependencies
+/node_modules
+/vendor
+/core/vendor
+/core/node_modules
+
+# Storage runtime
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/core/storage/framework/cache/*
+/core/storage/framework/sessions/*
+/core/storage/framework/views/*
+/core/storage/logs/*
+/core/bootstrap/cache/*
+
+# IDEs
+.idea
+.vscode
+.fleet
+.phpunit.result.cache
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Backups
+*.bak
+*.bak.*
+*.backup
+*.swp
+*.swo
+*~
+
+# Composer
+auth.json
+
+# Forge
+.forge
