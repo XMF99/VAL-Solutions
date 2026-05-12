@@ -37,6 +37,7 @@
             <section class="dashboard__area">
                 <div class="container-fluid">
                     @include('Template::partials.topnav')
+                    @include('Template::user.partials.trial-banner')
                     <div class="dashboard__area-header flex-wrap gap-2">
                         <h3 class="page-title">{{ __($pageTitle) }}</h3>
                         <div class="breadcrumb-plugins">
