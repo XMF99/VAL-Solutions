@@ -23,29 +23,69 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function home()
-    {
+    <?php
 
-        $pageTitle = 'Dashboard';
-        $widget    = DashBoardWidgetData::getWidgetData();
+// ════════════════════════════════════════════════════════════════
+// تعديل في: core/app/Http/Controllers/User/UserController.php
+// ════════════════════════════════════════════════════════════════
+// 
+// الـmethod الموجود حالياً (لا تحذفه — استبدله بهذا):
+// ════════════════════════════════════════════════════════════════
 
-        $user = getParentUser();
+public function home()
+{
+    $pageTitle = 'Dashboard';
+    
+    // ───── بيانات الـwidget الأساسيّة (موجودة سابقاً + جديدة) ─────
+    $widget = DashBoardWidgetData::getWidgetData();
 
-        $topSellingProducts = SaleDetails::selectRaw('SUM(sale_details.quantity) as total_quantity, sale_details.product_details_id')
-            ->join('sales', 'sale_details.sale_id', '=', 'sales.id')
-            ->where('sales.user_id', $user->id)
-            ->groupBy('sale_details.product_details_id')
-            ->with('productDetail', 'productDetail.attribute', 'productDetail.variant', 'productDetail.product.unit')
-            ->orderByDesc('total_quantity')
-            ->take(5)
-            ->get();
+    $user = getParentUser();
 
-        $recentSales     = Sale::with('customer')->where('user_id', $user->id)->latest('id')->take(5)->get();
-        $recentPurchases = Purchase::with('supplier')->where('user_id', $user->id)->latest('id')->take(5)->get();
-        $warehouses      = Warehouse::where('user_id', $user->id)->get();
+    // ───── المنتجات الأكثر مبيعاً (موجود) ─────
+    $topSellingProducts = SaleDetails::selectRaw('SUM(sale_details.quantity) as total_quantity, sale_details.product_details_id')
+        ->join('sales', 'sale_details.sale_id', '=', 'sales.id')
+        ->where('sales.user_id', $user->id)
+        ->groupBy('sale_details.product_details_id')
+        ->with('productDetail', 'productDetail.attribute', 'productDetail.variant', 'productDetail.product.unit')
+        ->orderByDesc('total_quantity')
+        ->take(5)
+        ->get();
 
-        return view('Template::user.dashboard', compact('pageTitle', 'widget', 'topSellingProducts', 'recentSales', 'recentPurchases', 'warehouses', 'user'));
-    }
+    // ───── أحدث المبيعات والمشتريات (موجود) ─────
+    $recentSales     = Sale::with('customer')->where('user_id', $user->id)->latest('id')->take(5)->get();
+    $recentPurchases = Purchase::with('supplier')->where('user_id', $user->id)->latest('id')->take(5)->get();
+    $warehouses      = Warehouse::where('user_id', $user->id)->get();
+
+    // ───── جديد: بيانات الـcharts (Phase 1) ─────
+    $chartData = DashBoardWidgetData::getChartData();
+
+    // ───── جديد: التنبيهات الذكيّة (Phase 2) ─────
+    $smartAlerts = DashBoardWidgetData::getSmartAlerts($widget, $chartData);
+
+    // ───── الـreturn نفسه (نضيف فقط 2 متغيّر جديد) ─────
+    return view('Template::user.dashboard', compact(
+        'pageTitle',
+        'widget',
+        'topSellingProducts',
+        'recentSales',
+        'recentPurchases',
+        'warehouses',
+        'user',
+        // ───── جديد:
+        'chartData',
+        'smartAlerts'
+    ));
+}
+
+
+// ════════════════════════════════════════════════════════════════
+// لا حاجة لإضافة Route — الـroute user.home موجود
+// ════════════════════════════════════════════════════════════════
+// ولو تبي alias user.dashboard أيضاً، أضف في routes/user.php:
+//
+//   Route::get('dashboard', 'UserController@home')->name('dashboard');
+// ════════════════════════════════════════════════════════════════
+
 
     public function depositHistory(Request $request)
     {

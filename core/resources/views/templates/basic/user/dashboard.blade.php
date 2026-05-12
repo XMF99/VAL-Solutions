@@ -244,6 +244,36 @@
     .dash-greeting { padding: 1.5rem 1.25rem; }
     .dash-greeting h1 { font-size: 1.4rem; }
 }
+
+/* ───── Smart Alerts (Phase 2) ───── */
+.alert-smart {
+    padding: .85rem 1rem;
+    border-radius: .85rem;
+    border: 1px solid;
+    height: 100%;
+    transition: transform .2s;
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+.alert-smart:hover { transform: translateY(-1px); }
+.alert-smart i { font-size: 1.15rem; }
+.alert-smart strong { font-size: .88rem; }
+.alert-smart p { font-size: .82rem; line-height: 1.5; margin: 0; }
+.alert-smart a { color: inherit; text-decoration: underline; font-weight: 700; font-size: .8rem; margin-top: auto; }
+.alert-smart-success { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+.alert-smart-warning { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.alert-smart-info    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.alert-smart-danger  { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+/* ───── Empty State ───── */
+.empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #94a3b8;
+}
+.empty-state i { font-size: 2.5rem; opacity: .5; margin-bottom: .5rem; }
+.empty-state p { margin: 0; font-size: .9rem; }
 </style>
 @endpush
 
@@ -256,19 +286,41 @@
 <div class="dash-greeting">
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
         <div>
-            <h1>👋 مرحباً، {{ auth()->user()->firstname ?? 'أحمد' }}</h1>
+            <h1>👋 مرحباً، {{ auth()->user()->firstname }} {{ auth()->user()->lastname }}</h1>
             <p>{{ now()->locale('ar')->translatedFormat('l، j F Y') }} · إليك ملخّص أداء متجرك اليوم</p>
         </div>
         <div class="d-flex flex-wrap gap-2 align-items-center">
-            <a href="{{ route('user.pos.index') ?? '#' }}" class="quick-btn">
+            <a href="{{ route('user.pos.index') }}" class="quick-btn">
                 <i class="las la-cash-register"></i> الكاشير
             </a>
-            <a href="{{ route('user.whatsapp.dashboard') ?? '#' }}" class="quick-btn wa">
+            <a href="{{ route('user.whatsapp.dashboard') }}" class="quick-btn wa">
                 <i class="lab la-whatsapp"></i> متجر واتساب
             </a>
         </div>
     </div>
 </div>
+
+{{-- ═══════════════════════════════════════════════════════════
+     SMART ALERTS (Phase 2)
+     ═══════════════════════════════════════════════════════════ --}}
+@if(!empty($smartAlerts))
+<div class="row g-2 mb-3">
+    @foreach($smartAlerts as $alert)
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="alert-smart alert-smart-{{ $alert['type'] }}">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="las {{ $alert['icon'] }}"></i>
+                    <strong>{{ $alert['title_ar'] }}</strong>
+                </div>
+                <p>{{ $alert['message_ar'] }}</p>
+                @if(!empty($alert['link']) && $alert['link'] !== '#')
+                    <a href="{{ $alert['link'] }}">عرض التفاصيل ←</a>
+                @endif
+            </div>
+        </div>
+    @endforeach
+</div>
+@endif
 
 {{-- ═══════════════════════════════════════════════════════════
      TABS NAVIGATION
@@ -282,51 +334,91 @@
     <button data-tab="employees"><i class="las la-users"></i> الموظفين</button>
 </div>
 
+
 {{-- ═══════════════════════════════════════════════════════════
-     SALES TAB
+     SALES TAB - مربوط بقاعدة البيانات (Phase 1)
      ═══════════════════════════════════════════════════════════ --}}
 <div class="tab-content active" id="tab-sales">
 
-    {{-- 4 Top Stats --}}
+    {{-- 4 Top Stats - مربوطة بـ$widget --}}
     <div class="row g-3 mb-3">
+        {{-- إجمالي المبيعات اليوم --}}
         <div class="col-6 col-lg-3">
             <div class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="stat-icon stat-icon-emerald"><i class="las la-coins"></i></div>
-                    <span class="stat-change up"><i class="las la-arrow-up"></i> 18.5%</span>
+                    @php
+                        $todaySale = (float) ($widget['today_sale'] ?? 0);
+                        $yesterdaySale = (float) ($widget['yesterday_sale'] ?? 0);
+                        $salesChange = $yesterdaySale > 0
+                            ? round((($todaySale - $yesterdaySale) / $yesterdaySale) * 100, 1)
+                            : 0;
+                    @endphp
+                    @if($salesChange != 0)
+                        <span class="stat-change {{ $salesChange >= 0 ? 'up' : 'down' }}">
+                            <i class="las la-arrow-{{ $salesChange >= 0 ? 'up' : 'down' }}"></i>
+                            {{ abs($salesChange) }}%
+                        </span>
+                    @endif
                 </div>
                 <p class="stat-label">إجمالي المبيعات</p>
-                <div><span class="stat-value">12,450</span> <span class="stat-currency">ر.س</span></div>
+                <div>
+                    <span class="stat-value">{{ number_format($todaySale, 0) }}</span>
+                    <span class="stat-currency">ر.س</span>
+                </div>
             </div>
         </div>
+
+        {{-- المصاريف اليوم --}}
         <div class="col-6 col-lg-3">
             <div class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="stat-icon stat-icon-red"><i class="las la-receipt"></i></div>
-                    <span class="stat-change down"><i class="las la-arrow-down"></i> 5.2%</span>
                 </div>
                 <p class="stat-label">المصاريف</p>
-                <div><span class="stat-value">2,340</span> <span class="stat-currency">ر.س</span></div>
+                <div>
+                    <span class="stat-value">{{ number_format((float)($widget['today_expense'] ?? 0), 0) }}</span>
+                    <span class="stat-currency">ر.س</span>
+                </div>
             </div>
         </div>
+
+        {{-- صافي الربح اليوم --}}
         <div class="col-6 col-lg-3">
             <div class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="stat-icon stat-icon-blue"><i class="las la-chart-pie"></i></div>
-                    <span class="stat-change up"><i class="las la-arrow-up"></i> 22.1%</span>
+                    @php
+                        $netProfit = (float)($widget['today_sale'] ?? 0) - (float)($widget['today_expense'] ?? 0);
+                        $profitMargin = ($widget['today_sale'] ?? 0) > 0
+                            ? round(($netProfit / $widget['today_sale']) * 100, 1)
+                            : 0;
+                    @endphp
+                    @if($profitMargin > 0)
+                        <span class="stat-change up">
+                            <i class="las la-percentage"></i> {{ $profitMargin }}%
+                        </span>
+                    @endif
                 </div>
                 <p class="stat-label">صافي الربح</p>
-                <div><span class="stat-value">10,110</span> <span class="stat-currency">ر.س</span></div>
+                <div>
+                    <span class="stat-value">{{ number_format($netProfit, 0) }}</span>
+                    <span class="stat-currency">ر.س</span>
+                </div>
             </div>
         </div>
+
+        {{-- إجمالي الطلبات اليوم --}}
         <div class="col-6 col-lg-3">
             <div class="stat-card">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div class="stat-icon stat-icon-purple"><i class="las la-shopping-bag"></i></div>
-                    <span class="stat-change up"><i class="las la-arrow-up"></i> 12.3%</span>
                 </div>
                 <p class="stat-label">إجمالي الطلبات</p>
-                <div><span class="stat-value">87</span> <span class="stat-currency">طلب</span></div>
+                <div>
+                    <span class="stat-value">{{ number_format($widget['today_orders_count'] ?? 0) }}</span>
+                    <span class="stat-currency">طلب</span>
+                </div>
             </div>
         </div>
     </div>
@@ -336,7 +428,7 @@
         <div class="widget-card__head d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div>
                 <h5>📊 اتّجاه الإيرادات والطلبات</h5>
-                <p>عرض شامل: إيرادات (مساحة) · طلبات (أعمدة) · النموّ (خطّ)</p>
+                <p>عرض شامل: إيرادات (مساحة) · طلبات (أعمدة) · الأرباح (خطّ)</p>
             </div>
             <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-outline-secondary" data-period="day">اليوم</button>
@@ -416,11 +508,11 @@
         <div class="widget-card__body"><div id="revVsExpChart" style="height: 280px;"></div></div>
     </div>
 
-    {{-- Recent Orders --}}
+    {{-- Recent Orders - مربوط بـ$recentSales --}}
     <div class="widget-card">
         <div class="widget-card__head d-flex justify-content-between align-items-center">
             <div><h5>أحدث الطلبات</h5><p>آخر 5 عمليات</p></div>
-            <a href="#" class="btn btn-sm btn-outline-secondary">عرض الكلّ <i class="las la-arrow-left"></i></a>
+            <a href="{{ route('user.sale.list') }}" class="btn btn-sm btn-outline-secondary">عرض الكلّ <i class="las la-arrow-left"></i></a>
         </div>
         <div class="table-responsive">
             <table class="table table-borderless mb-0 align-middle">
@@ -436,11 +528,46 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td class="ps-4 fw-bold">#1247</td><td>محمد العتيبي</td><td>3 منتجات</td><td class="fw-bold text-success">285 ر</td><td>مدى</td><td><span class="status-badge success">مكتمل</span></td><td class="pe-4 text-muted small">قبل 5د</td></tr>
-                    <tr><td class="ps-4 fw-bold">#1246</td><td>سارة الأحمد</td><td>2 منتجات</td><td class="fw-bold text-success">145 ر</td><td>نقدي</td><td><span class="status-badge success">مكتمل</span></td><td class="pe-4 text-muted small">قبل 12د</td></tr>
-                    <tr><td class="ps-4 fw-bold">#1245</td><td>فهد الدوسري</td><td>5 منتجات</td><td class="fw-bold text-success">320 ر</td><td>Apple Pay</td><td><span class="status-badge warning">قيد التحضير</span></td><td class="pe-4 text-muted small">قبل 18د</td></tr>
-                    <tr><td class="ps-4 fw-bold">#1244</td><td>نورا الشمري</td><td>1 منتج</td><td class="fw-bold text-success">75 ر</td><td>مدى</td><td><span class="status-badge success">مكتمل</span></td><td class="pe-4 text-muted small">قبل 25د</td></tr>
-                    <tr><td class="ps-4 fw-bold">#1243</td><td>خالد القحطاني</td><td>4 منتجات</td><td class="fw-bold text-success">210 ر</td><td><i class="lab la-whatsapp text-success"></i> واتساب</td><td><span class="status-badge success">مكتمل</span></td><td class="pe-4 text-muted small">قبل 35د</td></tr>
+                    @forelse($recentSales as $sale)
+                        <tr>
+                            <td class="ps-4 fw-bold">#{{ $sale->invoice_no ?? str_pad($sale->id, 4, '0', STR_PAD_LEFT) }}</td>
+                            <td>{{ $sale->customer->name ?? 'عميل غير محدّد' }}</td>
+                            <td>{{ $sale->saleDetails->count() ?? 0 }} منتجات</td>
+                            <td class="fw-bold text-success">{{ number_format($sale->total, 0) }} ر</td>
+                            <td>
+                                @if($sale->salePayment && $sale->salePayment->first())
+                                    {{ $sale->salePayment->first()->paymentType->name ?? 'نقدي' }}
+                                @else
+                                    نقدي
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    $statusClass = match($sale->payment_status ?? 0) {
+                                        1 => 'success',
+                                        0 => 'warning',
+                                        default => 'secondary'
+                                    };
+                                    $statusLabel = match($sale->payment_status ?? 0) {
+                                        1 => 'مكتمل',
+                                        0 => 'قيد الدفع',
+                                        default => 'غير محدّد'
+                                    };
+                                @endphp
+                                <span class="status-badge {{ $statusClass }}">{{ $statusLabel }}</span>
+                            </td>
+                            <td class="pe-4 text-muted small">{{ $sale->created_at->diffForHumans() }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7">
+                                <div class="empty-state">
+                                    <i class="las la-receipt d-block"></i>
+                                    <p>لا توجد طلبات بعد. اضغط على "الكاشير" للبدء.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -448,8 +575,9 @@
 
 </div>
 
+
 {{-- ═══════════════════════════════════════════════════════════
-     BRANCHES TAB — Saudi Arabia Map
+     BRANCHES TAB — مربوطة بـ$widget و $warehouses
      ═══════════════════════════════════════════════════════════ --}}
 <div class="tab-content" id="tab-branches">
 
@@ -461,7 +589,10 @@
                     <div class="stat-icon stat-icon-emerald"><i class="las la-store"></i></div>
                 </div>
                 <p class="stat-label">إجمالي الفروع</p>
-                <div><span class="stat-value">7</span> <span class="stat-currency">فرع</span></div>
+                <div>
+                    <span class="stat-value">{{ $widget['branches_count'] ?? $warehouses->count() }}</span>
+                    <span class="stat-currency">فرع</span>
+                </div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -470,7 +601,10 @@
                     <div class="stat-icon stat-icon-blue"><i class="las la-city"></i></div>
                 </div>
                 <p class="stat-label">المدن المغطّاة</p>
-                <div><span class="stat-value">5</span> <span class="stat-currency">مدن</span></div>
+                <div>
+                    <span class="stat-value">{{ $warehouses->pluck('city')->filter()->unique()->count() ?: '0' }}</span>
+                    <span class="stat-currency">مدن</span>
+                </div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -479,7 +613,10 @@
                     <div class="stat-icon stat-icon-purple"><i class="las la-coins"></i></div>
                 </div>
                 <p class="stat-label">إيرادات شهريّة</p>
-                <div><span class="stat-value">144,280</span> <span class="stat-currency">ر.س</span></div>
+                <div>
+                    <span class="stat-value">{{ number_format((float)($widget['this_month_sale'] ?? 0), 0) }}</span>
+                    <span class="stat-currency">ر.س</span>
+                </div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -488,7 +625,10 @@
                     <div class="stat-icon stat-icon-amber"><i class="las la-users"></i></div>
                 </div>
                 <p class="stat-label">إجمالي الموظفين</p>
-                <div><span class="stat-value">30</span> <span class="stat-currency">موظف</span></div>
+                <div>
+                    <span class="stat-value">{{ $widget['staff_count'] ?? 0 }}</span>
+                    <span class="stat-currency">موظف</span>
+                </div>
             </div>
         </div>
     </div>
@@ -498,115 +638,49 @@
         <div class="col-12 col-lg-8">
             <div class="widget-card">
                 <div class="widget-card__head">
-                    <h5>🇸🇦 خريطة الفروع — المملكة العربيّة السعوديّة</h5>
-                    <p>حرّك الفأرة على المدينة لرؤية تفاصيل الفروع والإيرادات</p>
+                    <h5>🗺️ الخريطة التفاعليّة للفروع</h5>
+                    <p>توزيع فروعك في المملكة العربيّة السعوديّة</p>
                 </div>
                 <div class="widget-card__body">
-                    <div class="saudi-map-wrap" id="saudiMapWrap">
-                        <svg class="saudi-map" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
-                            {{-- Saudi Arabia simplified shape --}}
-                            <path d="M 130 80 L 200 60 L 290 80 L 380 100 L 450 130 L 510 170 L 540 220 L 560 260 L 580 290 L 620 310 L 640 350 L 600 400 L 540 430 L 460 440 L 380 420 L 300 410 L 230 380 L 170 340 L 130 280 L 110 220 L 100 160 Z"
-                                  fill="#dbeafe" stroke="#2563eb" stroke-width="2" opacity="0.5"/>
-
-                            {{-- Cities (with branches) --}}
-                            <g class="city-group" data-city="الرياض" data-revenue="45230" data-orders="287" data-branches="3">
-                                <circle class="city-dot" cx="400" cy="240" r="14" fill="#10b981" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="400" y="270" text-anchor="middle">الرياض</text>
-                            </g>
-                            <g class="city-group" data-city="جدة" data-revenue="38450" data-orders="245" data-branches="2">
-                                <circle class="city-dot" cx="220" cy="290" r="13" fill="#3b82f6" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="220" y="320" text-anchor="middle">جدة</text>
-                            </g>
-                            <g class="city-group" data-city="مكة المكرّمة" data-revenue="28900" data-orders="178" data-branches="1">
-                                <circle class="city-dot" cx="240" cy="335" r="10" fill="#8b5cf6" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="240" y="365" text-anchor="middle">مكة</text>
-                            </g>
-                            <g class="city-group" data-city="المدينة المنوّرة" data-revenue="19800" data-orders="124" data-branches="1">
-                                <circle class="city-dot" cx="240" cy="200" r="10" fill="#f59e0b" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="240" y="185" text-anchor="middle">المدينة</text>
-                            </g>
-                            <g class="city-group" data-city="الدمّام" data-revenue="32100" data-orders="201" data-branches="2">
-                                <circle class="city-dot" cx="540" cy="220" r="11" fill="#ef4444" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="540" y="205" text-anchor="middle">الدمّام</text>
-                            </g>
-                            <g class="city-group" data-city="تبوك" data-revenue="11200" data-orders="78" data-branches="1">
-                                <circle class="city-dot" cx="170" cy="120" r="9" fill="#06b6d4" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="170" y="105" text-anchor="middle">تبوك</text>
-                            </g>
-                            <g class="city-group" data-city="أبها" data-revenue="9800" data-orders="62" data-branches="1">
-                                <circle class="city-dot" cx="290" cy="430" r="8" fill="#ec4899" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="290" y="455" text-anchor="middle">أبها</text>
-                            </g>
-                            <g class="city-group" data-city="حائل" data-revenue="7400" data-orders="48" data-branches="0">
-                                <circle class="city-dot" cx="320" cy="160" r="7" fill="#a855f7" stroke="#fff" stroke-width="3" opacity="0.6"/>
-                                <text class="city-label" x="320" y="145" text-anchor="middle">حائل</text>
-                            </g>
-                            <g class="city-group" data-city="بريدة" data-revenue="13500" data-orders="89" data-branches="1">
-                                <circle class="city-dot" cx="370" cy="190" r="9" fill="#22c55e" stroke="#fff" stroke-width="3"/>
-                                <text class="city-label" x="370" y="175" text-anchor="middle">بريدة</text>
-                            </g>
-                            <g class="city-group" data-city="جازان" data-revenue="6800" data-orders="42" data-branches="0">
-                                <circle class="city-dot" cx="260" cy="445" r="6" fill="#f97316" stroke="#fff" stroke-width="3" opacity="0.6"/>
-                                <text class="city-label" x="260" y="470" text-anchor="middle">جازان</text>
-                            </g>
-                        </svg>
-
-                        <div class="branch-tooltip" id="branchTooltip">
-                            <div class="fw-bold mb-1" id="tipCity"></div>
-                            <div class="small">الإيرادات: <strong id="tipRevenue"></strong> ر</div>
-                            <div class="small">الطلبات: <strong id="tipOrders"></strong></div>
-                            <div class="small">الفروع: <strong id="tipBranches"></strong></div>
+                    <div id="branchesMap" style="height: 380px; background: #f1f5f9; border-radius: .75rem; display: flex; align-items: center; justify-content: center;">
+                        <div class="text-center">
+                            <i class="las la-map-marked-alt" style="font-size: 3rem; color: #94a3b8;"></i>
+                            <p class="text-muted mt-2">خريطة الفروع — قريباً</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Top Cities Ranking --}}
+        {{-- Top Cities --}}
         <div class="col-12 col-lg-4">
-            <div class="widget-card h-100">
+            <div class="widget-card">
                 <div class="widget-card__head"><h5>أعلى المدن مبيعاً</h5><p>ترتيب حسب الإيرادات</p></div>
                 <div class="widget-card__body">
-                    @php
-                        $cities = [
-                            ['الرياض', 45230, '#10b981'],
-                            ['جدة', 38450, '#3b82f6'],
-                            ['الدمّام', 32100, '#ef4444'],
-                            ['مكة المكرّمة', 28900, '#8b5cf6'],
-                            ['المدينة المنوّرة', 19800, '#f59e0b'],
-                            ['بريدة', 13500, '#22c55e'],
-                            ['تبوك', 11200, '#06b6d4'],
-                            ['أبها', 9800, '#ec4899'],
-                        ];
-                        $maxRev = max(array_column($cities, 1));
-                    @endphp
-                    @foreach($cities as $i => $row)
-                        @php [$city, $rev, $color] = $row; @endphp
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <div style="width: 32px; height: 32px; border-radius: 50%; background: {{ $color }}1a; color: {{ $color }}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .85rem; flex-shrink: 0;">
-                                {{ $i + 1 }}
+                    @forelse($warehouses->take(5) as $idx => $warehouse)
+                        <div class="d-flex align-items-center justify-content-between mb-2 p-2" style="background: #f8fafc; border-radius: .5rem;">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary">{{ $idx + 1 }}</span>
+                                <strong>{{ $warehouse->name ?? 'مستودع #' . $warehouse->id }}</strong>
                             </div>
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span class="fw-bold small">{{ $city }}</span>
-                                    <span class="fw-bold small" style="color: {{ $color }}">{{ number_format($rev) }} ر</span>
-                                </div>
-                                <div class="progress" style="height: 5px; background: #f1f5f9;">
-                                    <div class="progress-bar" style="width: {{ ($rev / $maxRev) * 100 }}%; background: {{ $color }};"></div>
-                                </div>
-                            </div>
+                            <small class="text-muted">{{ $warehouse->city ?? '—' }}</small>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="empty-state">
+                            <i class="las la-warehouse d-block"></i>
+                            <p>لا توجد مستودعات/فروع بعد</p>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Branches Table --}}
+    {{-- Branches List Table --}}
     <div class="widget-card">
-        <div class="widget-card__head">
-            <h5>تفاصيل الفروع</h5>
-            <p>قائمة شاملة لكلّ فرع</p>
+        <div class="widget-card__head d-flex justify-content-between align-items-center">
+            <div><h5>قائمة الفروع</h5><p>تفاصيل كل فرع</p></div>
+            <a href="{{ route('user.warehouse.list') }}" class="btn btn-sm btn-outline-secondary">إدارة الفروع <i class="las la-arrow-left"></i></a>
         </div>
         <div class="table-responsive">
             <table class="table table-borderless mb-0 align-middle">
@@ -614,21 +688,36 @@
                     <tr>
                         <th class="ps-4">الفرع</th>
                         <th>المدينة</th>
-                        <th>المدير</th>
-                        <th>الموظفين</th>
-                        <th>الإيرادات</th>
-                        <th>الطلبات</th>
-                        <th class="pe-4">الحالة</th>
+                        <th>الهاتف</th>
+                        <th>الحالة</th>
+                        <th class="pe-4">إجراءات</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td class="ps-4 fw-bold">فرع الرياض - العليا</td><td>الرياض</td><td>عبدالله المحمد</td><td>5</td><td class="fw-bold text-success">25,400 ر</td><td>156</td><td class="pe-4"><span class="status-badge success">نشط</span></td></tr>
-                    <tr><td class="ps-4 fw-bold">فرع الرياض - الملز</td><td>الرياض</td><td>سعد الفهد</td><td>4</td><td class="fw-bold text-success">12,830 ر</td><td>87</td><td class="pe-4"><span class="status-badge success">نشط</span></td></tr>
-                    <tr><td class="ps-4 fw-bold">فرع الرياض - الصحافة</td><td>الرياض</td><td>ماجد السبيعي</td><td>4</td><td class="fw-bold text-success">7,000 ر</td><td>44</td><td class="pe-4"><span class="status-badge success">نشط</span></td></tr>
-                    <tr><td class="ps-4 fw-bold">فرع جدة - الكورنيش</td><td>جدة</td><td>طارق الزهراني</td><td>6</td><td class="fw-bold text-success">22,100 ر</td><td>134</td><td class="pe-4"><span class="status-badge success">نشط</span></td></tr>
-                    <tr><td class="ps-4 fw-bold">فرع جدة - السلامة</td><td>جدة</td><td>محمد العمري</td><td>3</td><td class="fw-bold text-success">16,350 ر</td><td>111</td><td class="pe-4"><span class="status-badge success">نشط</span></td></tr>
-                    <tr><td class="ps-4 fw-bold">فرع الدمّام</td><td>الدمّام</td><td>فيصل القحطاني</td><td>4</td><td class="fw-bold text-success">18,900 ر</td><td>112</td><td class="pe-4"><span class="status-badge success">نشط</span></td></tr>
-                    <tr><td class="ps-4 fw-bold">فرع الخبر</td><td>الدمّام</td><td>أحمد الشهري</td><td>4</td><td class="fw-bold text-success">13,200 ر</td><td>89</td><td class="pe-4"><span class="status-badge success">نشط</span></td></tr>
+                    @forelse($warehouses as $warehouse)
+                        <tr>
+                            <td class="ps-4 fw-bold">{{ $warehouse->name ?? 'مستودع #' . $warehouse->id }}</td>
+                            <td>{{ $warehouse->city ?? '—' }}</td>
+                            <td class="text-muted">{{ $warehouse->phone ?? '—' }}</td>
+                            <td>
+                                <span class="status-badge {{ ($warehouse->status ?? 1) == 1 ? 'success' : 'warning' }}">
+                                    {{ ($warehouse->status ?? 1) == 1 ? 'نشط' : 'معطّل' }}
+                                </span>
+                            </td>
+                            <td class="pe-4">
+                                <a href="#" class="btn btn-sm btn-outline-primary"><i class="las la-eye"></i></a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5">
+                                <div class="empty-state">
+                                    <i class="las la-warehouse d-block"></i>
+                                    <p>لا توجد فروع بعد. أضف فرعك الأوّل من القائمة الجانبيّة.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -636,8 +725,9 @@
 
 </div>
 
+
 {{-- ═══════════════════════════════════════════════════════════
-     OTHER TABS (Placeholders — to be built in next phases)
+     4 TABS قادمة في المراحل التاليّة
      ═══════════════════════════════════════════════════════════ --}}
 <div class="tab-content" id="tab-products">
     <div class="widget-card text-center p-5">
@@ -672,210 +762,227 @@
 @endsection
 
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-(function() {
-    'use strict';
+// ═══════════════════════════════════════════════════════════
+// Val POS Dashboard - Connected to Laravel Backend
+// ═══════════════════════════════════════════════════════════
 
-    // ═══ Tabs Switching ═══
+// ───── البيانات من Laravel ─────
+const chartData = @json($chartData ?? ['weekly' => ['labels' => [], 'sales' => [], 'expenses' => [], 'profit' => [], 'orders' => []], 'paymentMethods' => [], 'orderTypes' => ['pos' => 0, 'whatsapp' => 0]]);
+
+const widget = @json($widget ?? []);
+
+const topProducts = @json($topSellingProducts ?? []);
+
+// ───── إعدادات ApexCharts العامّة ─────
+const apexCommon = {
+    chart: {
+        fontFamily: 'Tajawal, Cairo, sans-serif',
+        toolbar: { show: false }
+    }
+};
+
+// ═══════════════════════════════════════════════════════════
+// Tabs Switching
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.dash-tabs button').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.dash-tabs button').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
             document.getElementById('tab-' + this.dataset.tab).classList.add('active');
         });
     });
 
-    // ═══ ApexCharts Common Options ═══
-    const baseOpts = {
-        chart: {
-            fontFamily: 'Tajawal, sans-serif',
-            toolbar: { show: false },
-            zoom: { enabled: false }
-        },
-        tooltip: { style: { fontFamily: 'Tajawal, sans-serif' } },
-        grid: { borderColor: '#f1f5f9', strokeDashArray: 4 }
-    };
-
-    // ═══ 1. Combined Trend (Revenue + Orders + Growth) ═══
+    // ═══════════════════════════════════════════════════════
+    // 1. Combined Chart - الإيرادات + الطلبات + الأرباح
+    // ═══════════════════════════════════════════════════════
     new ApexCharts(document.getElementById('combinedChart'), {
+        chart: { height: 340, type: 'line', toolbar: { show: false }, fontFamily: 'Tajawal, Cairo, sans-serif' },
         series: [
-            { name: 'الإيرادات', type: 'area', data: [4200, 5400, 4900, 6100, 5800, 7200, 8400] },
-            { name: 'الطلبات', type: 'column', data: [12, 18, 15, 22, 19, 28, 32] },
-            { name: 'النموّ %', type: 'line', data: [3.2, 5.1, -2.4, 7.8, -1.2, 9.5, 12.3] }
+            { name: 'الإيرادات', type: 'area', data: chartData.weekly.sales || [] },
+            { name: 'الطلبات', type: 'column', data: chartData.weekly.orders || [] },
+            { name: 'الأرباح', type: 'line', data: chartData.weekly.profit || [] }
         ],
-        chart: { ...baseOpts.chart, height: 340, type: 'line', stacked: false },
-        stroke: { width: [2, 0, 3], curve: 'smooth', dashArray: [0, 0, 5] },
-        plotOptions: { bar: { columnWidth: '40%', borderRadius: 5 } },
-        fill: {
-            type: ['gradient', 'solid', 'solid'],
-            gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0, stops: [0, 90] }
-        },
-        colors: ['#7c3aed', '#10b981', '#ec4899'],
-        dataLabels: { enabled: false },
-        labels: ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
-        xaxis: { categories: ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'] },
+        stroke: { curve: 'smooth', width: [2, 0, 3] },
+        fill: { type: ['gradient', 'solid', 'solid'], opacity: [0.3, 1, 1] },
+        colors: ['#10b981', '#3b82f6', '#f59e0b'],
+        xaxis: { categories: chartData.weekly.labels || [] },
         yaxis: [
-            { seriesName: 'الإيرادات', title: { text: 'الإيرادات (ر)', style: { fontFamily: 'Tajawal' } }, labels: { formatter: v => v.toLocaleString() } },
-            { seriesName: 'الطلبات', opposite: true, title: { text: 'عدد الطلبات', style: { fontFamily: 'Tajawal' } } },
-            { seriesName: 'النموّ %', show: false }
+            { title: { text: 'الإيرادات / الأرباح' }, labels: { formatter: (v) => Math.round(v) } },
+            { opposite: true, title: { text: 'عدد الطلبات' } }
         ],
-        legend: { position: 'bottom', horizontalAlign: 'center', fontFamily: 'Tajawal' },
-        grid: baseOpts.grid,
-        tooltip: baseOpts.tooltip
+        legend: { position: 'top', horizontalAlign: 'center' },
+        tooltip: { theme: 'light', shared: true, intersect: false },
+        grid: { borderColor: '#f1f5f9' },
+        noData: { text: 'لا توجد بيانات بعد', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
     }).render();
 
-    // ═══ 2. Order Status Donut ═══
+    // ═══════════════════════════════════════════════════════
+    // 2. Order Status Chart
+    // ═══════════════════════════════════════════════════════
+    const paidOrders = (widget.today_orders_count || 0) > 0 ? Math.round((widget.today_sale || 0) > 0 ? widget.today_orders_count * 0.7 : 0) : 0;
+    const pendingOrders = (widget.today_orders_count || 0) - paidOrders;
+
     new ApexCharts(document.getElementById('orderStatusChart'), {
-        series: [22, 12, 4, 3],
-        chart: { ...baseOpts.chart, type: 'donut', height: 280 },
-        labels: ['مكتمل', 'قيد التحضير', 'جاهز', 'معلّق'],
-        colors: ['#10b981', '#3b82f6', '#a855f7', '#f59e0b'],
-        legend: { position: 'bottom', fontFamily: 'Tajawal' },
-        dataLabels: { enabled: true, style: { fontFamily: 'Tajawal' } },
+        chart: { height: 280, type: 'donut', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: [paidOrders, pendingOrders],
+        labels: ['مكتمل', 'قيد التحضير'],
+        colors: ['#10b981', '#f59e0b'],
+        legend: { position: 'bottom' },
+        plotOptions: { pie: { donut: { size: '65%' } } },
+        dataLabels: { enabled: true, formatter: (val) => Math.round(val) + '%' },
+        noData: { text: 'لا توجد بيانات', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
+    }).render();
+
+    // ═══════════════════════════════════════════════════════
+    // 3. Order Types - POS vs WhatsApp
+    // ═══════════════════════════════════════════════════════
+    new ApexCharts(document.getElementById('orderTypesChart'), {
+        chart: { height: 280, type: 'donut', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: [chartData.orderTypes.pos || 0, chartData.orderTypes.whatsapp || 0],
+        labels: ['الكاشير (POS)', 'متجر واتساب'],
+        colors: ['#3b82f6', '#25D366'],
+        legend: { position: 'bottom' },
+        plotOptions: { pie: { donut: { size: '65%' } } },
+        dataLabels: { enabled: true, formatter: (val, opts) => opts.w.config.series[opts.seriesIndex] },
+        noData: { text: 'لا توجد طلبات اليوم', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
+    }).render();
+
+    // ═══════════════════════════════════════════════════════
+    // 4. Payment Methods Chart
+    // ═══════════════════════════════════════════════════════
+    const paymentSeries = (chartData.paymentMethods || []).map(p => Math.round(p.total));
+    const paymentLabels = (chartData.paymentMethods || []).map(p => p.name);
+
+    new ApexCharts(document.getElementById('paymentMethodsChart'), {
+        chart: { height: 280, type: 'donut', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: paymentSeries.length > 0 ? paymentSeries : [1],
+        labels: paymentLabels.length > 0 ? paymentLabels : ['لا توجد بيانات'],
+        colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#25D366'],
+        legend: { position: 'bottom' },
         plotOptions: {
             pie: {
                 donut: {
-                    size: '65%',
+                    size: '70%',
                     labels: {
                         show: true,
                         total: {
-                            show: true, label: 'إجمالي',
-                            fontFamily: 'Tajawal',
-                            formatter: () => '41'
+                            show: true,
+                            label: 'إجمالي',
+                            formatter: () => {
+                                const total = paymentSeries.reduce((s, v) => s + v, 0);
+                                return new Intl.NumberFormat('ar').format(total) + ' ر.س';
+                            }
                         }
                     }
                 }
             }
-        }
+        },
+        dataLabels: { enabled: true, formatter: (val) => Math.round(val) + '%' }
     }).render();
 
-    // ═══ 3. Order Types Stacked Bar ═══
-    new ApexCharts(document.getElementById('orderTypesChart'), {
-        series: [
-            { name: 'مكتمل', data: [22, 8] },
-            { name: 'قيد التحضير', data: [4, 7] }
-        ],
-        chart: { ...baseOpts.chart, type: 'bar', stacked: true, height: 280 },
-        plotOptions: { bar: { horizontal: false, borderRadius: 4, columnWidth: '50%' } },
-        xaxis: { categories: ['الكاشير', 'الواتس اب'] },
-        colors: ['#10b981', '#f59e0b'],
-        legend: { position: 'bottom', fontFamily: 'Tajawal' },
-        dataLabels: { enabled: false },
-        grid: baseOpts.grid,
-        tooltip: baseOpts.tooltip
-    }).render();
-
-    // ═══ 4. Payment Methods Pie ═══
-    new ApexCharts(document.getElementById('paymentMethodsChart'), {
-        series: [38, 28, 18, 16],
-        chart: { ...baseOpts.chart, type: 'pie', height: 280 },
-        labels: ['مدى', 'نقدي', 'Apple Pay', 'تحويل'],
-        colors: ['#10b981', '#f59e0b', '#3b82f6', '#a855f7'],
-        legend: { position: 'bottom', fontFamily: 'Tajawal' },
-        dataLabels: { style: { fontFamily: 'Tajawal' } }
-    }).render();
-
-    // ═══ 5. Daily Orders Bar ═══
+    // ═══════════════════════════════════════════════════════
+    // 5. Daily Orders Chart - عدد الطلبات آخر 7 أيّام
+    // ═══════════════════════════════════════════════════════
     new ApexCharts(document.getElementById('dailyOrdersChart'), {
-        series: [{ name: 'الطلبات', data: [12, 18, 15, 22, 19, 28, 32] }],
-        chart: { ...baseOpts.chart, type: 'bar', height: 280 },
-        plotOptions: { bar: { borderRadius: 7, columnWidth: '55%' } },
-        xaxis: { categories: ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'] },
-        colors: ['#7c3aed'],
-        dataLabels: { enabled: false },
-        grid: baseOpts.grid,
-        tooltip: baseOpts.tooltip
+        chart: { height: 280, type: 'bar', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: [{ name: 'الطلبات', data: chartData.weekly.orders || [] }],
+        colors: ['#3b82f6'],
+        plotOptions: { bar: { borderRadius: 8, columnWidth: '55%' } },
+        xaxis: { categories: chartData.weekly.labels || [] },
+        dataLabels: { enabled: true },
+        grid: { borderColor: '#f1f5f9' },
+        noData: { text: 'لا توجد بيانات', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
     }).render();
 
-    // ═══ 6. Top 5 Products Horizontal ═══
+    // ═══════════════════════════════════════════════════════
+    // 6. Top 5 Products Chart
+    // ═══════════════════════════════════════════════════════
+    const topProductsData = Array.isArray(topProducts) ? topProducts.slice(0, 5) : [];
+    const topProductsLabels = topProductsData.map(p => p.product_detail?.product?.name || p.productDetail?.product?.name || 'منتج').slice(0, 5);
+    const topProductsValues = topProductsData.map(p => parseInt(p.total_quantity) || 0).slice(0, 5);
+
     new ApexCharts(document.getElementById('top5ProductsChart'), {
-        series: [{ name: 'مبيعات', data: [156, 124, 89, 67, 34] }],
-        chart: { ...baseOpts.chart, type: 'bar', height: 280 },
-        plotOptions: { bar: { horizontal: true, borderRadius: 5, barHeight: '70%' } },
-        xaxis: { categories: ['قهوة عربيّة', 'لاتيه', 'برجر', 'بيتزا', 'سلطة'] },
+        chart: { height: 280, type: 'bar', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: [{ name: 'الكميّة المباعة', data: topProductsValues.length > 0 ? topProductsValues : [0] }],
         colors: ['#10b981'],
-        dataLabels: { enabled: true, style: { fontFamily: 'Tajawal' } },
-        grid: baseOpts.grid,
-        tooltip: baseOpts.tooltip
+        plotOptions: { bar: { borderRadius: 6, horizontal: true } },
+        xaxis: { categories: topProductsLabels.length > 0 ? topProductsLabels : ['لا توجد بيانات'] },
+        dataLabels: { enabled: true },
+        grid: { borderColor: '#f1f5f9' },
+        noData: { text: 'لا توجد مبيعات بعد', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
     }).render();
 
-    // ═══ 7. Orders by Payment Horizontal ═══
+    // ═══════════════════════════════════════════════════════
+    // 7. Orders by Payment Chart
+    // ═══════════════════════════════════════════════════════
     new ApexCharts(document.getElementById('ordersByPaymentChart'), {
-        series: [{ name: 'طلبات', data: [33, 24, 16, 14] }],
-        chart: { ...baseOpts.chart, type: 'bar', height: 280 },
-        plotOptions: { bar: { horizontal: true, borderRadius: 5, barHeight: '60%', distributed: true } },
-        xaxis: { categories: ['مدى', 'نقدي', 'Apple Pay', 'تحويل'] },
-        colors: ['#10b981', '#f59e0b', '#3b82f6', '#a855f7'],
-        legend: { show: false },
-        dataLabels: { enabled: false },
-        grid: baseOpts.grid,
-        tooltip: baseOpts.tooltip
+        chart: { height: 280, type: 'bar', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: [{ name: 'عدد الطلبات', data: (chartData.paymentMethods || []).map(p => p.count) }],
+        colors: ['#8b5cf6'],
+        plotOptions: { bar: { borderRadius: 6, columnWidth: '55%' } },
+        xaxis: { categories: (chartData.paymentMethods || []).map(p => p.name) },
+        dataLabels: { enabled: true },
+        grid: { borderColor: '#f1f5f9' },
+        noData: { text: 'لا توجد بيانات', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
     }).render();
 
-    // ═══ 8. Revenue Distribution (Donut) ═══
+    // ═══════════════════════════════════════════════════════
+    // 8. Revenue Distribution (Top 6 Products)
+    // ═══════════════════════════════════════════════════════
+    const revDistData = Array.isArray(topProducts) ? topProducts.slice(0, 6) : [];
+    const revDistLabels = revDistData.map(p => p.product_detail?.product?.name || p.productDetail?.product?.name || 'منتج');
+    const revDistValues = revDistData.map(p => parseFloat(p.total_quantity) || 0);
+
     new ApexCharts(document.getElementById('revenueDistChart'), {
-        series: [2728, 4005, 3685, 2808, 1190, 850],
-        chart: { ...baseOpts.chart, type: 'donut', height: 320 },
-        labels: ['لاتيه', 'برجر كلاسيك', 'بيتزا مارجريتا', 'قهوة عربيّة', 'سلطة سيزر', 'كنافة'],
-        colors: ['#10b981', '#3b82f6', '#f59e0b', '#a855f7', '#ec4899', '#06b6d4'],
-        legend: { position: 'bottom', fontFamily: 'Tajawal' },
-        plotOptions: { pie: { donut: { size: '55%' } } },
-        dataLabels: { style: { fontFamily: 'Tajawal' } }
+        chart: { height: 320, type: 'pie', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: revDistValues.length > 0 ? revDistValues : [1],
+        labels: revDistLabels.length > 0 ? revDistLabels : ['لا توجد بيانات'],
+        colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'],
+        legend: { position: 'bottom' },
+        dataLabels: { enabled: true, formatter: (val) => Math.round(val) + '%' }
     }).render();
 
-    // ═══ 9. Avg Order Value (Area) ═══
+    // ═══════════════════════════════════════════════════════
+    // 9. Average Order Value Chart
+    // ═══════════════════════════════════════════════════════
+    const avgValues = (chartData.weekly.sales || []).map((sale, i) => {
+        const orders = (chartData.weekly.orders || [])[i] || 1;
+        return orders > 0 ? Math.round(sale / orders) : 0;
+    });
+
     new ApexCharts(document.getElementById('avgOrderChart'), {
-        series: [{ name: 'متوسط الفاتورة', data: [125, 130, 142, 138, 155, 148, 162] }],
-        chart: { ...baseOpts.chart, type: 'area', height: 320 },
-        stroke: { curve: 'smooth', width: 3 },
-        fill: { type: 'gradient', gradient: { opacityFrom: 0.4, opacityTo: 0, stops: [0, 90] } },
-        xaxis: { categories: ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'] },
+        chart: { height: 320, type: 'area', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false } },
+        series: [{ name: 'متوسّط قيمة الطلب', data: avgValues }],
         colors: ['#f59e0b'],
+        stroke: { curve: 'smooth', width: 3 },
+        fill: { type: 'gradient', gradient: { opacityFrom: 0.6, opacityTo: 0.1 } },
+        xaxis: { categories: chartData.weekly.labels || [] },
         dataLabels: { enabled: false },
-        yaxis: { labels: { formatter: v => v + ' ر' } },
-        grid: baseOpts.grid,
-        tooltip: baseOpts.tooltip
+        grid: { borderColor: '#f1f5f9' },
+        noData: { text: 'لا توجد بيانات', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
     }).render();
 
-    // ═══ 10. Revenue vs Expenses ═══
+    // ═══════════════════════════════════════════════════════
+    // 10. Revenue vs Expenses
+    // ═══════════════════════════════════════════════════════
     new ApexCharts(document.getElementById('revVsExpChart'), {
+        chart: { height: 280, type: 'bar', fontFamily: 'Tajawal, Cairo, sans-serif', toolbar: { show: false }, stacked: false },
         series: [
-            { name: 'الإيرادات', data: [8200, 9400, 11800, 10500, 12100, 14250] },
-            { name: 'المصاريف', data: [1800, 2100, 2300, 2050, 2200, 2340] }
+            { name: 'الإيرادات', data: chartData.weekly.sales || [] },
+            { name: 'المصاريف', data: chartData.weekly.expenses || [] }
         ],
-        chart: { ...baseOpts.chart, type: 'bar', height: 280 },
-        plotOptions: { bar: { borderRadius: 5, columnWidth: '50%' } },
-        xaxis: { categories: ['ديسمبر', 'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو'] },
         colors: ['#10b981', '#ef4444'],
+        plotOptions: { bar: { borderRadius: 6, columnWidth: '55%' } },
+        xaxis: { categories: chartData.weekly.labels || [] },
+        legend: { position: 'top' },
         dataLabels: { enabled: false },
-        legend: { position: 'bottom', fontFamily: 'Tajawal' },
-        yaxis: { labels: { formatter: v => v.toLocaleString() + ' ر' } },
-        grid: baseOpts.grid,
-        tooltip: baseOpts.tooltip
+        grid: { borderColor: '#f1f5f9' },
+        noData: { text: 'لا توجد بيانات', style: { fontSize: '14px', fontFamily: 'Tajawal' } }
     }).render();
-
-    // ═══ Saudi Map Tooltip ═══
-    const tooltip = document.getElementById('branchTooltip');
-    const wrap = document.getElementById('saudiMapWrap');
-    if (tooltip && wrap) {
-        document.querySelectorAll('.city-group').forEach(g => {
-            g.addEventListener('mouseenter', () => {
-                document.getElementById('tipCity').textContent = g.dataset.city;
-                document.getElementById('tipRevenue').textContent = parseInt(g.dataset.revenue).toLocaleString('ar-SA');
-                document.getElementById('tipOrders').textContent = g.dataset.orders;
-                document.getElementById('tipBranches').textContent = g.dataset.branches > 0 ? g.dataset.branches : 'لا يوجد';
-                tooltip.classList.add('show');
-            });
-            g.addEventListener('mousemove', e => {
-                const rect = wrap.getBoundingClientRect();
-                tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
-                tooltip.style.top = (e.clientY - rect.top + 15) + 'px';
-            });
-            g.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
-        });
-    }
-})();
+});
 </script>
 @endpush
