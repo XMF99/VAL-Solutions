@@ -14,10 +14,13 @@ class Feature extends Model
         'sort_order' => 'integer',
     ];
 
+<<<<<<< HEAD
     // ═══════════════════════════════════════════════════════════
     // Relationships
     // ═══════════════════════════════════════════════════════════
 
+=======
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
     public function plans()
     {
         return $this->belongsToMany(SubscriptionPlan::class, 'plan_features', 'feature_id', 'plan_id')
@@ -30,10 +33,13 @@ class Feature extends Model
         return $this->hasMany(PlanFeature::class);
     }
 
+<<<<<<< HEAD
     // ═══════════════════════════════════════════════════════════
     // Scopes
     // ═══════════════════════════════════════════════════════════
 
+=======
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
     public function scopeActive($query)
     {
         return $query->where('status', 1);
@@ -49,6 +55,7 @@ class Feature extends Model
         return $query->where('category', $category);
     }
 
+<<<<<<< HEAD
     // ═══════════════════════════════════════════════════════════
     // Static helpers
     // ═══════════════════════════════════════════════════════════
@@ -56,6 +63,8 @@ class Feature extends Model
     /**
      * تحقّق إذا الباقة فيها هذي الميزة
      */
+=======
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
     public static function isAvailableForPlan(string $featureCode, int $planId): bool
     {
         $feature = static::where('code', $featureCode)->first();
@@ -67,9 +76,12 @@ class Feature extends Model
             ->exists();
     }
 
+<<<<<<< HEAD
     /**
      * الـcategories المتاحة
      */
+=======
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
     public static function getCategories(): array
     {
         return [

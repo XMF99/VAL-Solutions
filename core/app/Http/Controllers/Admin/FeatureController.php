@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 
 class FeatureController extends Controller
 {
+<<<<<<< HEAD
     /**
      * صفحة إدارة المميزات والباقات (Matrix View)
      */
+=======
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
     public function index()
     {
         $pageTitle = 'إدارة المميزات والباقات';
@@ -21,7 +24,10 @@ class FeatureController extends Controller
         $features = Feature::where('status', 1)->orderBy('category')->orderBy('sort_order')->get();
         $categories = Feature::getCategories();
 
+<<<<<<< HEAD
         // نبني الـmatrix: feature_id => [plan_id => is_enabled]
+=======
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
         $matrix = [];
         $planFeatures = PlanFeature::all();
         foreach ($planFeatures as $pf) {
@@ -31,9 +37,12 @@ class FeatureController extends Controller
         return view('admin.features.index', compact('pageTitle', 'plans', 'features', 'categories', 'matrix'));
     }
 
+<<<<<<< HEAD
     /**
      * تحديث ميزة في باقة (toggle on/off)
      */
+=======
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
     public function toggle(Request $request)
     {
         $request->validate([
@@ -43,6 +52,7 @@ class FeatureController extends Controller
         ]);
 
         PlanFeature::updateOrCreate(
+<<<<<<< HEAD
             [
                 'plan_id'    => $request->plan_id,
                 'feature_id' => $request->feature_id,
@@ -101,5 +111,14 @@ class FeatureController extends Controller
         }])->get();
 
         return response()->json($plans);
+=======
+            ['plan_id' => $request->plan_id, 'feature_id' => $request->feature_id],
+            ['is_enabled' => $request->is_enabled]
+        );
+
+        cache()->forget("user_features_{$request->plan_id}");
+
+        return response()->json(['success' => true, 'message' => 'تمّ التحديث']);
+>>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
     }
 }

@@ -636,6 +636,17 @@ Route::middleware(['auth'])->name('user.')->group(function () {
     });
 
 
+
+
+// ───── Credit Notes (إشعارات دائنة) ─────
+    Route::controller(\App\Http\Controllers\User\CreditNoteController::class)->prefix('credit-note')->name('credit-note.')->group(function () {
+        Route::get('/', 'list')->name('list');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::post('/cancel/{id}', 'cancel')->name('cancel');
+        Route::post('/apply/{id}', 'apply')->name('apply');
+    });
     // Onboarding (Recipe 3 v2)
     Route::post('/onboarding/complete', [\App\Http\Controllers\User\OnboardingController::class, 'complete'])->name('onboarding.complete');
     Route::post('/onboarding/skip',     [\App\Http\Controllers\User\OnboardingController::class, 'skip'])->name('onboarding.skip');

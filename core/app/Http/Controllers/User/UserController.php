@@ -23,10 +23,6 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    <?php
-
-// ════════════════════════════════════════════════════════════════
-// تعديل في: core/app/Http/Controllers/User/UserController.php
 // ════════════════════════════════════════════════════════════════
 // 
 // الـmethod الموجود حالياً (لا تحذفه — استبدله بهذا):

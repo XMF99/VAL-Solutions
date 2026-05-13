@@ -372,4 +372,22 @@ Route::controller(\App\Http\Controllers\Admin\FeatureController::class)
     Route::controller("ExportController")->group(function () {
         Route::get('export/{model}/{type}', 'export')->name('export');
     });
+
+    // ───── إدارة المميزات والباقات ─────
+    Route::controller(\App\Http\Controllers\Admin\FeatureController::class)
+        ->prefix('features')
+        ->name('features.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/toggle', 'toggle')->name('toggle');
+        });
+
+    // ───── إدارة المميزات والباقات ─────
+    Route::controller(\App\Http\Controllers\Admin\FeatureController::class)
+        ->prefix('features')
+        ->name('features.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/toggle', 'toggle')->name('toggle');
+        });
 });
