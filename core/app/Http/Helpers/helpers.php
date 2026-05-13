@@ -1019,3 +1019,86 @@ function getActiveCashRegister()
 {
     return CashRegister::where('user_id', auth()->id())->whereNull('closing_time')->first();  //need active register not has closing time
 }
+
+
+
+// ═══════════════════════════════════════════════════════════
+// Features & Plans Helpers
+// ═══════════════════════════════════════════════════════════
+
+if (!function_exists('userHasFeature')) {
+    function userHasFeature(string $featureCode): bool
+    {
+        if (!auth()->check()) return false;
+        $user = auth()->user();
+        if (!$user->plan_id || $user->plan_id == 0) return false;
+        if ($user->plan_expired_at && now()->gt($user->plan_expired_at)) return false;
+
+        $cacheKey = "user_features_{$user->plan_id}";
+        $features = cache()->remember($cacheKey, 3600, function () use ($user) {
+            return \App\Models\Feature::whereHas('plans', function ($q) use ($user) {
+                $q->where('subscription_plans.id', $user->plan_id)
+                  ->where('plan_features.is_enabled', true);
+            })->where('status', 1)->pluck('code')->toArray();
+        });
+
+        return in_array($featureCode, $features);
+    }
+}
+
+if (!function_exists('userFeatureLimit')) {
+    function userFeatureLimit(string $featureCode): ?int
+    {
+        if (!auth()->check()) return null;
+        $user = auth()->user();
+        if (!$user->plan_id) return null;
+
+        $feature = \App\Models\Feature::where('code', $featureCode)->first();
+        if (!$feature) return null;
+
+        $pivot = \App\Models\PlanFeature::where('plan_id', $user->plan_id)
+            ->where('feature_id', $feature->id)
+            ->first();
+
+        return $pivot?->limit_value;
+    }
+}
+
+if (!function_exists('userFeatures')) {
+    function userFeatures(): array
+    {
+        if (!auth()->check()) return [];
+        $user = auth()->user();
+        if (!$user->plan_id) return [];
+
+        return cache()->remember("user_features_{$user->plan_id}", 3600, function () use ($user) {
+            return \App\Models\Feature::whereHas('plans', function ($q) use ($user) {
+                $q->where('subscription_plans.id', $user->plan_id)
+                  ->where('plan_features.is_enabled', true);
+            })->where('status', 1)->pluck('code')->toArray();
+        });
+    }
+}
+
+if (!function_exists('clearFeaturesCache')) {
+    function clearFeaturesCache(int $planId): void
+    {
+        cache()->forget("user_features_{$planId}");
+    }
+}
+
+if (!function_exists('userCanUpgrade')) {
+    function userCanUpgrade(string $featureCode): bool
+    {
+        if (!auth()->check()) return false;
+        $user = auth()->user();
+
+        $feature = \App\Models\Feature::where('code', $featureCode)->first();
+        if (!$feature) return false;
+
+        return \App\Models\PlanFeature::where('feature_id', $feature->id)
+            ->where('plan_id', '>', $user->plan_id ?? 0)
+            ->where('is_enabled', true)
+            ->exists();
+    }
+}

@@ -63,7 +63,7 @@ class DashBoardWidgetData
     {
         $user = getParentUser();
 
-        return Sale::where('user_id', $user->id)->selectRaw("
+        return Sale::where('sales.user_id', $user->id)->selectRaw("
             COALESCE(SUM(CASE WHEN sale_date = ? THEN total END), 0) as today_sale,
             COALESCE(SUM(CASE WHEN sale_date = ? THEN total END), 0) as yesterday_sale,
             COALESCE(SUM(CASE WHEN sale_date >= ? THEN total END), 0) as this_week_sale,
@@ -131,7 +131,7 @@ class DashBoardWidgetData
     {
         $user = getParentUser();
 
-        return Sale::where('user_id', $user->id)->selectRaw("
+        return Sale::where('sales.user_id', $user->id)->selectRaw("
             COUNT(CASE WHEN sale_date = ? THEN 1 END) as today_orders_count,
             COUNT(CASE WHEN sale_date >= ? THEN 1 END) as week_orders_count,
             COUNT(CASE WHEN sale_date >= ? THEN 1 END) as month_orders_count,
@@ -160,7 +160,7 @@ class DashBoardWidgetData
             ->count();
 
         // عملاء نشطون = عندهم طلب في آخر 30 يوم
-        $active = Sale::where('user_id', $user->id)
+        $active = Sale::where('sales.user_id', $user->id)
             ->where('sale_date', '>=', $thirtyDaysAgo)
             ->distinct('customer_id')
             ->count('customer_id');
@@ -219,7 +219,7 @@ class DashBoardWidgetData
         $user = getParentUser();
 
         $warehousesCount = Warehouse::where('user_id', $user->id)->count();
-        $staffCount = User::where('parent_user_id', $user->id)
+        $staffCount = User::where('id', $user->id)
             ->orWhere('id', $user->id)
             ->count();
 
@@ -282,7 +282,7 @@ class DashBoardWidgetData
 
             $weekly['labels'][] = $date->locale('ar')->isoFormat('ddd');
 
-            $daySales = Sale::where('user_id', $user->id)
+            $daySales = Sale::where('sales.user_id', $user->id)
                 ->whereDate('sale_date', $dateStr)
                 ->sum('total');
 
@@ -290,7 +290,7 @@ class DashBoardWidgetData
                 ->whereDate('expense_date', $dateStr)
                 ->sum('amount');
 
-            $dayOrders = Sale::where('user_id', $user->id)
+            $dayOrders = Sale::where('sales.user_id', $user->id)
                 ->whereDate('sale_date', $dateStr)
                 ->count();
 
@@ -301,10 +301,10 @@ class DashBoardWidgetData
         }
 
         // توزيع طرق الدفع لآخر 30 يوم
-        $paymentMethods = Sale::where('user_id', $user->id)
-            ->where('sale_date', '>=', now()->subDays(30)->format('Y-m-d'))
+        $paymentMethods = Sale::where('sales.user_id', $user->id)
+            ->where('sales.sale_date', '>=', now()->subDays(30)->format('Y-m-d'))
             ->join('sale_payments', 'sales.id', '=', 'sale_payments.sale_id')
-            ->join('payment_types', 'sale_payments.payment_type_id', '=', 'payment_types.id')
+            ->join('payment_types', 'sale_payments.payment_type', '=', 'payment_types.id')
             ->groupBy('payment_types.id', 'payment_types.name')
             ->select(
                 'payment_types.name',
@@ -320,7 +320,7 @@ class DashBoardWidgetData
             ->toArray();
 
         // توزيع أنواع الطلبات — POS مقابل واتساب
-        $todayPosOrders = Sale::where('user_id', $user->id)
+        $todayPosOrders = Sale::where('sales.user_id', $user->id)
             ->whereDate('sale_date', now()->format('Y-m-d'))
             ->count();
 

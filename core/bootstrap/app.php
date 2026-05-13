@@ -85,6 +85,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'parent.user'          => IsParentUser::class,
             'active.cash.register' => CashRegister::class,
             'one.time.password'    => OneTimePassword::class,
+            'has.feature'          => \App\Http\Middleware\HasFeature::class,
         ]);
 
         // ─── CSRF Exceptions (الـ webhooks لا تحتاج CSRF token) ───
