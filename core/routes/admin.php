@@ -61,6 +61,49 @@ Route::middleware('admin')->group(function () {
         Route::get('list', 'list')->name('list');
         Route::get('count-by-segment/{methodName}', 'countBySegment')->name('segment.count');
         Route::get('notification-log/{id}', 'notificationLog')->name('notification.log');
+        
+// ════════════════════════════════════════════════════════════════
+// إضافة في: core/routes/admin.php
+// ════════════════════════════════════════════════════════════════
+// 
+// ابحث عن Route::group اللي يبدأ بـ admin middleware
+// وأضف داخلها:
+// ════════════════════════════════════════════════════════════════
+
+// ───── إدارة المميزات والباقات ─────
+Route::controller(\App\Http\Controllers\Admin\FeatureController::class)
+    ->prefix('features')
+    ->name('features.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/toggle', 'toggle')->name('toggle');
+        Route::post('/toggle-category', 'toggleCategory')->name('toggle.category');
+        Route::get('/summary', 'summary')->name('summary');
+    });
+
+// ════════════════════════════════════════════════════════════════
+// الـRoutes النهائيّة (للاستخدام في الـviews):
+//   admin.features.index           → GET  /admin/features
+//   admin.features.toggle          → POST /admin/features/toggle
+//   admin.features.toggle.category → POST /admin/features/toggle-category
+//   admin.features.summary         → GET  /admin/features/summary
+// ════════════════════════════════════════════════════════════════
+
+// ════════════════════════════════════════════════════════════════
+// إضافة في: core/app/Http/Kernel.php
+// ════════════════════════════════════════════════════════════════
+// 
+// في المصفوفة $middlewareAliases (أو $routeMiddleware حسب نسخة Laravel):
+//
+//   protected $middlewareAliases = [
+//       ...
+//       'has.feature' => \App\Http\Middleware\HasFeature::class,  // ← أضف هذا السطر
+//   ];
+// 
+// ثمّ نقدر نستخدمها في أيّ route:
+//   Route::middleware('has.feature:credit-note')->group(...);
+// ════════════════════════════════════════════════════════════════
+
     });
 
     // Subscriber

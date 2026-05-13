@@ -1019,3 +1019,111 @@ function getActiveCashRegister()
 {
     return CashRegister::where('user_id', auth()->id())->whereNull('closing_time')->first();  //need active register not has closing time
 }
+
+if (!function_exists('userHasFeature')) {
+    /**
+     * تحقّق إذا المستخدم الحالي يمتلك ميزة معيّنة في باقته
+     * 
+     * الاستخدام:
+     *   @if(userHasFeature('credit-note'))
+     *       <a href="...">إشعارات دائنة</a>
+     *   @endif
+     */
+    function userHasFeature(string $featureCode): bool
+    {
+        if (!auth()->check()) return false;
+
+        $user = auth()->user();
+        
+        // لو المستخدم بدون باقة
+        if (!$user->plan_id || $user->plan_id == 0) return false;
+
+        // لو الباقة منتهية
+        if ($user->plan_expired_at && now()->gt($user->plan_expired_at)) return false;
+
+        // تحقّق من cache
+        $cacheKey = "user_features_{$user->plan_id}";
+        $features = cache()->remember($cacheKey, 3600, function () use ($user) {
+            return \App\Models\Feature::whereHas('plans', function ($q) use ($user) {
+                $q->where('subscription_plans.id', $user->plan_id)
+                  ->where('plan_features.is_enabled', true);
+            })->where('status', 1)->pluck('code')->toArray();
+        });
+
+        return in_array($featureCode, $features);
+    }
+}
+
+if (!function_exists('userFeatureLimit')) {
+    /**
+     * احصل على حدّ ميزة للمستخدم (مثلاً: 5 موظفين)
+     */
+    function userFeatureLimit(string $featureCode): ?int
+    {
+        if (!auth()->check()) return null;
+
+        $user = auth()->user();
+        if (!$user->plan_id) return null;
+
+        $feature = \App\Models\Feature::where('code', $featureCode)->first();
+        if (!$feature) return null;
+
+        $pivot = \App\Models\PlanFeature::where('plan_id', $user->plan_id)
+            ->where('feature_id', $feature->id)
+            ->first();
+
+        return $pivot?->limit_value;
+    }
+}
+
+if (!function_exists('userCanUpgrade')) {
+    /**
+     * تحقّق إذا المستخدم يقدر يرقي باقته للحصول على هذي الميزة
+     */
+    function userCanUpgrade(string $featureCode): bool
+    {
+        if (!auth()->check()) return false;
+
+        $user = auth()->user();
+
+        // يبحث عن باقة أعلى تحتوي على الميزة
+        $upgrades = \App\Models\Feature::where('code', $featureCode)
+            ->first()
+            ?->plans()
+            ?->where('subscription_plans.id', '>', $user->plan_id ?? 0)
+            ?->where('plan_features.is_enabled', true)
+            ?->exists() ?? false;
+
+        return $upgrades;
+    }
+}
+
+if (!function_exists('userFeatures')) {
+    /**
+     * احصل على كل المميزات المتاحة للمستخدم
+     */
+    function userFeatures(): array
+    {
+        if (!auth()->check()) return [];
+        
+        $user = auth()->user();
+        if (!$user->plan_id) return [];
+
+        return cache()->remember("user_features_{$user->plan_id}", 3600, function () use ($user) {
+            return \App\Models\Feature::whereHas('plans', function ($q) use ($user) {
+                $q->where('subscription_plans.id', $user->plan_id)
+                  ->where('plan_features.is_enabled', true);
+            })->where('status', 1)->pluck('code')->toArray();
+        });
+    }
+}
+
+if (!function_exists('clearFeaturesCache')) {
+    /**
+     * امسح cache الميزات لباقة معيّنة (نستخدمها عند تعديل الباقات في Admin)
+     */
+    function clearFeaturesCache(int $planId): void
+    {
+        cache()->forget("user_features_{$planId}");
+    }
+}
