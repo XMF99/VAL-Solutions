@@ -30,14 +30,13 @@ class UserController extends Controller
 
 public function home()
 {
-    $pageTitle = 'Dashboard';
-    
-    // ───── بيانات الـwidget الأساسيّة (موجودة سابقاً + جديدة) ─────
+    $pageTitle = 'لوحة التحكم';
+    $user      = getParentUser();
+
+    // ─── 1. كل بيانات الـwidget (sales, purchases, expenses, customers, products, etc.) ───
     $widget = DashBoardWidgetData::getWidgetData();
 
-    $user = getParentUser();
-
-    // ───── المنتجات الأكثر مبيعاً (موجود) ─────
+    // ─── 2. أكثر المنتجات مبيعاً ───
     $topSellingProducts = SaleDetails::selectRaw('SUM(sale_details.quantity) as total_quantity, sale_details.product_details_id')
         ->join('sales', 'sale_details.sale_id', '=', 'sales.id')
         ->where('sales.user_id', $user->id)
@@ -47,18 +46,18 @@ public function home()
         ->take(5)
         ->get();
 
-    // ───── أحدث المبيعات والمشتريات (موجود) ─────
+    // ─── 3. أحدث المبيعات والمشتريات ───
     $recentSales     = Sale::with('customer')->where('user_id', $user->id)->latest('id')->take(5)->get();
     $recentPurchases = Purchase::with('supplier')->where('user_id', $user->id)->latest('id')->take(5)->get();
     $warehouses      = Warehouse::where('user_id', $user->id)->get();
 
-    // ───── جديد: بيانات الـcharts (Phase 1) ─────
+    // ─── 4. بيانات الـcharts (آخر 7 أيام + طرق الدفع) ───
     $chartData = DashBoardWidgetData::getChartData();
 
-    // ───── جديد: التنبيهات الذكيّة (Phase 2) ─────
+    // ─── 5. التنبيهات الذكيّة ───
     $smartAlerts = DashBoardWidgetData::getSmartAlerts($widget, $chartData);
 
-    // ───── الـreturn نفسه (نضيف فقط 2 متغيّر جديد) ─────
+    // ─── 6. تمرير كل البيانات للـview ───
     return view('Template::user.dashboard', compact(
         'pageTitle',
         'widget',
@@ -66,13 +65,10 @@ public function home()
         'recentSales',
         'recentPurchases',
         'warehouses',
-        'user',
-        // ───── جديد:
         'chartData',
         'smartAlerts'
     ));
 }
-
 
 // ════════════════════════════════════════════════════════════════
 // لا حاجة لإضافة Route — الـroute user.home موجود
