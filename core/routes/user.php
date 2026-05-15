@@ -157,7 +157,16 @@ Route::middleware(['auth'])->name('user.')->group(function () {
                     Route::post('duplicate/{id}', 'duplicate')->name('duplicate')->middleware('staff.permission:add sale', 'has.subscription');
                     Route::get('print/{id}', 'print')->name('print')->middleware('staff.permission:view sale');
                 });
-
+//installments (الأقساط) — Phase 2 Day 2
+                Route::controller('InstallmentController')->name('installment.')->prefix('installment')->group(function () {
+                    Route::get('list', 'list')->name('list')->middleware('staff.permission:view sale');
+                    Route::get('create', 'create')->name('create')->middleware('staff.permission:add sale');
+                    Route::post('store', 'store')->name('store')->middleware('staff.permission:add sale', 'has.subscription');
+                    Route::get('show/{id}', 'show')->name('show')->middleware('staff.permission:view sale');
+                    Route::post('mark-as-paid/{id}', 'markAsPaid')->name('mark.as.paid')->middleware('staff.permission:edit sale');
+                    Route::post('cancel-payment/{id}', 'cancelPayment')->name('cancel.payment')->middleware('staff.permission:edit sale');
+                    Route::post('delete/{id}', 'delete')->name('delete')->middleware('staff.permission:edit sale');
+                });
                 //purchase
                 Route::controller('PurchaseController')->name('purchase.')->prefix('purchase')->group(function () {
                     Route::get('list', 'list')->name('list')->middleware('staff.permission:view purchase');
