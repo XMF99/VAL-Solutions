@@ -144,6 +144,20 @@ Route::middleware(['auth'])->name('user.')->group(function () {
                     Route::get('top-selling-product', 'topSellingProduct')->name('top.selling.product');
                 });
 
+                //quotation (عروض الأسعار) — Phase 2 Day 2
+                Route::controller('QuotationController')->name('quotation.')->prefix('quotation')->group(function () {
+                    Route::get('list', 'list')->name('list')->middleware('staff.permission:view sale');
+                    Route::get('create', 'create')->name('create')->middleware('staff.permission:add sale');
+                    Route::post('store', 'store')->name('store')->middleware('staff.permission:add sale', 'has.subscription');
+                    Route::get('show/{id}', 'show')->name('show')->middleware('staff.permission:view sale');
+                    Route::get('edit/{id}', 'edit')->name('edit')->middleware('staff.permission:edit sale');
+                    Route::post('update/{id}', 'update')->name('update')->middleware('staff.permission:edit sale', 'has.subscription');
+                    Route::post('delete/{id}', 'delete')->name('delete')->middleware('staff.permission:edit sale');
+                    Route::post('status-change/{id}', 'changeStatus')->name('status.change')->middleware('staff.permission:edit sale');
+                    Route::post('duplicate/{id}', 'duplicate')->name('duplicate')->middleware('staff.permission:add sale', 'has.subscription');
+                    Route::get('print/{id}', 'print')->name('print')->middleware('staff.permission:view sale');
+                });
+
                 //purchase
                 Route::controller('PurchaseController')->name('purchase.')->prefix('purchase')->group(function () {
                     Route::get('list', 'list')->name('list')->middleware('staff.permission:view purchase');
