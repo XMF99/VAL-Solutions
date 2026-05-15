@@ -167,6 +167,18 @@ Route::middleware(['auth'])->name('user.')->group(function () {
                     Route::post('cancel-payment/{id}', 'cancelPayment')->name('cancel.payment')->middleware('staff.permission:edit sale');
                     Route::post('delete/{id}', 'delete')->name('delete')->middleware('staff.permission:edit sale');
                 });
+//sale returns (مرتجعات المبيعات) — Phase 2 Day 2
+                Route::controller('SaleReturnController')->name('sale_return.')->prefix('sale-return')->group(function () {
+                    Route::get('list', 'list')->name('list')->middleware('staff.permission:view sale');
+                    Route::get('create', 'create')->name('create')->middleware('staff.permission:add sale');
+                    Route::post('store', 'store')->name('store')->middleware('staff.permission:add sale', 'has.subscription');
+                    Route::get('show/{id}', 'show')->name('show')->middleware('staff.permission:view sale');
+                    Route::post('approve/{id}', 'approve')->name('approve')->middleware('staff.permission:edit sale');
+                    Route::post('complete/{id}', 'complete')->name('complete')->middleware('staff.permission:edit sale');
+                    Route::post('reject/{id}', 'reject')->name('reject')->middleware('staff.permission:edit sale');
+                    Route::post('delete/{id}', 'delete')->name('delete')->middleware('staff.permission:edit sale');
+                });
+
                 //purchase
                 Route::controller('PurchaseController')->name('purchase.')->prefix('purchase')->group(function () {
                     Route::get('list', 'list')->name('list')->middleware('staff.permission:view purchase');
