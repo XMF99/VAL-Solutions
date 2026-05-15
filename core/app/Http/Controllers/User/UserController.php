@@ -23,20 +23,16 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-// ════════════════════════════════════════════════════════════════
-// 
-// الـmethod الموجود حالياً (لا تحذفه — استبدله بهذا):
-// ════════════════════════════════════════════════════════════════
-
 public function home()
 {
-    $pageTitle = 'لوحة التحكم';
-    $user      = getParentUser();
+    $pageTitle = 'Dashboard';
 
-    // ─── 1. كل بيانات الـwidget (sales, purchases, expenses, customers, products, etc.) ───
+    // ───── بيانات الـwidget الأساسيّة (موجودة سابقاً + جديدة) ─────
     $widget = DashBoardWidgetData::getWidgetData();
 
-    // ─── 2. أكثر المنتجات مبيعاً ───
+    $user = getParentUser();
+
+    // ───── المنتجات الأكثر مبيعاً (موجود) ─────
     $topSellingProducts = SaleDetails::selectRaw('SUM(sale_details.quantity) as total_quantity, sale_details.product_details_id')
         ->join('sales', 'sale_details.sale_id', '=', 'sales.id')
         ->where('sales.user_id', $user->id)
@@ -46,18 +42,18 @@ public function home()
         ->take(5)
         ->get();
 
-    // ─── 3. أحدث المبيعات والمشتريات ───
+    // ───── أحدث المبيعات والمشتريات (موجود) ─────
     $recentSales     = Sale::with('customer')->where('user_id', $user->id)->latest('id')->take(5)->get();
     $recentPurchases = Purchase::with('supplier')->where('user_id', $user->id)->latest('id')->take(5)->get();
     $warehouses      = Warehouse::where('user_id', $user->id)->get();
 
-    // ─── 4. بيانات الـcharts (آخر 7 أيام + طرق الدفع) ───
+    // ───── جديد: بيانات الـcharts (Phase 1) ─────
     $chartData = DashBoardWidgetData::getChartData();
 
-    // ─── 5. التنبيهات الذكيّة ───
+    // ───── جديد: التنبيهات الذكيّة (Phase 2) ─────
     $smartAlerts = DashBoardWidgetData::getSmartAlerts($widget, $chartData);
 
-    // ─── 6. تمرير كل البيانات للـview ───
+    // ───── الـreturn نفسه (نضيف فقط 2 متغيّر جديد) ─────
     return view('Template::user.dashboard', compact(
         'pageTitle',
         'widget',
@@ -65,10 +61,13 @@ public function home()
         'recentSales',
         'recentPurchases',
         'warehouses',
+        'user',
+        // ───── جديد:
         'chartData',
         'smartAlerts'
     ));
 }
+
 
 // ════════════════════════════════════════════════════════════════
 // لا حاجة لإضافة Route — الـroute user.home موجود
