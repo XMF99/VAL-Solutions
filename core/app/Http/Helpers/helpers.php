@@ -1020,7 +1020,6 @@ function getActiveCashRegister()
     return CashRegister::where('user_id', auth()->id())->whereNull('closing_time')->first();  //need active register not has closing time
 }
 
-<<<<<<< HEAD
 if (!function_exists('userHasFeature')) {
     /**
      * تحقّق إذا المستخدم الحالي يمتلك ميزة معيّنة في باقته
@@ -1043,22 +1042,6 @@ if (!function_exists('userHasFeature')) {
         if ($user->plan_expired_at && now()->gt($user->plan_expired_at)) return false;
 
         // تحقّق من cache
-=======
-
-
-// ═══════════════════════════════════════════════════════════
-// Features & Plans Helpers
-// ═══════════════════════════════════════════════════════════
-
-if (!function_exists('userHasFeature')) {
-    function userHasFeature(string $featureCode): bool
-    {
-        if (!auth()->check()) return false;
-        $user = auth()->user();
-        if (!$user->plan_id || $user->plan_id == 0) return false;
-        if ($user->plan_expired_at && now()->gt($user->plan_expired_at)) return false;
-
->>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
         $cacheKey = "user_features_{$user->plan_id}";
         $features = cache()->remember($cacheKey, 3600, function () use ($user) {
             return \App\Models\Feature::whereHas('plans', function ($q) use ($user) {
@@ -1072,7 +1055,6 @@ if (!function_exists('userHasFeature')) {
 }
 
 if (!function_exists('userFeatureLimit')) {
-<<<<<<< HEAD
     /**
      * احصل على حدّ ميزة للمستخدم (مثلاً: 5 موظفين)
      */
@@ -1080,11 +1062,6 @@ if (!function_exists('userFeatureLimit')) {
     {
         if (!auth()->check()) return null;
 
-=======
-    function userFeatureLimit(string $featureCode): ?int
-    {
-        if (!auth()->check()) return null;
->>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
         $user = auth()->user();
         if (!$user->plan_id) return null;
 
@@ -1099,7 +1076,6 @@ if (!function_exists('userFeatureLimit')) {
     }
 }
 
-<<<<<<< HEAD
 if (!function_exists('userCanUpgrade')) {
     /**
      * تحقّق إذا المستخدم يقدر يرقي باقته للحصول على هذي الميزة
@@ -1130,12 +1106,6 @@ if (!function_exists('userFeatures')) {
     {
         if (!auth()->check()) return [];
         
-=======
-if (!function_exists('userFeatures')) {
-    function userFeatures(): array
-    {
-        if (!auth()->check()) return [];
->>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
         $user = auth()->user();
         if (!$user->plan_id) return [];
 
@@ -1149,34 +1119,22 @@ if (!function_exists('userFeatures')) {
 }
 
 if (!function_exists('clearFeaturesCache')) {
-<<<<<<< HEAD
     /**
      * امسح cache الميزات لباقة معيّنة (نستخدمها عند تعديل الباقات في Admin)
      */
-=======
->>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb
-    function clearFeaturesCache(int $planId): void
+    function clearFeaturesCache(?int $planId = null): void
     {
-        cache()->forget("user_features_{$planId}");
-    }
-<<<<<<< HEAD
-}
-=======
-}
-
-if (!function_exists('userCanUpgrade')) {
-    function userCanUpgrade(string $featureCode): bool
-    {
-        if (!auth()->check()) return false;
-        $user = auth()->user();
-
-        $feature = \App\Models\Feature::where('code', $featureCode)->first();
-        if (!$feature) return false;
-
-        return \App\Models\PlanFeature::where('feature_id', $feature->id)
-            ->where('plan_id', '>', $user->plan_id ?? 0)
-            ->where('is_enabled', true)
-            ->exists();
+        if ($planId) {
+            cache()->forget("plan_features_{$planId}");
+            cache()->forget("user_features_{$planId}");
+        } else {
+            // امسح كل ما يبدأ بـ plan_features_ أو user_features_
+            $keys = ['plan_features_', 'user_features_'];
+            foreach ($keys as $prefix) {
+                for ($i = 1; $i <= 10; $i++) {
+                    cache()->forget("{$prefix}{$i}");
+                }
+            }
+        }
     }
 }
->>>>>>> 5421e9124867a7797571dc26b266ddf4ed297deb

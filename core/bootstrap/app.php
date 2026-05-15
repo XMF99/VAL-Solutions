@@ -49,7 +49,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->name('ipn.')
                     ->group(base_path('routes/ipn.php'));
 
-                Route::middleware(['web', 'maintenance'])
+                Route::middleware(['web', 'maintenance', 'auth'])
                     ->prefix('user')
                     ->name('user.')
                     ->group(base_path('routes/placeholders.php'));
